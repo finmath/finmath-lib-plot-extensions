@@ -18,27 +18,29 @@ import net.finmath.functions.AnalyticFormulas;
 public class Plot3DDemo {
 
 	/**
-	 * @param args
-	 * @throws Exception 
+	 * Run the demo.
+	 * Plots the value of an option under the Black-Scholes model as a function of strike and time-to-maturity.
+	 * 
+	 * @param args Not used.
+	 * @throws Exception Exception from the graphics backend.
 	 */
 	public static void main(String[] args) throws Exception {
 
 		final double initialStockValue = 100;
 		final double riskFreeRate = 0.04;
 		final double volatility = 0.40;
-		
+
 		DoubleBinaryOperator function = (strike, timeToMaturity) -> {
-				double optionMaturity = timeToMaturity;
-				double optionStrike =strike;
-				
-				double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
-				
-				return z;
-			};
+			double optionMaturity = timeToMaturity;
+			double optionStrike =strike;
+
+			double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
+
+			return z;
+		};
 
 		Plot3D plot = new Plot3D(50,200.0, 0, 10, 100, 100, function);
 		plot.setLabelX("strike").setLabelY("time to maturity").setLabelZ("value");
 		plot.show();
 	}
-
 }
