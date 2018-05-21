@@ -11,8 +11,9 @@ import java.util.function.DoubleBinaryOperator;
 import net.finmath.functions.AnalyticFormulas;
 
 /**
- * @author Christian Fries
+ * Plots the value of an option under the Black-Scholes model as a function of strike and time-to-maturity.
  *
+ * @author Christian Fries
  */
 public class Plot3DDemo {
 
@@ -26,18 +27,17 @@ public class Plot3DDemo {
 		final double riskFreeRate = 0.04;
 		final double volatility = 0.40;
 		
-		DoubleBinaryOperator function = new DoubleBinaryOperator() {
-			
-			public double applyAsDouble(double x, double y) {
-				double optionMaturity = x;
-				double optionStrike = initialStockValue * (1+y/100.0);
+		DoubleBinaryOperator function = (strike, timeToMaturity) -> {
+				double optionMaturity = timeToMaturity;
+				double optionStrike =strike;
 				
 				double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
 				
 				return z;
-			}
-		};
-		Plot3D plot = new Plot3D(0,10.0, 100, -50, 50, 100, function);
+			};
+
+		Plot3D plot = new Plot3D(50,200.0, 0, 10, 100, 100, function);
+		plot.setLabelX("strike").setLabelY("time to maturity").setLabelZ("value");
 		plot.show();
 	}
 

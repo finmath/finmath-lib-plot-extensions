@@ -8,6 +8,7 @@ package net.finmath.plots.experimental;
 
 import java.util.function.DoubleBinaryOperator;
 
+import org.jfree.chart.plot.Plot;
 import org.jzy3d.analysis.AbstractAnalysis;
 import org.jzy3d.analysis.AnalysisLauncher;
 import org.jzy3d.chart.factories.AWTChartComponentFactory;
@@ -18,6 +19,7 @@ import org.jzy3d.maths.Range;
 import org.jzy3d.plot3d.builder.Builder;
 import org.jzy3d.plot3d.builder.Mapper;
 import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid;
+import org.jzy3d.plot3d.primitives.AbstractDrawable;
 import org.jzy3d.plot3d.primitives.Shape;
 import org.jzy3d.plot3d.primitives.axes.AxeBox;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
@@ -38,8 +40,10 @@ public class Plot3D {
 	private double ymin, ymax;
 	private int numberOfPointsX, numberOfPointsY;
 	private DoubleBinaryOperator function;
+	private String labelX = "x";
+	private String labelY = "y";
+	private String labelZ = "z";
 
-	
 	public Plot3D(double xmin, double xmax, double ymin, double ymax, int numberOfPointsX, int numberOfPointsY, DoubleBinaryOperator function) {
 		super();
 		this.xmin = xmin;
@@ -72,10 +76,12 @@ public class Plot3D {
 	        chart = AWTChartComponentFactory.chart(Quality.Advanced, getCanvasType());
 	        chart.getScene().getGraph().add(surface);
 
-
-//			chart.getAxeLayout().setXAxeLabelDisplayed(true);
+			chart.getAxeLayout().setXAxeLabelDisplayed(true);
+			chart.getAxeLayout().setYAxeLabelDisplayed(true);
 //			chart.getAxeLayout().setXTickLabelDisplayed(true);
-//			chart.getAxeLayout().setYAxeLabel( "Y" );
+			chart.getAxeLayout().setXAxeLabel(labelX);
+			chart.getAxeLayout().setYAxeLabel(labelY);
+			chart.getAxeLayout().setZAxeLabel(labelZ);
 //			chart.getAxeLayout().setYTickRenderer( new DateTickRenderer( "dd/MM/yyyy" ) );
 //			chart.getAxeLayout().setZAxeLabel( "Z" );
 			//chart.getAxeLayout().setZTickRenderer( new ScientificNotationTickRenderer(2) );
@@ -91,5 +97,20 @@ public class Plot3D {
 
 	public void show() throws Exception {
 		AnalysisLauncher.open(this.new Surface());
+	}
+
+	public Plot3D setLabelX(String labelX) {
+		this.labelX = labelX;
+		return this;
+	}
+
+	public Plot3D setLabelY(String labelY) {
+		this.labelY = labelY;
+		return this;
+	}
+
+	public Plot3D setLabelZ(String labelZ) {
+		this.labelZ = labelZ;
+		return this;
 	}
 }
