@@ -19,7 +19,13 @@ import org.jzy3d.plot3d.builder.Builder;
 import org.jzy3d.plot3d.builder.Mapper;
 import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid;
 import org.jzy3d.plot3d.primitives.Shape;
+import org.jzy3d.plot3d.primitives.axes.AxeBox;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
+import org.jzy3d.plot3d.text.ITextRenderer;
+import org.jzy3d.plot3d.text.renderers.TextBillboardRenderer;
+import org.jzy3d.plot3d.text.renderers.TextBitmapRenderer;
+import org.jzy3d.plot3d.text.renderers.jogl.JOGLTextRenderer;
+import org.jzy3d.plot3d.text.renderers.jogl.ShadowedTextStyle;
 
 /**
  * Small convenient wrapper for JZY3D derived from the JZY3D SurfaceDemo.
@@ -65,6 +71,21 @@ public class Plot3D {
 	        // Create a chart
 	        chart = AWTChartComponentFactory.chart(Quality.Advanced, getCanvasType());
 	        chart.getScene().getGraph().add(surface);
+
+
+//			chart.getAxeLayout().setXAxeLabelDisplayed(true);
+//			chart.getAxeLayout().setXTickLabelDisplayed(true);
+//			chart.getAxeLayout().setYAxeLabel( "Y" );
+//			chart.getAxeLayout().setYTickRenderer( new DateTickRenderer( "dd/MM/yyyy" ) );
+//			chart.getAxeLayout().setZAxeLabel( "Z" );
+			//chart.getAxeLayout().setZTickRenderer( new ScientificNotationTickRenderer(2) );
+
+
+			AxeBox box = (AxeBox)chart.getView().getAxe();
+//			ITextRenderer renderer2 = new JOGLTextRenderer(new ShadowedTextStyle(128f, 10, java.awt.Color.RED, java.awt.Color.CYAN));
+//			ITextRenderer renderer3 = new TextBillboardRenderer();
+			ITextRenderer renderer = new TextBitmapRenderer(TextBitmapRenderer.Font.TimesRoman_24);
+			box.setTextRenderer(renderer);
 	    }
 	}
 
