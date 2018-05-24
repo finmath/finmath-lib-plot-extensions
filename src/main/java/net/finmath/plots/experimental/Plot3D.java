@@ -35,9 +35,11 @@ public class Plot3D {
 	private double ymin, ymax;
 	private int numberOfPointsX, numberOfPointsY;
 	private DoubleBinaryOperator function;
-	private String labelX = "x";
-	private String labelY = "y";
-	private String labelZ = "z";
+
+	private String title = "";
+	private String xAxisLabel = "x";
+	private String yAxisLabel = "y";
+	private String zAxisLabel = "z";
 
 	public Plot3D(double xmin, double xmax, double ymin, double ymax, int numberOfPointsX, int numberOfPointsY, DoubleBinaryOperator function) {
 		super();
@@ -74,9 +76,9 @@ public class Plot3D {
 			chart.getAxeLayout().setXAxeLabelDisplayed(true);
 			chart.getAxeLayout().setYAxeLabelDisplayed(true);
 			//			chart.getAxeLayout().setXTickLabelDisplayed(true);
-			chart.getAxeLayout().setXAxeLabel(labelX);
-			chart.getAxeLayout().setYAxeLabel(labelY);
-			chart.getAxeLayout().setZAxeLabel(labelZ);
+			chart.getAxeLayout().setXAxeLabel(xAxisLabel);
+			chart.getAxeLayout().setYAxeLabel(yAxisLabel);
+			chart.getAxeLayout().setZAxeLabel(zAxisLabel);
 			//			chart.getAxeLayout().setYTickRenderer( new DateTickRenderer( "dd/MM/yyyy" ) );
 			//			chart.getAxeLayout().setZAxeLabel( "Z" );
 			//chart.getAxeLayout().setZTickRenderer( new ScientificNotationTickRenderer(2) );
@@ -94,18 +96,23 @@ public class Plot3D {
 		AnalysisLauncher.open(this.new Surface());
 	}
 
-	public Plot3D setLabelX(String labelX) {
-		this.labelX = labelX;
+	public Plot3D setTitle(String title) {
+		this.title = title;
 		return this;
 	}
 
-	public Plot3D setLabelY(String labelY) {
-		this.labelY = labelY;
+	public Plot3D setXAxisLabel(String xAxisLabel) {
+		this.xAxisLabel = xAxisLabel;
 		return this;
 	}
 
-	public Plot3D setLabelZ(String labelZ) {
-		this.labelZ = labelZ;
+	public Plot3D setYAxisLabel(String yAxisLabel) {
+		this.yAxisLabel = yAxisLabel;
+		return this;
+	}
+
+	public Plot3D setZAxisLabel(String zAxisLabel) {
+		this.zAxisLabel = zAxisLabel;
 		return this;
 	}
 }

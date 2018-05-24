@@ -32,7 +32,7 @@ public class Plot3DDemo {
 
 		DoubleBinaryOperator function = (strike, timeToMaturity) -> {
 			double optionMaturity = timeToMaturity;
-			double optionStrike =strike;
+			double optionStrike = strike;
 
 			double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
 
@@ -40,7 +40,7 @@ public class Plot3DDemo {
 		};
 
 		Plot3D plot = new Plot3D(0,300.0, 0, 10, 100, 100, function);
-		plot.setLabelX("strike").setLabelY("time to maturity").setLabelZ("value");
+		plot.setXAxisLabel("strike").setYAxisLabel("time to maturity").setZAxisLabel("value");
 		plot.show();
 	}
 }
