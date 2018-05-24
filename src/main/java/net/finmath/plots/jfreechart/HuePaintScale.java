@@ -4,7 +4,7 @@
  * (c) Copyright Christian P. Fries, Germany. Contact: email@christian-fries.de.
  */
 
-package net.finmath.plots.experimental.jfreechart;
+package net.finmath.plots.jfreechart;
 
 import java.awt.Color;
 import java.awt.Paint;
