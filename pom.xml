@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.finmath</groupId>
-	<artifactId>finmath-plot-extensions</artifactId>
+	<artifactId>finmath-lib-plot-extensions</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<plugins>
@@ -20,8 +20,8 @@
 	</build>
 	<packaging>jar</packaging>
 
-	<name>finmath-plot-extensions</name>
-	<url>http://finmath.net</url>
+	<name>finmath-lib-plot-extensions</name>
+	<url>http://finmath.net/finmath-lib</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
