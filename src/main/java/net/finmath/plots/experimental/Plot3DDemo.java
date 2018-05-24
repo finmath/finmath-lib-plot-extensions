@@ -39,7 +39,7 @@ public class Plot3DDemo {
 			return z;
 		};
 
-		Plot3D plot = new Plot3D(0,300.0, 0, 10, 100, 100, function);
+		Plot plot = new Plot3D(0,300.0, 0, 10, 100, 100, function);
 		plot.setXAxisLabel("strike").setYAxisLabel("time to maturity").setZAxisLabel("value");
 		plot.show();
 	}

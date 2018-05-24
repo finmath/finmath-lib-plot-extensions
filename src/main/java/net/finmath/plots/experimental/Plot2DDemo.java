@@ -39,7 +39,7 @@ public class Plot2DDemo {
 			return z;
 		};
 
-		Plot2D plot = new Plot2D(0,300.0, 100, function);
+		Plot plot = new Plot2D(0,300.0, 100, function);
 		plot.setTitle("Black-Scholes Model European Option Value").setXAxisLabel("strike").setYAxisLabel("value");
 		plot.show();
 	}

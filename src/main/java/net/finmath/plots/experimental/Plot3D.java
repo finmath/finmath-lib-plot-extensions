@@ -29,7 +29,7 @@ import org.jzy3d.plot3d.text.renderers.TextBitmapRenderer;
  * 
  * @author Christian Fries
  */
-public class Plot3D {
+public class Plot3D implements Plot {
 
 	private double xmin, xmax;
 	private double ymin, ymax;
@@ -93,26 +93,46 @@ public class Plot3D {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see net.finmath.plots.experimental.Plot#show()
+	 */
+	@Override
 	public void show() throws Exception {
 		AnalysisLauncher.open(this.new Surface());
 	}
 
-	public Plot3D setTitle(String title) {
+	/* (non-Javadoc)
+	 * @see net.finmath.plots.experimental.Plot#setTitle(java.lang.String)
+	 */
+	@Override
+	public Plot setTitle(String title) {
 		this.title = title;
 		return this;
 	}
 
-	public Plot3D setXAxisLabel(String xAxisLabel) {
+	/* (non-Javadoc)
+	 * @see net.finmath.plots.experimental.Plot#setXAxisLabel(java.lang.String)
+	 */
+	@Override
+	public Plot setXAxisLabel(String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		return this;
 	}
 
-	public Plot3D setYAxisLabel(String yAxisLabel) {
+	/* (non-Javadoc)
+	 * @see net.finmath.plots.experimental.Plot#setYAxisLabel(java.lang.String)
+	 */
+	@Override
+	public Plot setYAxisLabel(String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
 		return this;
 	}
 
-	public Plot3D setZAxisLabel(String zAxisLabel) {
+	/* (non-Javadoc)
+	 * @see net.finmath.plots.experimental.Plot#setZAxisLabel(java.lang.String)
+	 */
+	@Override
+	public Plot setZAxisLabel(String zAxisLabel) {
 		this.zAxisLabel = zAxisLabel;
 		return this;
 	}

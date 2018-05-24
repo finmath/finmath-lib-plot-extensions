@@ -18,11 +18,11 @@ import org.jfree.chart.JFreeChart;
 import net.finmath.plots.experimental.jfreechart.JFreeChartUtilities;
 
 /**
- * Small convenient wrapper for JZY3D derived from the JZY3D SurfaceDemo.
+ * Small convenient wrapper for JFreeChart line plot derived.
  * 
  * @author Christian Fries
  */
-public class Plot2D {
+public class Plot2D implements Plot {
 
 	private double xmin, xmax;
 	private int numberOfPointsX;
@@ -56,6 +56,7 @@ public class Plot2D {
 		chart = JFreeChartUtilities.getXYLinesPlotChart(title, xAxisLabel, "#.#" /* xAxisNumberFormat */, yAxisLabel, "#.#" /* yAxisNumberFormat */, xValues, yValues);
 	}
 
+	@Override
 	public void show() throws Exception {
 		init();
 		JPanel chartPanel = new ChartPanel(chart, 
@@ -75,18 +76,26 @@ public class Plot2D {
 		});	
 	}
 
+	@Override
 	public Plot2D setTitle(String title) {
 		this.title = title;
 		return this;
 	}
 
+	@Override
 	public Plot2D setXAxisLabel(String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		return this;
 	}
 
+	@Override
 	public Plot2D setYAxisLabel(String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
 		return this;
+	}
+
+	@Override
+	public Plot setZAxisLabel(String zAxisLabel) {
+		throw new UnsupportedOperationException("The 2D plot does not suport a z-axis. Try 3D plot instead.");
 	}
 }
