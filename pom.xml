@@ -70,4 +70,10 @@
 			<url>http://maven.jzy3d.org/releases</url>
 		</repository>
 	</repositories>
+
+	<scm>
+		<url>https://github.com/finmath/finmath-lib-plot-extensions</url>
+		<connection>scm:git:https://github.com/finmath/finmath-lib-plot-extensions.git</connection>
+		<developerConnection>scm:git:https://github.com/finmath/finmath-lib-plot-extensions.git</developerConnection>
+	</scm>
 </project>
