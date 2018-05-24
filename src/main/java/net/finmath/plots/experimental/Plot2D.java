@@ -6,32 +6,16 @@
 
 package net.finmath.plots.experimental;
 
-import net.finmath.plots.experimental.jfreechart.JFreeChartUtilities;
-
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jzy3d.analysis.AbstractAnalysis;
-import org.jzy3d.analysis.AnalysisLauncher;
-import org.jzy3d.chart.factories.AWTChartComponentFactory;
-import org.jzy3d.colors.Color;
-import org.jzy3d.colors.ColorMapper;
-import org.jzy3d.colors.colormaps.ColorMapRainbow;
-import org.jzy3d.maths.Range;
-import org.jzy3d.plot3d.builder.Builder;
-import org.jzy3d.plot3d.builder.Mapper;
-import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid;
-import org.jzy3d.plot3d.primitives.Shape;
-import org.jzy3d.plot3d.primitives.axes.AxeBox;
-import org.jzy3d.plot3d.rendering.canvas.Quality;
-import org.jzy3d.plot3d.text.ITextRenderer;
-import org.jzy3d.plot3d.text.renderers.TextBitmapRenderer;
-
 import java.text.NumberFormat;
-import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleUnaryOperator;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+
+import net.finmath.plots.experimental.jfreechart.JFreeChartUtilities;
 
 /**
  * Small convenient wrapper for JZY3D derived from the JZY3D SurfaceDemo.

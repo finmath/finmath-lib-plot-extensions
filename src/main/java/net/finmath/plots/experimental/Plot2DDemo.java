@@ -6,10 +6,9 @@
 
 package net.finmath.plots.experimental;
 
-import net.finmath.functions.AnalyticFormulas;
-
-import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleUnaryOperator;
+
+import net.finmath.functions.AnalyticFormulas;
 
 /**
  * Plots the value of an option under the Black-Scholes model as a function of strike and time-to-maturity.

@@ -79,6 +79,7 @@ public class Plot3D {
 			chart.getAxeLayout().setXAxeLabel(xAxisLabel);
 			chart.getAxeLayout().setYAxeLabel(yAxisLabel);
 			chart.getAxeLayout().setZAxeLabel(zAxisLabel);
+
 			//			chart.getAxeLayout().setYTickRenderer( new DateTickRenderer( "dd/MM/yyyy" ) );
 			//			chart.getAxeLayout().setZAxeLabel( "Z" );
 			//chart.getAxeLayout().setZTickRenderer( new ScientificNotationTickRenderer(2) );

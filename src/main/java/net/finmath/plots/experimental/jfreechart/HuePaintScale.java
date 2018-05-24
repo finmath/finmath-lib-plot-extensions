@@ -1,5 +1,10 @@
-package net.finmath.plots.experimental.jfreechart;
+/*
+ * Created on 26.12.2004
+ *
+ * (c) Copyright Christian P. Fries, Germany. Contact: email@christian-fries.de.
+ */
 
+package net.finmath.plots.experimental.jfreechart;
 
 import java.awt.Color;
 import java.awt.Paint;
