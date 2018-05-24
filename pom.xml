@@ -35,6 +35,16 @@
 		</license>
 	</licenses>
 
+	<developers>
+		<developer>
+			<id>fries</id>
+			<name>Christian Fries</name>
+			<email>email@christian-fries.de</email>
+			<url>http://www.christian-fries.de</url>
+			<timezone>1</timezone>
+		</developer>
+	</developers>
+
 	<dependencies>
 		<dependency>
 			<groupId>net.finmath</groupId>
