@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Christian P. Fries, Germany. All rights reserved. Contact: email@christianfries.com.
+ * (c) Copyright Christian P. Fries, Germany. Contact: email@christianfries.com.
  *
  * Created on 24 May 2018
  */
@@ -14,12 +14,12 @@ package net.finmath.plots;
 public class Named<T extends Object> {
 
 	private final String name;
-	private final T function;
+	private final T object;
 
 	public Named(String name, T function) {
 		super();
 		this.name = name;
-		this.function = function;
+		this.object = function;
 	}
 
 	/**
@@ -32,7 +32,7 @@ public class Named<T extends Object> {
 	/**
 	 * @return the function
 	 */
-	public T getFunction() {
-		return function;
+	public T get() {
+		return object;
 	}
 }

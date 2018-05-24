@@ -65,7 +65,7 @@ public class Plot2D implements Plot {
 		XYSeriesCollection data = new XYSeriesCollection();
 		for(int functionIndex=0; functionIndex<functions.size(); functionIndex++) {
 			XYSeries series = new XYSeries(functions.get(functionIndex).getName());
-			DoubleUnaryOperator function = functions.get(functionIndex).getFunction();
+			DoubleUnaryOperator function = functions.get(functionIndex).get();
 			for(int i = 0; i<numberOfPointsX; i++) {
 				double x = xmin + i * ((xmax-xmin) / (numberOfPointsX-1));
 				double y = function.applyAsDouble(x);
