@@ -4,7 +4,7 @@
  * Created on 24 May 2018
  */
 
-package net.finmath.plots.experimental;
+package net.finmath.plots;
 
 /**
  * @author Christian Fries

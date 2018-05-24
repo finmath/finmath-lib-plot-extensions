@@ -4,11 +4,13 @@
  * Created on 21 May 2018
  */
 
-package net.finmath.plots.experimental;
+package net.finmath.plots.demo;
 
 import java.util.function.DoubleBinaryOperator;
 
 import net.finmath.functions.AnalyticFormulas;
+import net.finmath.plots.Plot;
+import net.finmath.plots.Plot3D;
 
 /**
  * Plots the value of an option under the Black-Scholes model as a function of strike and time-to-maturity.

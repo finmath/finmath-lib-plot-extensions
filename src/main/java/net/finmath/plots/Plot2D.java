@@ -4,7 +4,7 @@
  * Created on 21 May 2018
  */
 
-package net.finmath.plots.experimental;
+package net.finmath.plots;
 
 import java.text.NumberFormat;
 import java.util.function.DoubleUnaryOperator;
@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 
-import net.finmath.plots.experimental.jfreechart.JFreeChartUtilities;
+import net.finmath.plots.jfreechart.JFreeChartUtilities;
 
 /**
  * Small convenient wrapper for JFreeChart line plot derived.

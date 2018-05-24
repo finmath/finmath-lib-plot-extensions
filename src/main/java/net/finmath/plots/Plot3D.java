@@ -4,7 +4,7 @@
  * Created on 21 May 2018
  */
 
-package net.finmath.plots.experimental;
+package net.finmath.plots;
 
 import java.util.function.DoubleBinaryOperator;
 
