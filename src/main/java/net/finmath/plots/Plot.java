@@ -21,5 +21,7 @@ public interface Plot {
 	Plot setYAxisLabel(String yAxisLabel);
 
 	Plot setZAxisLabel(String zAxisLabel);
+	
+	Plot setIsLegendVisible(Boolean isLegendVisible);
 
 }

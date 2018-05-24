@@ -40,6 +40,7 @@ public class Plot3D implements Plot {
 	private String xAxisLabel = "x";
 	private String yAxisLabel = "y";
 	private String zAxisLabel = "z";
+	private Boolean isLegendVisible;
 
 	public Plot3D(double xmin, double xmax, double ymin, double ymax, int numberOfPointsX, int numberOfPointsY, DoubleBinaryOperator function) {
 		super();
@@ -128,12 +129,15 @@ public class Plot3D implements Plot {
 		return this;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.finmath.plots.experimental.Plot#setZAxisLabel(java.lang.String)
-	 */
 	@Override
 	public Plot setZAxisLabel(String zAxisLabel) {
 		this.zAxisLabel = zAxisLabel;
+		return this;
+	}
+
+	@Override
+	public Plot setIsLegendVisible(Boolean isLegendVisible) {
+		this.isLegendVisible = isLegendVisible;
 		return this;
 	}
 }

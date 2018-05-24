@@ -7,6 +7,10 @@
 package net.finmath.plots;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.DoubleUnaryOperator;
 
 import javax.swing.JFrame;
@@ -14,6 +18,12 @@ import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.LegendItem;
+import org.jfree.chart.LegendItemSource;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import net.finmath.plots.jfreechart.JFreeChartUtilities;
 
@@ -26,34 +36,49 @@ public class Plot2D implements Plot {
 
 	private double xmin, xmax;
 	private int numberOfPointsX;
-	private DoubleUnaryOperator function;
+	private List<Named<DoubleUnaryOperator>> functions;
 
 	private String title = "";
 	private String xAxisLabel = "x";
 	private String yAxisLabel = "y";
 	private NumberFormat xAxisNumberFormat;
 	private NumberFormat yAxisNumberFormat;
+	private Boolean isLegendVisible = false;
 
 	private transient JFreeChart chart;
 
 	public Plot2D(double xmin, double xmax, int numberOfPointsX, DoubleUnaryOperator function) {
+		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
+	}
+
+	public Plot2D(double xmin, double xmax, int numberOfPointsX, List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
 		super();
 		this.xmin = xmin;
 		this.xmax = xmax;
 		this.numberOfPointsX = numberOfPointsX;
-		this.function = function;
+		this.functions = doubleUnaryOperators;
 
 		if(numberOfPointsX < 2) throw new IllegalArgumentException("Number of points needs to be larger than 1.");
 	}
 
 	private void init() {
-		double[] xValues = new double[numberOfPointsX];
-		double[] yValues = new double[numberOfPointsX];
-		for(int i = 0; i<xValues.length; i++) {
-			xValues[i] = xmin + i * ((xmax-xmin) / (numberOfPointsX-1));
-			yValues[i] = function.applyAsDouble(xValues[i]);
+		XYSeriesCollection data = new XYSeriesCollection();
+		for(int functionIndex=0; functionIndex<functions.size(); functionIndex++) {
+			XYSeries series = new XYSeries(functions.get(functionIndex).getName());
+			DoubleUnaryOperator function = functions.get(functionIndex).getFunction();
+			for(int i = 0; i<numberOfPointsX; i++) {
+				double x = xmin + i * ((xmax-xmin) / (numberOfPointsX-1));
+				double y = function.applyAsDouble(x);
+				series.add(x, y);
+			}
+			data.addSeries(series);			
 		}
-		chart = JFreeChartUtilities.getXYLinesPlotChart(title, xAxisLabel, "#.#" /* xAxisNumberFormat */, yAxisLabel, "#.#" /* yAxisNumberFormat */, xValues, yValues);
+		StandardXYItemRenderer renderer	= new StandardXYItemRenderer(StandardXYItemRenderer.LINES);
+		renderer.setSeriesPaint(0, new java.awt.Color(255, 0,  0));
+        renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
+        renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
+		
+		chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.#" /* xAxisNumberFormat */, yAxisLabel, "#.#" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
 	}
 
 	@Override
@@ -98,4 +123,13 @@ public class Plot2D implements Plot {
 	public Plot setZAxisLabel(String zAxisLabel) {
 		throw new UnsupportedOperationException("The 2D plot does not suport a z-axis. Try 3D plot instead.");
 	}
+
+	/**
+	 * @param isLegendVisible the isLegendVisible to set
+	 */
+	public Plot setIsLegendVisible(Boolean isLegendVisible) {
+		this.isLegendVisible = isLegendVisible;
+		return this;
+	}
+
 }

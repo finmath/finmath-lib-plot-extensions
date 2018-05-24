@@ -12,6 +12,7 @@ import java.awt.Font;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.title.LegendTitle;
 
 /**
  * @author Christian Fries
@@ -32,7 +33,7 @@ public class StyleGuide {
         annotationFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(8*scale));
         tickLabelFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(9*scale));
 
-        chartBackgroundPaint	= new java.awt.Color(242, 242, 242);
+        chartBackgroundPaint	= new java.awt.Color(247, 247, 247);
         plotBackgroundPaint		= new java.awt.Color(255, 255, 255);
 	}
 
@@ -45,10 +46,21 @@ public class StyleGuide {
 	}
     
 	public void applyStyleToChart2(JFreeChart chart) {
-		if(chart.getTitle() != null) chart.getTitle().setFont(titleFont);
 		chart.setBackgroundPaint(chartBackgroundPaint);
+
+		if(chart.getTitle() != null) {
+			chart.getTitle().setFont(titleFont);
+		}
+		
+		LegendTitle legend = chart.getLegend();
+		if(legend != null) {
+			legend.setBackgroundPaint(chartBackgroundPaint);
+		}
+		
 		XYPlot xyPlot = chart.getXYPlot();
-		if(xyPlot != null) applyStyleToXYPlot2(xyPlot);
+		if(xyPlot != null) {
+			applyStyleToXYPlot2(xyPlot);
+		}
 	}
 	
 	public void applyStyleToXYPlot2(XYPlot xyPlot) {
