@@ -28,7 +28,7 @@ public class StyleGuide {
     private Color plotBackgroundPaint;
 
     public StyleGuide(double scale) {
-        titleFont			= new Font("SansSerif", Font.BOLD, (int)Math.round(10*scale));
+        titleFont			= new Font("SansSerif", Font.PLAIN, (int)Math.round(10*scale));
         axisLabelFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(10*scale));
         annotationFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(8*scale));
         tickLabelFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(9*scale));

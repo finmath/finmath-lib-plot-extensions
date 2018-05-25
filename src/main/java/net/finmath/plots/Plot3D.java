@@ -6,6 +6,8 @@
 
 package net.finmath.plots;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.function.DoubleBinaryOperator;
 
 import org.jzy3d.analysis.AbstractAnalysis;
@@ -94,17 +96,21 @@ public class Plot3D implements Plot {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see net.finmath.plots.experimental.Plot#show()
-	 */
 	@Override
 	public void show() throws Exception {
 		AnalysisLauncher.open(this.new Surface());
 	}
 
-	/* (non-Javadoc)
-	 * @see net.finmath.plots.experimental.Plot#setTitle(java.lang.String)
-	 */
+	@Override
+	public void saveAsPDF(File file, int width, int height) throws IOException {
+		throw new UnsupportedOperationException("Save as PDF is not supported for this plot. Use saveAsJPG instead.");
+	}
+
+	@Override
+	public void saveAsJPG(File file, int width, int height) throws IOException {
+		(this.new Surface()).getChart().screenshot(file);
+	}
+	
 	@Override
 	public Plot setTitle(String title) {
 		this.title = title;

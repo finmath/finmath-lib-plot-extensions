@@ -6,6 +6,9 @@
 
 package net.finmath.plots;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * @author Christian Fries
  *
@@ -13,6 +16,10 @@ package net.finmath.plots;
 public interface Plot {
 
 	void show() throws Exception;
+
+	void saveAsPDF(File file, int width, int height) throws IOException;
+
+	void saveAsJPG(File file, int width, int height) throws IOException;
 
 	Plot setTitle(String title);
 
@@ -23,5 +30,4 @@ public interface Plot {
 	Plot setZAxisLabel(String zAxisLabel);
 	
 	Plot setIsLegendVisible(Boolean isLegendVisible);
-
 }

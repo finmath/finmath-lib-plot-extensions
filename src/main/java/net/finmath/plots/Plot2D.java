@@ -6,9 +6,9 @@
 
 package net.finmath.plots;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
@@ -18,10 +18,7 @@ import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.LegendItem;
-import org.jfree.chart.LegendItemSource;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -75,9 +72,9 @@ public class Plot2D implements Plot {
 		}
 		StandardXYItemRenderer renderer	= new StandardXYItemRenderer(StandardXYItemRenderer.LINES);
 		renderer.setSeriesPaint(0, new java.awt.Color(255, 0,  0));
-        renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
-        renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
-		
+		renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
+		renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
+
 		chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.#" /* xAxisNumberFormat */, yAxisLabel, "#.#" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
 	}
 
@@ -99,6 +96,16 @@ public class Plot2D implements Plot {
 				frame.pack();
 			}
 		});	
+	}
+
+	@Override
+	public void saveAsPDF(File file, int width, int height) throws IOException {
+		JFreeChartUtilities.saveChartAsPDF(file, chart, width, height);
+	}
+
+	@Override
+	public void saveAsJPG(File file, int width, int height) throws IOException {
+		JFreeChartUtilities.saveChartAsJPG(file, chart, width, height);
 	}
 
 	@Override
@@ -131,5 +138,4 @@ public class Plot2D implements Plot {
 		this.isLegendVisible = isLegendVisible;
 		return this;
 	}
-
 }

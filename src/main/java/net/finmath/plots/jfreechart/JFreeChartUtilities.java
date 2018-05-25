@@ -9,6 +9,7 @@ package net.finmath.plots.jfreechart;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,6 +18,8 @@ import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.math3.linear.RealMatrix;
 import org.jfree.chart.JFreeChart;
@@ -68,93 +71,93 @@ public class JFreeChartUtilities {
 			}			
 		}
 
-        DefaultXYZDataset dataset = new DefaultXYZDataset();
-        dataset.addSeries("Correlation", new double[][] { xValues, yValues, zValues});
-        
+		DefaultXYZDataset dataset = new DefaultXYZDataset();
+		dataset.addSeries("Correlation", new double[][] { xValues, yValues, zValues});
+
 		return getContourPlot(dataset, new XYBlockRenderer(), new HuePaintScale(-1.0,1.0), new NumberAxis(labelX), new NumberAxis(labelY), new NumberAxis(labelZ), dataMatrix.getColumnDimension(), dataMatrix.getRowDimension());
 	}
-	
-    public static JFreeChart getContourPlot(DefaultXYZDataset dataset, XYBlockRenderer renderer, HuePaintScale paintScale, NumberAxis xAxis, NumberAxis yAxis, NumberAxis zAxis, int xItems, int yItems)
+
+	public static JFreeChart getContourPlot(DefaultXYZDataset dataset, XYBlockRenderer renderer, HuePaintScale paintScale, NumberAxis xAxis, NumberAxis yAxis, NumberAxis zAxis, int xItems, int yItems)
 	{
-        xAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
-        yAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
-        xAxis.setLabelFont(StyleGuide.axisLabelFont);
-        yAxis.setLabelFont(StyleGuide.axisLabelFont);
-        xAxis.setTickLabelFont(StyleGuide.tickLabelFont);
-        yAxis.setTickLabelFont(StyleGuide.tickLabelFont);
+		xAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
+		yAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
+		xAxis.setLabelFont(StyleGuide.axisLabelFont);
+		yAxis.setLabelFont(StyleGuide.axisLabelFont);
+		xAxis.setTickLabelFont(StyleGuide.tickLabelFont);
+		yAxis.setTickLabelFont(StyleGuide.tickLabelFont);
 
-        XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer); 
-        plot.setBackgroundPaint(Color.lightGray); 
-        plot.setDomainGridlinePaint(Color.white); 
-        plot.setRangeGridlinePaint(Color.white); 
-//        plot.setForegroundAlpha(0.66f); 
-        plot.setAxisOffset(new org.jfree.chart.ui.RectangleInsets(5, 5, 5, 5)); 
+		XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer); 
+		plot.setBackgroundPaint(Color.lightGray); 
+		plot.setDomainGridlinePaint(Color.white); 
+		plot.setRangeGridlinePaint(Color.white); 
+		//        plot.setForegroundAlpha(0.66f); 
+		plot.setAxisOffset(new org.jfree.chart.ui.RectangleInsets(5, 5, 5, 5)); 
 
-        JFreeChart chart = new JFreeChart(null, StyleGuide.titleFont, plot, false);
-        chart.removeLegend(); 
-        chart.setBackgroundPaint(Color.white); 
+		JFreeChart chart = new JFreeChart(null, StyleGuide.titleFont, plot, false);
+		chart.removeLegend(); 
+		chart.setBackgroundPaint(Color.white); 
 
-        zAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
+		zAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
 
-/*
+		/*
  		xAxis.setAutoRange(true);
         yAxis.setAutoRange(true);
         xAxis.setAutoRangeIncludesZero(false);
         yAxis.setAutoRangeIncludesZero(false);
-*/
-        
-        renderer.setPaintScale(paintScale);
-        PaintScaleLegend psl = new PaintScaleLegend(renderer.getPaintScale(), zAxis); 
-        psl.setAxisOffset(5.0); 
-        psl.setPosition(RectangleEdge.LEFT); 
-        psl.setMargin(new RectangleInsets(5, 5, 5, 5)); 
-        chart.addSubtitle(psl); 
+		 */
 
-        updateContourPlot(dataset, renderer, paintScale, xAxis, yAxis, zAxis, xItems, yItems);
+		renderer.setPaintScale(paintScale);
+		PaintScaleLegend psl = new PaintScaleLegend(renderer.getPaintScale(), zAxis); 
+		psl.setAxisOffset(5.0); 
+		psl.setPosition(RectangleEdge.LEFT); 
+		psl.setMargin(new RectangleInsets(5, 5, 5, 5)); 
+		chart.addSubtitle(psl); 
 
-        return chart;
+		updateContourPlot(dataset, renderer, paintScale, xAxis, yAxis, zAxis, xItems, yItems);
+
+		return chart;
 	}
 
 	public static void updateContourPlot(DefaultXYZDataset dataset, XYBlockRenderer renderer, HuePaintScale paintScale, NumberAxis xAxis, NumberAxis yAxis, NumberAxis zAxis, int xItems, int yItems)
 	{
-        double minX = Double.MAX_VALUE, maxX = Double.MIN_VALUE;
-        double minY = Double.MAX_VALUE, maxY = Double.MIN_VALUE;
-        double minZ = Double.MAX_VALUE, maxZ = Double.MIN_VALUE;
-        for(int i=0; i<dataset.getItemCount(0); i++) {
-            minX = Math.min(dataset.getXValue(0, i),minX);            maxX = Math.max(dataset.getXValue(0, i),maxX);
-            minY = Math.min(dataset.getYValue(0, i),minY);            maxY = Math.max(dataset.getYValue(0, i),maxY);
-            if(!Double.isNaN(dataset.getZ(0, i).doubleValue())) {
-            	minZ = Math.min(dataset.getZValue(0, i),minZ);            maxZ = Math.max(dataset.getZValue(0, i),maxZ);
-            }
-        }
-        
-        if(xAxis != null) {
-            xAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
-            xAxis.setLabelFont(StyleGuide.axisLabelFont);
-            xAxis.setTickLabelFont(StyleGuide.tickLabelFont);
-            xAxis.setRange(minX, maxX);
-        }
-        
-        if(yAxis != null) {
-            yAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
-            yAxis.setLabelFont(StyleGuide.axisLabelFont);
-            yAxis.setTickLabelFont(StyleGuide.tickLabelFont);
-            yAxis.setRange(minY, maxY);
-        }
+		double minX = Double.MAX_VALUE, maxX = Double.MIN_VALUE;
+		double minY = Double.MAX_VALUE, maxY = Double.MIN_VALUE;
+		double minZ = Double.MAX_VALUE, maxZ = Double.MIN_VALUE;
+		for(int i=0; i<dataset.getItemCount(0); i++) {
+			minX = Math.min(dataset.getXValue(0, i),minX);            maxX = Math.max(dataset.getXValue(0, i),maxX);
+			minY = Math.min(dataset.getYValue(0, i),minY);            maxY = Math.max(dataset.getYValue(0, i),maxY);
+			if(!Double.isNaN(dataset.getZ(0, i).doubleValue())) {
+				minZ = Math.min(dataset.getZValue(0, i),minZ);            maxZ = Math.max(dataset.getZValue(0, i),maxZ);
+			}
+		}
 
-        if(zAxis != null) {
-            zAxis.setRange(minZ, maxZ);
-        }
+		if(xAxis != null) {
+			xAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
+			xAxis.setLabelFont(StyleGuide.axisLabelFont);
+			xAxis.setTickLabelFont(StyleGuide.tickLabelFont);
+			xAxis.setRange(minX, maxX);
+		}
 
-        if(renderer != null) {
-            renderer.setBlockWidth((maxX-minX)/(xItems-1));
-            renderer.setBlockHeight((maxY-minY)/(yItems-1));
-        }
-        
-        if(paintScale != null) {
-            paintScale.lowerBound = minZ;
-            paintScale.upperBound = maxZ;
-        }
+		if(yAxis != null) {
+			yAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
+			yAxis.setLabelFont(StyleGuide.axisLabelFont);
+			yAxis.setTickLabelFont(StyleGuide.tickLabelFont);
+			yAxis.setRange(minY, maxY);
+		}
+
+		if(zAxis != null) {
+			zAxis.setRange(minZ, maxZ);
+		}
+
+		if(renderer != null) {
+			renderer.setBlockWidth((maxX-minX)/(xItems-1));
+			renderer.setBlockHeight((maxY-minY)/(yItems-1));
+		}
+
+		if(paintScale != null) {
+			paintScale.lowerBound = minZ;
+			paintScale.upperBound = maxZ;
+		}
 	}
 
 	public static JFreeChart getXYLinesPlotChart(
@@ -169,16 +172,16 @@ public class JFreeChartUtilities {
 		XYSeriesCollection data = new XYSeriesCollection();
 		XYSeries series = new XYSeries("1");
 		for(int i=0; i<xValues.length; i++) {
-				series.add(xValues[i], yValues[i]);			
+			series.add(xValues[i], yValues[i]);			
 		}
 		data.addSeries(series);			
-		
+
 		return getXYPlotChart(title,
 				xAxisLabel, xAxisNumberFormat,
 				yAxisLabel, yAxisNumberFormat,
 				data);
 	}
-	
+
 	public static JFreeChart getXYLinesPlotChart(
 			String title,
 			String xAxisLabel, String xAxisNumberFormat, 
@@ -196,13 +199,13 @@ public class JFreeChartUtilities {
 			}
 			data.addSeries(series);			
 		}
-		
+
 		return getXYPlotChart(title,
 				xAxisLabel, xAxisNumberFormat,
 				yAxisLabel, yAxisNumberFormat,
 				data);
 	}
-	
+
 	public static JFreeChart getCategoryLinesPlotChart(
 			String title,
 			String xAxisLabel, String xAxisNumberFormat, 
@@ -220,7 +223,7 @@ public class JFreeChartUtilities {
 			}
 			data.addSeries(series);			
 		}
-		
+
 		return getXYPlotChart(title,
 				xAxisLabel, xAxisNumberFormat,
 				yAxisLabel, yAxisNumberFormat,
@@ -235,9 +238,9 @@ public class JFreeChartUtilities {
 	{
 		StandardXYItemRenderer renderer	= new StandardXYItemRenderer(StandardXYItemRenderer.LINES);
 		renderer.setSeriesPaint(0, new java.awt.Color(255, 0,  0));
-        renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
-        renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
-		
+		renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
+		renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
+
 		return getXYPlotChart(
 				title,
 				xAxisLabel, xAxisNumberFormat, 
@@ -245,7 +248,7 @@ public class JFreeChartUtilities {
 				data,
 				renderer);
 	}
-	
+
 	public static JFreeChart getXYPlotChart(
 			String title,
 			String xAxisLabel, String xAxisNumberFormat, 
@@ -255,7 +258,7 @@ public class JFreeChartUtilities {
 	{
 		return getXYPlotChart(title, xAxisLabel, xAxisNumberFormat, yAxisLabel, yAxisNumberFormat, data, renderer, false);
 	}
-	
+
 	public static JFreeChart getXYPlotChart(
 			String title,
 			String xAxisLabel, String xAxisNumberFormat, 
@@ -270,13 +273,13 @@ public class JFreeChartUtilities {
 		xAxis.setNumberFormatOverride(new DecimalFormat(xAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
 		yAxis.setNumberFormatOverride(new DecimalFormat(yAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
 
-        xAxis.setLabelFont(StyleGuide.getAxisLabelFont());
-        yAxis.setLabelFont(StyleGuide.getAxisLabelFont());
-        xAxis.setTickLabelFont(StyleGuide.getTickLabelFont());
-        yAxis.setTickLabelFont(StyleGuide.getTickLabelFont());
+		xAxis.setLabelFont(StyleGuide.getAxisLabelFont());
+		yAxis.setLabelFont(StyleGuide.getAxisLabelFont());
+		xAxis.setTickLabelFont(StyleGuide.getTickLabelFont());
+		yAxis.setTickLabelFont(StyleGuide.getTickLabelFont());
 
-        yAxis.setAutoRangeIncludesZero(false);
-		
+		yAxis.setAutoRangeIncludesZero(false);
+
 		XYPlot plot = new XYPlot(data, xAxis, yAxis, renderer);
 		plot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 		plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
@@ -302,32 +305,30 @@ public class JFreeChartUtilities {
 		xAxis.setNumberFormatOverride(new DecimalFormat(xAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
 		yAxis.setNumberFormatOverride(new DecimalFormat(yAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
 
-        xAxis.setLabelFont(StyleGuide.axisLabelFont);
-        yAxis.setLabelFont(StyleGuide.axisLabelFont);
-        xAxis.setTickLabelFont(StyleGuide.tickLabelFont);
-        yAxis.setTickLabelFont(StyleGuide.tickLabelFont);
+		xAxis.setLabelFont(StyleGuide.axisLabelFont);
+		yAxis.setLabelFont(StyleGuide.axisLabelFont);
+		xAxis.setTickLabelFont(StyleGuide.tickLabelFont);
+		yAxis.setTickLabelFont(StyleGuide.tickLabelFont);
 
-        yAxis.setAutoRangeIncludesZero(false);
-		
+		yAxis.setAutoRangeIncludesZero(false);
+
 		XYPlot plot = new XYPlot(data, xAxis, yAxis, renderer);
 		plot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 		plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-		
+
 		JFreeChart chart = new JFreeChart(title, StyleGuide.titleFont, plot, legend);
 
 		return chart;
 	}
-	
-    public static void saveChartAsPDF(File file, JFreeChart chart, int width,
+
+	public static void saveChartAsPDF(File file, JFreeChart chart, int width,
 			int height) throws IOException {
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 		writeChartAsPDF(out, chart, width, height);
 		out.close();
 	}
 
-    /*
-	public static void saveChartAsJPG(File file, JFreeChart chart, int width,
-			int height) throws IOException {
+	public static void saveChartAsJPG(File file, JFreeChart chart, int width, int height) throws IOException {
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 
 		BufferedImage imageWithAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
@@ -336,23 +337,19 @@ public class JFreeChartUtilities {
 
 		chart.draw(g2, r2D);
 		g2.dispose();
-		
+
 		// Strip alpha channel
 		BufferedImage imageWithoutAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
-		
+
 		Graphics2D graphics = imageWithoutAlpha.createGraphics();
 		graphics.drawImage(imageWithAlpha, null, 0, 0);
-		
-		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-		JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(imageWithoutAlpha);
-		param.setQuality(0.9f, true);
-		encoder.encode(imageWithoutAlpha, param);
+
+		ImageIO.write(imageWithoutAlpha, "jpg", out);
 
 		out.close();
 	}
-     */
 
-    /**
+	/**
 	 * Writes a chart to an output stream in PDF format.
 	 * 
 	 * @param out the output stream.

@@ -7,7 +7,6 @@
 package net.finmath.plots.demo;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.function.DoubleUnaryOperator;
 
 import net.finmath.functions.AnalyticFormulas;
