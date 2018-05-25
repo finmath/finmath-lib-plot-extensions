@@ -23,7 +23,7 @@ import net.finmath.time.TimeDiscretizationInterface;
  *
  * @author Christian Fries
  */
-public class Plot2DBrownianMotion {
+public class Plot2DDemoBlackScholesPaths {
 
 	/**
 	 * Run the demo.
@@ -37,7 +37,6 @@ public class Plot2DBrownianMotion {
 		final double initialValue = 100;
 		final double riskFreeRate = 0.04;
 		final double volatility = 0.40;
-		final double optionMaturity = 1.0;
 		final int numberOfTimeSteps = 100;
 		final double deltaT = 0.1;
 		final int numberOfPaths = 1000;
@@ -55,7 +54,7 @@ public class Plot2DBrownianMotion {
 			return null;
 		};
 
-		Plot plot = new PlotProcess2D(timeDiscretization, new Named<>("Black-Scholes",function));
+		Plot plot = new PlotProcess2D(timeDiscretization, new Named<>("Black-Scholes",function), 100 /* maxNumberOfPaths */);
 		plot.setTitle("Black-Scholes Model Path").setXAxisLabel("time").setYAxisLabel("value");
 		plot.show();
 		

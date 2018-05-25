@@ -26,14 +26,15 @@ import net.finmath.stochastic.RandomVariableInterface;
 import net.finmath.time.TimeDiscretizationInterface;
 
 /**
- * Small convenient wrapper for JFreeChart line plot derived.
+ * Small convenient wrapper for JFreeChart line plot of a stochastic process.
  * 
  * @author Christian Fries
  */
 public class PlotProcess2D implements Plot {
 
-	private TimeDiscretizationInterface timeDiscretization;
-	private Named<DoubleFunction<RandomVariableInterface>> process;
+	private final TimeDiscretizationInterface timeDiscretization;
+	private final Named<DoubleFunction<RandomVariableInterface>> process;
+	private final int maxNumberOfPaths;
 
 	private String title = "";
 	private String xAxisLabel = "x";
@@ -45,17 +46,35 @@ public class PlotProcess2D implements Plot {
 	private transient JFreeChart chart;
 
 	
-	public PlotProcess2D(TimeDiscretizationInterface timeDiscretization, Named<DoubleFunction<RandomVariableInterface>> process) {
+	/**
+	 * Plot the first (maxNumberOfPaths) paths of a time discrete stochastic process.
+	 * 
+	 * @param timeDiscretization
+	 * @param process
+	 * @param maxNumberOfPaths
+	 */
+	public PlotProcess2D(TimeDiscretizationInterface timeDiscretization, Named<DoubleFunction<RandomVariableInterface>> process, int maxNumberOfPaths) {
 		super();
 		this.timeDiscretization = timeDiscretization;
 		this.process = process;
+		this.maxNumberOfPaths = maxNumberOfPaths;
+	}
+
+	/**
+	 * Plot the first 100 paths of a time discrete stochastic process.
+	 * 
+	 * @param timeDiscretization
+	 * @param process
+	 */
+	public PlotProcess2D(TimeDiscretizationInterface timeDiscretization, Named<DoubleFunction<RandomVariableInterface>> process) {
+		this(timeDiscretization, process, 100);
 	}
 
 	private void init() {
 		ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>();
 		for(double time : timeDiscretization) {
 			RandomVariableInterface randomVariable = process.get().apply(time);
-			for(int pathIndex=0; pathIndex<randomVariable.size(); pathIndex++) {
+			for(int pathIndex=0; pathIndex<Math.min(randomVariable.size(),maxNumberOfPaths); pathIndex++) {
 				XYSeries series = pathIndex < seriesList.size() ? seriesList.get(pathIndex) : null;
 				if(series == null) {
 					series = new XYSeries(pathIndex);

@@ -70,7 +70,8 @@ public class Plot3D implements Plot {
 			final Shape surface = Builder.buildOrthonormal(new OrthonormalGrid(new Range((float)xmin,(float)xmax), numberOfPointsX, new Range((float)ymin,(float)ymax), numberOfPointsY), mapper);
 			surface.setColorMapper(new ColorMapper(new ColorMapRainbow(), surface.getBounds().getZmin(), surface.getBounds().getZmax(), new Color(1, 1, 1, .5f)));
 			surface.setFaceDisplayed(true);
-			surface.setWireframeDisplayed(false);
+			surface.setWireframeDisplayed(true);
+			surface.setWireframeColor(Color.BLACK);
 
 			// Create a chart
 			chart = AWTChartComponentFactory.chart(Quality.Advanced, getCanvasType());
