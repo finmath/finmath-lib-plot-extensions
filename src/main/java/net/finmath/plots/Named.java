@@ -7,7 +7,7 @@
 package net.finmath.plots;
 
 /**
- * A named object.
+ * A named object of type T.
  * 
  * @author Christian Fries
  */
@@ -16,13 +16,21 @@ public class Named<T extends Object> {
 	private final String name;
 	private final T object;
 
-	public Named(String name, T function) {
+	/**
+	 * Create the named object.
+	 * 
+	 * @param name Name of the object.
+	 * @param object The object.
+	 */
+	public Named(String name, T object) {
 		super();
 		this.name = name;
-		this.object = function;
+		this.object = object;
 	}
 
 	/**
+	 * Get the name of the object.
+	 * 
 	 * @return the name
 	 */
 	public String getName() {
@@ -30,7 +38,9 @@ public class Named<T extends Object> {
 	}
 
 	/**
-	 * @return the function
+	 * Get the object.
+	 * 
+	 * @return the object.
 	 */
 	public T get() {
 		return object;
