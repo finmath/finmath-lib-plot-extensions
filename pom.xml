@@ -73,7 +73,11 @@
 			<artifactId>itextpdf</artifactId>
 			<version>5.5.13</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreesvg</artifactId>
+			<version>3.3</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>

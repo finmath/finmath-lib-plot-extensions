@@ -103,15 +103,20 @@ public class Plot3D implements Plot {
 	}
 
 	@Override
+	public void saveAsJPG(File file, int width, int height) throws IOException {
+		(this.new Surface()).getChart().screenshot(file);
+	}
+	
+	@Override
 	public void saveAsPDF(File file, int width, int height) throws IOException {
 		throw new UnsupportedOperationException("Save as PDF is not supported for this plot. Use saveAsJPG instead.");
 	}
 
 	@Override
-	public void saveAsJPG(File file, int width, int height) throws IOException {
-		(this.new Surface()).getChart().screenshot(file);
+	public void saveAsSVG(File file, int width, int height) throws IOException {
+		throw new UnsupportedOperationException("Save as SVG is not supported for this plot. Use saveAsJPG instead.");
 	}
-	
+
 	@Override
 	public Plot setTitle(String title) {
 		this.title = title;

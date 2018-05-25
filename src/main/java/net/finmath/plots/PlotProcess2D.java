@@ -117,13 +117,18 @@ public class PlotProcess2D implements Plot {
 	}
 
 	@Override
+	public void saveAsJPG(File file, int width, int height) throws IOException {
+		JFreeChartUtilities.saveChartAsJPG(file, chart, width, height);
+	}
+
+	@Override
 	public void saveAsPDF(File file, int width, int height) throws IOException {
 		JFreeChartUtilities.saveChartAsPDF(file, chart, width, height);
 	}
 
 	@Override
-	public void saveAsJPG(File file, int width, int height) throws IOException {
-		JFreeChartUtilities.saveChartAsJPG(file, chart, width, height);
+	public void saveAsSVG(File file, int width, int height) throws IOException {
+		JFreeChartUtilities.saveChartAsSVG(file, chart, width, height);
 	}
 
 	@Override

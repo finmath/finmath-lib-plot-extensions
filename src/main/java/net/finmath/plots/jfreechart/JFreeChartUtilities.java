@@ -36,11 +36,12 @@ import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.graphics2d.svg.SVGGraphics2D;
+import org.jfree.graphics2d.svg.SVGUtils;
 
 import com.itextpdf.awt.PdfGraphics2D;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -357,9 +358,8 @@ public class JFreeChartUtilities {
 	 * @param width the chart width.
 	 * @param height the chart height.
 	 */
-	public static void writeChartAsPDF(OutputStream out, JFreeChart chart,
-			int width, int height) throws IOException {
-		Rectangle pagesize = new Rectangle(width, height);
+	public static void writeChartAsPDF(OutputStream out, JFreeChart chart, int width, int height) throws IOException {
+		com.itextpdf.text.Rectangle pagesize = new com.itextpdf.text.Rectangle(width, height);
 		Document document = new Document(pagesize, 50, 50, 50, 50);
 		try {
 			PdfWriter writer = PdfWriter.getInstance(document, out);
@@ -378,5 +378,21 @@ public class JFreeChartUtilities {
 			System.err.println(de.getMessage());
 		}
 		document.close();
+	}
+
+	/**
+	 * @param file
+	 * @param chart
+	 * @param width
+	 * @param height
+	 * @throws IOException 
+	 */
+	public static void saveChartAsSVG(File file, JFreeChart chart, int width, int height) throws IOException {
+	    SVGGraphics2D g2 = new SVGGraphics2D(width, height);
+	    g2.setRenderingHint(JFreeChart.KEY_SUPPRESS_SHADOW_GENERATION, true);
+	    java.awt.Rectangle r = new java.awt.Rectangle(0, 0, 600, 400);
+	    chart.draw(g2, r);
+	    SVGUtils.writeToSVG(file, g2.getSVGElement());
+
 	}
 }
