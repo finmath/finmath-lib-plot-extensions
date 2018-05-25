@@ -322,13 +322,48 @@ public class JFreeChartUtilities {
 		return chart;
 	}
 
-	public static void saveChartAsPDF(File file, JFreeChart chart, int width,
-			int height) throws IOException {
+	/**
+	 * Write a chart to an file stream in PDF format.
+	 * 
+	 * @param file The file to write to.
+	 * @param chart The chart to write.
+	 * @param width The width.
+	 * @param height The height.
+	 * @throws IOException Thrown if the file could not be written.
+	 */
+	public static void saveChartAsPDF(File file, JFreeChart chart, int width, int height) throws IOException {
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 		writeChartAsPDF(out, chart, width, height);
 		out.close();
 	}
 
+	/**
+	 * Write a chart to an file stream in SVG format.
+	 * 
+	 * @param file The file to write to.
+	 * @param chart The chart to write.
+	 * @param width The width.
+	 * @param height The height.
+	 * @throws IOException Thrown if the file could not be written.
+	 */
+	public static void saveChartAsSVG(File file, JFreeChart chart, int width, int height) throws IOException {
+		SVGGraphics2D g2 = new SVGGraphics2D(width, height);
+		g2.setRenderingHint(JFreeChart.KEY_SUPPRESS_SHADOW_GENERATION, true);
+		java.awt.Rectangle r = new java.awt.Rectangle(0, 0, 600, 400);
+		chart.draw(g2, r);
+		SVGUtils.writeToSVG(file, g2.getSVGElement());
+
+	}
+
+	/**
+	 * Write a chart to an file stream in JPG format.
+	 * 
+	 * @param file The file to write to.
+	 * @param chart The chart to write.
+	 * @param width The width.
+	 * @param height The height.
+	 * @throws IOException Thrown if the file could not be written.
+	 */
 	public static void saveChartAsJPG(File file, JFreeChart chart, int width, int height) throws IOException {
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 
@@ -378,21 +413,5 @@ public class JFreeChartUtilities {
 			System.err.println(de.getMessage());
 		}
 		document.close();
-	}
-
-	/**
-	 * @param file
-	 * @param chart
-	 * @param width
-	 * @param height
-	 * @throws IOException 
-	 */
-	public static void saveChartAsSVG(File file, JFreeChart chart, int width, int height) throws IOException {
-	    SVGGraphics2D g2 = new SVGGraphics2D(width, height);
-	    g2.setRenderingHint(JFreeChart.KEY_SUPPRESS_SHADOW_GENERATION, true);
-	    java.awt.Rectangle r = new java.awt.Rectangle(0, 0, 600, 400);
-	    chart.draw(g2, r);
-	    SVGUtils.writeToSVG(file, g2.getSVGElement());
-
 	}
 }
