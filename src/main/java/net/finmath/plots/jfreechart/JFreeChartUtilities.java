@@ -345,7 +345,7 @@ public class JFreeChartUtilities {
 	 * @param width The width.
 	 * @param height The height.
 	 * @throws IOException Thrown if the file could not be written.
-	 */
+     */
 	public static void saveChartAsSVG(File file, JFreeChart chart, int width, int height) throws IOException {
 		SVGGraphics2D g2 = new SVGGraphics2D(width, height);
 		g2.setRenderingHint(JFreeChart.KEY_SUPPRESS_SHADOW_GENERATION, true);
@@ -393,7 +393,7 @@ public class JFreeChartUtilities {
 	 * @param width the chart width.
 	 * @param height the chart height.
 	 */
-	public static void writeChartAsPDF(OutputStream out, JFreeChart chart, int width, int height) throws IOException {
+	public static void writeChartAsPDF(OutputStream out, JFreeChart chart, int width, int height) {
 		com.itextpdf.text.Rectangle pagesize = new com.itextpdf.text.Rectangle(width, height);
 		Document document = new Document(pagesize, 50, 50, 50, 50);
 		try {

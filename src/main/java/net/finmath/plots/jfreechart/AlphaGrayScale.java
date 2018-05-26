@@ -22,7 +22,7 @@ public class AlphaGrayScale implements PaintScale {
         this.upperBound = upperBound;
         this.frequency = frequency;
         this.thickness = thickness;
-    };
+    }
 
     public double getLowerBound() {
         return lowerBound;

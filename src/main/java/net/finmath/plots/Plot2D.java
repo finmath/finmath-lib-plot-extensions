@@ -79,7 +79,7 @@ public class Plot2D implements Plot {
 	}
 
 	@Override
-	public void show() throws Exception {
+	public void show() {
 		init();
 		JPanel chartPanel = new ChartPanel(chart, 
 				800, 400,   // size

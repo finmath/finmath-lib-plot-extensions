@@ -81,20 +81,20 @@ public class StyleGuide {
      * @return Font for axis labels.
      */
     public static Font getAxisLabelFont() {
-        return new Font("SansSerif", Font.PLAIN, (int)Math.round(10*1));
+        return new Font("SansSerif", Font.PLAIN, Math.round(10*1));
     }
 
 	/**
      * @return Font for axis tick labels.
      */
     public static Font getTickLabelFont() {
-        return new Font("SansSerif", Font.PLAIN, (int)Math.round(9*1));
+        return new Font("SansSerif", Font.PLAIN, Math.round(9*1));
     }
 
 	/**
      * @return Title font.
      */
     public static Font getTitleFont() {
-        return new Font("SansSerif", Font.PLAIN, (int)Math.round(10*1));
+        return new Font("SansSerif", Font.PLAIN, Math.round(10*1));
     }
 }

@@ -18,7 +18,7 @@ public class HuePaintScale implements PaintScale {
     public HuePaintScale(double lowerBound, double upperBound) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
-    };
+    }
 
     public double getLowerBound() {
         return lowerBound;

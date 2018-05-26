@@ -117,12 +117,12 @@ public class Plot3D implements Plot {
 	}
 
 	@Override
-	public void saveAsPDF(File file, int width, int height) throws IOException {
+	public void saveAsPDF(File file, int width, int height) {
 		throw new UnsupportedOperationException("Save as PDF is not supported for this plot. Use saveAsJPG instead.");
 	}
 
 	@Override
-	public void saveAsSVG(File file, int width, int height) throws IOException {
+	public void saveAsSVG(File file, int width, int height) {
 		throw new UnsupportedOperationException("Save as SVG is not supported for this plot. Use saveAsJPG instead.");
 	}
 
