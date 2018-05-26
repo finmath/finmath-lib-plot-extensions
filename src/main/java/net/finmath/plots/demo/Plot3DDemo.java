@@ -9,6 +9,7 @@ package net.finmath.plots.demo;
 import java.util.function.DoubleBinaryOperator;
 
 import net.finmath.functions.AnalyticFormulas;
+import net.finmath.plots.Named;
 import net.finmath.plots.Plot;
 import net.finmath.plots.Plot3D;
 
@@ -41,7 +42,7 @@ public class Plot3DDemo {
 			return z;
 		};
 
-		Plot plot = new Plot3D(0,300.0, 0, 10, 100, 100, function);
+		Plot plot = new Plot3D(0,300.0, 0, 10, 100, 100, new Named<DoubleBinaryOperator>("Black Scholes European Option Value", function));
 		plot.setXAxisLabel("strike").setYAxisLabel("time to maturity").setZAxisLabel("value");
 		plot.show();
 	}

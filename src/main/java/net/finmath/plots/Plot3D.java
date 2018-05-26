@@ -36,7 +36,7 @@ public class Plot3D implements Plot {
 	private double xmin, xmax;
 	private double ymin, ymax;
 	private int numberOfPointsX, numberOfPointsY;
-	private DoubleBinaryOperator function;
+	private Named<DoubleBinaryOperator> function;
 
 	private String title = "";
 	private String xAxisLabel = "x";
@@ -44,7 +44,7 @@ public class Plot3D implements Plot {
 	private String zAxisLabel = "z";
 	private Boolean isLegendVisible;
 
-	public Plot3D(double xmin, double xmax, double ymin, double ymax, int numberOfPointsX, int numberOfPointsY, DoubleBinaryOperator function) {
+	public Plot3D(double xmin, double xmax, double ymin, double ymax, int numberOfPointsX, int numberOfPointsY, Named<DoubleBinaryOperator> function) {
 		super();
 		this.xmin = xmin;
 		this.xmax = xmax;
@@ -55,14 +55,23 @@ public class Plot3D implements Plot {
 		this.function = function;
 	}
 
+	public Plot3D(double xmin, double xmax, double ymin, double ymax, int numberOfPointsX, int numberOfPointsY, DoubleBinaryOperator function) {
+		this(xmin, xmax, ymin, ymax, numberOfPointsX, numberOfPointsY, new Named<DoubleBinaryOperator>("",function));
+	}
+
 	class Surface extends AbstractAnalysis {
+
+		public String getName() {
+			return function.getName();
+		}
 
 		public void init() {
 			// Define a function to plot
 			Mapper mapper = new Mapper() {
+				private final DoubleBinaryOperator functionToPlot = Plot3D.this.function.get();
 				@Override
 				public double f(double x, double y) {
-					return Plot3D.this.function.applyAsDouble(x,y);
+					return functionToPlot.applyAsDouble(x,y);
 				}
 			};
 
@@ -106,7 +115,7 @@ public class Plot3D implements Plot {
 	public void saveAsJPG(File file, int width, int height) throws IOException {
 		(this.new Surface()).getChart().screenshot(file);
 	}
-	
+
 	@Override
 	public void saveAsPDF(File file, int width, int height) throws IOException {
 		throw new UnsupportedOperationException("Save as PDF is not supported for this plot. Use saveAsJPG instead.");
