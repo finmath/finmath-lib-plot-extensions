@@ -6,12 +6,15 @@
 
 package net.finmath.plots;
 
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
+import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,6 +22,7 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -31,9 +35,7 @@ import net.finmath.plots.jfreechart.JFreeChartUtilities;
  */
 public class Plot2D implements Plot {
 
-	private double xmin, xmax;
-	private int numberOfPointsX;
-	private List<Named<DoubleUnaryOperator>> functions;
+	private List<Plotable2D> plotables;
 
 	private String title = "";
 	private String xAxisLabel = "x";
@@ -49,33 +51,60 @@ public class Plot2D implements Plot {
 	}
 
 	public Plot2D(double xmin, double xmax, int numberOfPointsX, List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
+		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
+	}
+	
+	public Plot2D(List<Plotable2D> plotables) {
 		super();
-		this.xmin = xmin;
-		this.xmax = xmax;
-		this.numberOfPointsX = numberOfPointsX;
-		this.functions = doubleUnaryOperators;
-
-		if(numberOfPointsX < 2) throw new IllegalArgumentException("Number of points needs to be larger than 1.");
+		this.plotables = plotables;
 	}
 
 	private void init() {
+		StandardXYItemRenderer renderer2	= new StandardXYItemRenderer(StandardXYItemRenderer.SHAPES);
+		renderer2.setSeriesPaint(0, new java.awt.Color(0, 0,  0));
+		renderer2.setSeriesShape(0, new Rectangle(3,3));
+
+		XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
 		XYSeriesCollection data = new XYSeriesCollection();
-		for(int functionIndex=0; functionIndex<functions.size(); functionIndex++) {
-			XYSeries series = new XYSeries(functions.get(functionIndex).getName());
-			DoubleUnaryOperator function = functions.get(functionIndex).get();
-			for(int i = 0; i<numberOfPointsX; i++) {
-				double x = xmin + i * ((xmax-xmin) / (numberOfPointsX-1));
-				double y = function.applyAsDouble(x);
-				series.add(x, y);
+		for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
+			Plotable2D plotable = plotables.get(functionIndex);
+			
+			List<Point2D> plotableSeries = plotable.getSeries();
+			XYSeries series = new XYSeries(plotable.getName());
+			for(int i = 0; i<plotableSeries.size(); i++) {
+				series.add(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
 			}
-			data.addSeries(series);			
+			data.addSeries(series);	
+
+			GraphStyle style = plotable.getStyle();
+			Color color = style != null ? plotable.getStyle().getColor() : null;
+			if(color == null) color = getDefaultColor(functionIndex);			
+			renderer.setSeriesPaint(functionIndex, color);
+			
+			if(style != null) {
+				renderer.setSeriesShape(functionIndex, plotable.getStyle().getShape());
+				renderer.setSeriesStroke(functionIndex, plotable.getStyle().getStoke());
+			}
+			renderer.setSeriesShapesVisible(functionIndex, style != null && style.getShape() != null);
+			renderer.setSeriesLinesVisible(functionIndex, style != null && style.getStoke() != null);
 		}
-		StandardXYItemRenderer renderer	= new StandardXYItemRenderer(StandardXYItemRenderer.LINES);
-		renderer.setSeriesPaint(0, new java.awt.Color(255, 0,  0));
-		renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
-		renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
 
 		chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.#" /* xAxisNumberFormat */, yAxisLabel, "#.#" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
+		chart.getXYPlot().setRenderer(0, renderer);
+		chart.getXYPlot().setDataset(0, data);
+	}
+
+	private Color getDefaultColor(int functionIndex) {
+		switch (functionIndex) {
+		case 0:
+			return new java.awt.Color(255, 0,  0);
+		case 1:
+			return new java.awt.Color(0, 255,  0);
+		case 2:
+			return new java.awt.Color(0, 0,  255);
+		default:
+			return new java.awt.Color(0, 0,  0);
+		}
 	}
 
 	@Override
