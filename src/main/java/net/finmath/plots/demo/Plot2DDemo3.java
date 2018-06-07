@@ -7,7 +7,6 @@
 package net.finmath.plots.demo;
 
 import java.awt.Rectangle;
-import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
