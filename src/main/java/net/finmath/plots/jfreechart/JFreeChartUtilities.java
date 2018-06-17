@@ -279,6 +279,7 @@ public class JFreeChartUtilities {
 		xAxis.setTickLabelFont(StyleGuide.getTickLabelFont());
 		yAxis.setTickLabelFont(StyleGuide.getTickLabelFont());
 
+		xAxis.setAutoRangeIncludesZero(false);
 		yAxis.setAutoRangeIncludesZero(false);
 
 		XYPlot plot = new XYPlot(data, xAxis, yAxis, renderer);
