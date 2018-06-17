@@ -89,7 +89,7 @@ public class Plot2D implements Plot {
 			renderer.setSeriesLinesVisible(functionIndex, style != null && style.getStoke() != null);
 		}
 
-		chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.#" /* xAxisNumberFormat */, yAxisLabel, "#.#" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
+		chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.##" /* xAxisNumberFormat */, yAxisLabel, "#.##" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
 		chart.getXYPlot().setRenderer(0, renderer);
 		chart.getXYPlot().setDataset(0, data);
 	}
