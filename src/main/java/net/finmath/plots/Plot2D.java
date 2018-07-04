@@ -45,6 +45,7 @@ public class Plot2D implements Plot {
 	private Boolean isLegendVisible = false;
 
 	private transient JFreeChart chart;
+	private Object updateLock = new Object();
 
 	public Plot2D(double xmin, double xmax, int numberOfPointsX, DoubleUnaryOperator function) {
 		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
@@ -53,22 +54,25 @@ public class Plot2D implements Plot {
 	public Plot2D(double xmin, double xmax, int numberOfPointsX, List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
 		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
 	}
-	
+
 	public Plot2D(List<Plotable2D> plotables) {
 		super();
 		this.plotables = plotables;
 	}
 
 	private void init() {
-		StandardXYItemRenderer renderer2	= new StandardXYItemRenderer(StandardXYItemRenderer.SHAPES);
-		renderer2.setSeriesPaint(0, new java.awt.Color(0, 0,  0));
-		renderer2.setSeriesShape(0, new Rectangle(3,3));
+		XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
+		XYSeriesCollection data = new XYSeriesCollection();
 
+		chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.##" /* xAxisNumberFormat */, yAxisLabel, "#.##" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
+	}
+
+	private void update() {
 		XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
 		XYSeriesCollection data = new XYSeriesCollection();
 		for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
 			Plotable2D plotable = plotables.get(functionIndex);
-			
+
 			List<Point2D> plotableSeries = plotable.getSeries();
 			XYSeries series = new XYSeries(plotable.getName());
 			for(int i = 0; i<plotableSeries.size(); i++) {
@@ -80,7 +84,7 @@ public class Plot2D implements Plot {
 			Color color = style != null ? plotable.getStyle().getColor() : null;
 			if(color == null) color = getDefaultColor(functionIndex);			
 			renderer.setSeriesPaint(functionIndex, color);
-			
+
 			if(style != null) {
 				renderer.setSeriesShape(functionIndex, plotable.getStyle().getShape());
 				renderer.setSeriesStroke(functionIndex, plotable.getStyle().getStoke());
@@ -89,9 +93,10 @@ public class Plot2D implements Plot {
 			renderer.setSeriesLinesVisible(functionIndex, style != null && style.getStoke() != null);
 		}
 
-		chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.##" /* xAxisNumberFormat */, yAxisLabel, "#.##" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
-		chart.getXYPlot().setRenderer(0, renderer);
-		chart.getXYPlot().setDataset(0, data);
+		synchronized (updateLock) {
+			chart.getXYPlot().setDataset(0, data);
+			chart.getXYPlot().setRenderer(0, renderer);
+		}
 	}
 
 	private Color getDefaultColor(int functionIndex) {
@@ -110,6 +115,7 @@ public class Plot2D implements Plot {
 	@Override
 	public void show() {
 		init();
+		update(plotables);
 		JPanel chartPanel = new ChartPanel(chart, 
 				800, 400,   // size
 				128, 128,   // minimum size
@@ -142,21 +148,47 @@ public class Plot2D implements Plot {
 		JFreeChartUtilities.saveChartAsSVG(file, chart, width, height);
 	}
 
+	public Plot2D update(List<Plotable2D> plotables) {
+		this.plotables = plotables;
+		synchronized (updateLock) {
+			if(chart != null) {
+				update();
+			}
+		}
+		return this;
+	}
+
+
 	@Override
 	public Plot2D setTitle(String title) {
 		this.title = title;
+		synchronized (updateLock) {
+			if(chart != null) {
+				chart.setTitle(title);
+			}
+		}
 		return this;
 	}
 
 	@Override
 	public Plot2D setXAxisLabel(String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
+		synchronized (updateLock) {
+			if(chart != null) {
+				chart.getXYPlot().getDomainAxis().setLabel(xAxisLabel);
+			}
+		}
 		return this;
 	}
 
 	@Override
 	public Plot2D setYAxisLabel(String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
+		synchronized (updateLock) {
+			if(chart != null) {
+				chart.getXYPlot().getRangeAxis().setLabel(yAxisLabel);
+			}
+		}
 		return this;
 	}
 
@@ -169,7 +201,11 @@ public class Plot2D implements Plot {
 	 * @param isLegendVisible the isLegendVisible to set
 	 */
 	public Plot setIsLegendVisible(Boolean isLegendVisible) {
-		this.isLegendVisible = isLegendVisible;
+		synchronized (updateLock) {
+			if(chart != null) {
+				this.isLegendVisible = isLegendVisible;
+			}
+		}
 		return this;
 	}
 }
