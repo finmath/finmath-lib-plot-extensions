@@ -5,11 +5,8 @@
  */
 package net.finmath.plots;
 
-import java.util.List;
+public interface Plotable {
 
-public interface Plotable2D extends Plotable {
+	String getName();
 
-	List<Point2D> getSeries();
-
-	GraphStyle getStyle();
 }
