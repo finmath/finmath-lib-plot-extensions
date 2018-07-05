@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.paint.Color;
 
 /**
@@ -42,7 +43,8 @@ public class Plot2DFX implements Plot {
 	private NumberFormat yAxisNumberFormat;
 	private Boolean isLegendVisible = false;
 
-	LineChart<Number,Number> lineChart;
+	LineChart<Number,Number> chart;
+	private Object updateLock = new Object();
 
 	public Plot2DFX(double xmin, double xmax, int numberOfPointsX, DoubleUnaryOperator function) {
 		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
@@ -57,52 +59,77 @@ public class Plot2DFX implements Plot {
 		this.plotables = plotables;
 	}
 
-	public void init() {
+	private void init() {
 		//defining the axes
 		final NumberAxis xAxis = new NumberAxis();
 		final NumberAxis yAxis = new NumberAxis();
 		xAxis.setLabel(xAxisLabel);
 		yAxis.setLabel(yAxisLabel);
 		//creating the chart
-		lineChart = new LineChart<Number,Number>(xAxis,yAxis);
+		chart = new LineChart<Number,Number>(xAxis,yAxis);
+		update();
+	}	
 
-		lineChart.setTitle(title);
+	private void update() {
+		Platform.runLater(new Runnable() {
+			@Override public void run() {
+				chart.setTitle(title);
+				for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
+					Plotable2D plotable = plotables.get(functionIndex);
+					GraphStyle style = plotable.getStyle();
+					Color color = getColor(style);
+					if(color == null) color = getDefaultColor(functionIndex);
 
-		for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
-			Plotable2D plotable = plotables.get(functionIndex);
-			GraphStyle style = plotable.getStyle();
-			Color color = getColor(style);
-			if(color == null) color = getDefaultColor(functionIndex);
+					String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
 
-			String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
+					List<Point2D> plotableSeries = plotable.getSeries();
+					XYChart.Series series = null;
+					if(functionIndex < chart.getData().size()) series = chart.getData().get(functionIndex);
+					if(series == null) {
+						series = new XYChart.Series();
+						chart.getData().add(functionIndex,series);
+					}
+					series.setName(plotable.getName());
+					for(int i = 0; i<plotableSeries.size(); i++) {
+						XYChart.Data<Number, Number> data = null;
+						if(i < series.getData().size()) data = (Data<Number, Number>) series.getData().get(i);
+						if(data == null) {
+							data = new XYChart.Data(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
+							if(style.getShape() != null) {
+								data.setNode(new javafx.scene.shape.Rectangle(3,3, color));
+							}
+							series.getData().add(i, data);
+						}
+						data.setXValue(plotableSeries.get(i).getX());
+						data.setYValue(plotableSeries.get(i).getY());
+					}
 
-			List<Point2D> plotableSeries = plotable.getSeries();
-			XYChart.Series series = new XYChart.Series();
-			series.setName(plotable.getName());
-			for(int i = 0; i<plotableSeries.size(); i++) {
-				XYChart.Data<Number, Number> data = new XYChart.Data(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
-				if(style.getShape() != null) {
-					data.setNode(new javafx.scene.shape.Rectangle(3,3, color));
-				}
-				series.getData().add(data);
-			}
-			lineChart.getData().add(series);
+					/*
+					 * Apply style to line
+					 */
+					if(style.getStoke() != null) series.getNode().setStyle("-fx-stroke: rgba(" + rgba + ");");
+					else series.getNode().setStyle("-fx-stroke: none;");
 
-			/*
-			 * Apply style to line
-			 */
-			if(style.getStoke() != null) series.getNode().setStyle("-fx-stroke: rgba(" + rgba + ");");
-			else series.getNode().setStyle("-fx-stroke: none;");
-
-			/*
+					/*
 			String rgb = String.format("%d, %d, %d", (int) (color.getRed() * 255), (int) (color.getGreen() * 255),(int) (color.getBlue() * 255));
 			series.getNode().setStyle("-fx-stroke: rgba(" + rgb + ",1.0);  -fx-background-color: #FF0000, white;");
 			series.getNode().setStyle("-fx-stroke: rgba(" + rgb + ",1.0);  -fx-background-color: #FF0000, white;");
-			 */
-			//			lineChart.setStyle("-fx-create-symbols: false;");
+					 */
+					//			lineChart.setStyle("-fx-create-symbols: false;");
 
-			//			.default-color2.chart-line-symbol { -fx-background-color: #dda0dd, white; }
-		}
+					//			.default-color2.chart-line-symbol { -fx-background-color: #dda0dd, white; }
+				}
+				Node[] legendItems = chart.lookupAll(".chart-legend-item-symbol").toArray(new Node[0]);
+				for(int i = 0; i<legendItems.length; i++) {
+					Node legendItemNode = legendItems[i];
+					Color color = getDefaultColor(i);
+					String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
+					legendItemNode.setStyle("-fx-background-color: rgba("+rgba+");");
+					chart.applyCss();
+				}
+				chart.applyCss();
+			}
+		});
 	}
 
 	private Color getColor(GraphStyle style) {
@@ -139,28 +166,15 @@ public class Plot2DFX implements Plot {
 				frame.setVisible(true);
 				frame.setSize(800, 600);
 
-
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
 						init();
 
-						fxPanel.setScene(new Scene(lineChart,800,600));
+						fxPanel.setScene(new Scene(chart,800,600));
 					}
 				});
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						Node[] legendItems = lineChart.lookupAll(".chart-legend-item-symbol").toArray(new Node[0]);
-						for(int i = 0; i<legendItems.length; i++) {
-							Node legendItemNode = legendItems[i];
-							Color color = getDefaultColor(i);
-							String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
-							legendItemNode.setStyle("-fx-background-color: rgba("+rgba+");");
-							lineChart.applyCss();
-						}
-						lineChart.applyCss();
-					}});
+				update();
 			}
 		});
 	}
@@ -175,6 +189,16 @@ public class Plot2DFX implements Plot {
 
 	@Override
 	public void saveAsSVG(File file, int width, int height) throws IOException {
+	}
+
+	public Plot2DFX update(List<Plotable2D> plotables) {
+		this.plotables = plotables;
+		synchronized (updateLock) {
+			if(chart != null) {
+				update();
+			}
+		}
+		return this;
 	}
 
 	@Override
