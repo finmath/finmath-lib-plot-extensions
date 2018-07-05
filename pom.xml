@@ -1,30 +1,32 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<!-- For publishing to sonatype / central maven repo -->
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<groupId>net.finmath</groupId>
 	<artifactId>finmath-lib-plot-extensions</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>8</source>
-					<target>8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
-	<name>finmath-lib-plot-extensions</name>
-	<url>http://finmath.net/finmath-lib</url>
+	<name>finmath lib plot extensions</name>
+	<description>
+		finmath lib plot extensions provide convenient
+		plotting methods by providing consitent wrappers
+		to plot libraries.
+	</description>
+	<url>http://www.finmath.net/finmath-lib</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<src.main.java.dir>src/main/java</src.main.java.dir>
+		<src.test.java.dir>src/test/java</src.test.java.dir>
+		<junit.version>4.12</junit.version>
 	</properties>
 
 	<licenses>
@@ -45,12 +47,25 @@
 		</developer>
 	</developers>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>8</source>
+					<target>8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>net.finmath</groupId>
 			<artifactId>finmath-lib</artifactId>
 			<version>3.2.4</version>
-			<classifier></classifier>
+			<classifier />
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
