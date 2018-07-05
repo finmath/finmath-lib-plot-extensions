@@ -3,7 +3,7 @@
  * 
  * For examples see the demo package.
  * 
- * @see net.finmath.plots.demos
+ * @see net.finmath.plots.demo
  * @author Christian Fries
  */
 package net.finmath.plots;
