@@ -18,7 +18,6 @@ import net.finmath.marketdata.model.curves.CurveInterface;
 import net.finmath.marketdata.model.curves.locallinearregression.CurveEstimation;
 import net.finmath.plots.GraphStyle;
 import net.finmath.plots.Named;
-import net.finmath.plots.Plot;
 import net.finmath.plots.Plot2D;
 import net.finmath.plots.Plotable2D;
 import net.finmath.plots.PlotableFunction2D;
