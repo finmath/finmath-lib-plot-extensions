@@ -8,7 +8,6 @@ package net.finmath.plots;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author Christian Fries
