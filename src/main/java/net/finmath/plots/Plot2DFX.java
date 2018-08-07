@@ -6,14 +6,21 @@
 
 package net.finmath.plots;
 
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
 import java.util.stream.Collectors;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -21,10 +28,12 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 /**
@@ -46,6 +55,11 @@ public class Plot2DFX implements Plot {
 	LineChart<Number,Number> chart;
 	private Object updateLock = new Object();
 
+	public Plot2DFX(List<Plotable2D> plotables) {
+		super();
+		this.plotables = plotables;
+	}
+
 	public Plot2DFX(double xmin, double xmax, int numberOfPointsX, DoubleUnaryOperator function) {
 		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
 	}
@@ -54,9 +68,8 @@ public class Plot2DFX implements Plot {
 		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
 	}
 
-	public Plot2DFX(List<Plotable2D> plotables) {
-		super();
-		this.plotables = plotables;
+	public Plot2DFX() {
+		this(null);
 	}
 
 	private void init() {
@@ -73,6 +86,7 @@ public class Plot2DFX implements Plot {
 	private void update() {
 		Platform.runLater(new Runnable() {
 			@Override public void run() {
+				if(plotables == null) return;
 				chart.setTitle(title);
 				for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
 					Plotable2D plotable = plotables.get(functionIndex);
@@ -165,13 +179,15 @@ public class Plot2DFX implements Plot {
 				frame.add(fxPanel);
 				frame.setVisible(true);
 				frame.setSize(800, 600);
+//				frame.setSize(960, 540+22);
 
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
 						init();
 
-						fxPanel.setScene(new Scene(chart,800,600));
+						fxPanel.setScene(new Scene(chart, 800,600));
+//						fxPanel.setScene(new Scene(chart,960,540+22));
 					}
 				});
 				update();
@@ -181,6 +197,44 @@ public class Plot2DFX implements Plot {
 
 	@Override
 	public void saveAsJPG(File file, int width, int height) throws IOException {
+	}
+
+	public void saveAsPNG(File file, int width, int height) throws IOException {
+		if(chart == null) return;
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+
+					chart.setAnimated(false);
+
+					OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+
+					BufferedImage imageWithAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+					Graphics2D g2 = imageWithAlpha.createGraphics();
+					Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
+
+					WritableImage image = chart.getScene().snapshot(null);
+					ImageIO.write(javafx.embed.swing.SwingFXUtils.fromFXImage(image, null), "png", out);
+
+					/*
+		// Strip alpha channel
+		BufferedImage imageWithoutAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
+
+		Graphics2D graphics = imageWithoutAlpha.createGraphics();
+		graphics.drawImage(imageWithAlpha, null, 0, 0);
+
+		ImageIO.write(imageWithoutAlpha, "jpg", out);
+					 */
+
+					out.close();
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}});
 	}
 
 	@Override
@@ -216,6 +270,19 @@ public class Plot2DFX implements Plot {
 	@Override
 	public Plot2DFX setYAxisLabel(String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
+		return this;
+	}
+
+	public Plot2DFX setYAxisRange(Double min, Double max) {
+		if(chart == null || chart.getYAxis() == null) return this;
+		if(min == null || max == null) {
+			chart.getYAxis().setAutoRanging(true);
+		}
+		else {
+			chart.getYAxis().setAutoRanging(false);
+			((NumberAxis)chart.getYAxis()).setLowerBound(min);
+			((NumberAxis)chart.getYAxis()).setUpperBound(max);
+		}
 		return this;
 	}
 
