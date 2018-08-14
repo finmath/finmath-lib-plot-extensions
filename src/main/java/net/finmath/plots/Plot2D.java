@@ -199,9 +199,10 @@ public class Plot2D implements Plot {
 	 * @param isLegendVisible the isLegendVisible to set
 	 */
 	public Plot setIsLegendVisible(Boolean isLegendVisible) {
+		this.isLegendVisible = isLegendVisible;
 		synchronized (updateLock) {
 			if(chart != null) {
-				this.isLegendVisible = isLegendVisible;
+				// @TODO Add live update for legend.
 			}
 		}
 		return this;
