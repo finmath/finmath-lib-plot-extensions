@@ -42,7 +42,11 @@ public class Plot2DDemo3 {
 		LocalDate date = LocalDate.now();
 
 		Plot2D plot = new Plot2D(new ArrayList<Plotable2D>());		
-		plot.show();
+		plot
+		.setXAxisLabel("time")
+		.setYAxisLabel("value")
+		.setIsLegendVisible(true)
+		.show();
 
 		for(int bandwidthIndex=0; bandwidthIndex<20; bandwidthIndex++) {
 			double bandwidth = 10.0+bandwidthIndex*5;
@@ -75,10 +79,7 @@ public class Plot2DDemo3 {
 					);
 
 			plot.update(plotables)
-			.setTitle("Local Linear Regression (bandwidth = " + bandwidth + ")")
-			.setXAxisLabel("time")
-			.setYAxisLabel("value")
-			.setIsLegendVisible(true);
+			.setTitle("Local Linear Regression (bandwidth = " + bandwidth + ")");
 
 			Thread.sleep(500);
 		}
