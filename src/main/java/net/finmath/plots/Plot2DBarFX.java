@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.DoubleUnaryOperator;
 import java.util.stream.Collectors;
 
@@ -28,8 +29,11 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.Chart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.Chart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
@@ -41,45 +45,61 @@ import javafx.scene.paint.Color;
  * 
  * @author Christian Fries
  */
-public class Plot2DFX implements Plot {
+public class Plot2DBarFX implements Plot {
 
-	private List<Plotable2D> plotables;
+	private List<PlotableCategories> plotables;
 
 	private String title = "";
 	private String xAxisLabel = "x";
 	private String yAxisLabel = "y";
 	private NumberFormat xAxisNumberFormat;
 	private NumberFormat yAxisNumberFormat;
+	private Double yAxisLowerBound;
+	private Double yAxisUpperBound;
+	private Double yAxisTick;	
 	private Boolean isLegendVisible = false;
 
-	LineChart<Number,Number> chart;
+	StackedBarChart<String,Number> chart;
 	private Object updateLock = new Object();
 
-	public Plot2DFX(List<Plotable2D> plotables) {
+
+	public Plot2DBarFX(List<PlotableCategories> plotables, String title, String xAxisLabel, String yAxisLabel,
+			NumberFormat yAxisNumberFormat, Double yAxisLowerBound, Double yAxisUpperBound, Double yAxisTick,
+			Boolean isLegendVisible) {
+		super();
+		this.plotables = plotables;
+		this.title = title;
+		this.xAxisLabel = xAxisLabel;
+		this.yAxisLabel = yAxisLabel;
+		this.yAxisNumberFormat = yAxisNumberFormat;
+		this.yAxisLowerBound = yAxisLowerBound;
+		this.yAxisUpperBound = yAxisUpperBound;
+		this.yAxisTick = yAxisTick;
+		this.isLegendVisible = isLegendVisible;
+	}
+
+	public Plot2DBarFX(List<PlotableCategories> plotables) {
 		super();
 		this.plotables = plotables;
 	}
 
-	public Plot2DFX(double xmin, double xmax, int numberOfPointsX, DoubleUnaryOperator function) {
-		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
-	}
-
-	public Plot2DFX(double xmin, double xmax, int numberOfPointsX, List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
-		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
-	}
-
-	public Plot2DFX() {
-		this(null);
+	/**
+	 * 
+	 */
+	public Plot2DBarFX() {
 	}
 
 	private void init() {
 		//defining the axes
-		final NumberAxis xAxis = new NumberAxis();
-		final NumberAxis yAxis = new NumberAxis();
+		final CategoryAxis xAxis = new CategoryAxis();
+		xAxis.setAutoRanging(true);
+
+		final NumberAxis yAxis = new NumberAxis(yAxisLowerBound, yAxisUpperBound, yAxisTick);
 		xAxis.setLabel(xAxisLabel);
 		yAxis.setLabel(yAxisLabel);
 		//creating the chart
-		chart = new LineChart<Number,Number>(xAxis,yAxis);
+//		chart = new BarChart<String,Number>(xAxis,yAxis);
+		chart = new StackedBarChart<String,Number>(xAxis,yAxis);
 		update();
 	}	
 
@@ -89,14 +109,14 @@ public class Plot2DFX implements Plot {
 				if(plotables == null) return;
 				chart.setTitle(title);
 				for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
-					Plotable2D plotable = plotables.get(functionIndex);
+					PlotableCategories plotable = plotables.get(functionIndex);
 					GraphStyle style = plotable.getStyle();
 					Color color = getColor(style);
 					if(color == null) color = getDefaultColor(functionIndex);
 
 					String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
 
-					List<Point2D> plotableSeries = plotable.getSeries();
+					List<Category2D> plotableSeries = plotable.getSeries();
 					XYChart.Series series = null;
 					if(functionIndex < chart.getData().size()) series = chart.getData().get(functionIndex);
 					if(series == null) {
@@ -105,24 +125,24 @@ public class Plot2DFX implements Plot {
 					}
 					series.setName(plotable.getName());
 					for(int i = 0; i<plotableSeries.size(); i++) {
-						XYChart.Data<Number, Number> data = null;
-						if(i < series.getData().size()) data = (Data<Number, Number>) series.getData().get(i);
+						XYChart.Data<String, Number> data = null;
+						if(i < series.getData().size()) data = (Data<String, Number>) series.getData().get(i);
 						if(data == null) {
-							data = new XYChart.Data(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
+							data = new XYChart.Data(plotableSeries.get(i).getName(), plotableSeries.get(i).getValue());
 							if(style != null && style.getShape() != null) {
-								data.setNode(new javafx.scene.shape.Rectangle(3,3, color));
+//								data.setNode(new javafx.scene.shape.Rectangle(30,30, color));
 							}
 							series.getData().add(i, data);
 						}
-						data.setXValue(plotableSeries.get(i).getX());
-						data.setYValue(plotableSeries.get(i).getY());
+						data.setXValue(plotableSeries.get(i).getName());
+						data.setYValue(plotableSeries.get(i).getValue());
 					}
 
 					/*
 					 * Apply style to line
 					 */
-					if(style != null && style.getStoke() != null) series.getNode().setStyle("-fx-stroke: rgba(" + rgba + ");");
-					else series.getNode().setStyle("-fx-stroke: none;");
+//					if(style != null && style.getStoke() != null) series.getNode().setStyle("-fx-stroke: rgba(" + rgba + ");");
+//					else series.getNode().setStyle("-fx-stroke: none;");
 
 					/*
 			String rgb = String.format("%d, %d, %d", (int) (color.getRed() * 255), (int) (color.getGreen() * 255),(int) (color.getBlue() * 255));
@@ -133,6 +153,7 @@ public class Plot2DFX implements Plot {
 
 					//			.default-color2.chart-line-symbol { -fx-background-color: #dda0dd, white; }
 				}
+				/*
 				Node[] legendItems = chart.lookupAll(".chart-legend-item-symbol").toArray(new Node[0]);
 				for(int i = 0; i<legendItems.length; i++) {
 					Node legendItemNode = legendItems[i];
@@ -142,6 +163,7 @@ public class Plot2DFX implements Plot {
 					chart.applyCss();
 				}
 				chart.applyCss();
+				*/
 			}
 		});
 	}
@@ -166,6 +188,11 @@ public class Plot2DFX implements Plot {
 		default:
 			return new Color(0, 0,  0, 1.0);
 		}
+	}
+
+	public Chart get() {
+		init();
+		return chart;
 	}
 
 	@Override
@@ -193,11 +220,6 @@ public class Plot2DFX implements Plot {
 				update();
 			}
 		});
-	}
-
-	public Chart get() {
-		init();
-		return chart;
 	}
 
 	@Override
@@ -250,7 +272,7 @@ public class Plot2DFX implements Plot {
 	public void saveAsSVG(File file, int width, int height) throws IOException {
 	}
 
-	public Plot2DFX update(List<Plotable2D> plotables) {
+	public Plot2DBarFX update(List<PlotableCategories> plotables) {
 		this.plotables = plotables;
 		synchronized (updateLock) {
 			if(chart != null) {
@@ -261,24 +283,24 @@ public class Plot2DFX implements Plot {
 	}
 
 	@Override
-	public Plot2DFX setTitle(String title) {
+	public Plot2DBarFX setTitle(String title) {
 		this.title = title;
 		return this;
 	}
 
 	@Override
-	public Plot2DFX setXAxisLabel(String xAxisLabel) {
+	public Plot2DBarFX setXAxisLabel(String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		return this;
 	}
 
 	@Override
-	public Plot2DFX setYAxisLabel(String yAxisLabel) {
+	public Plot2DBarFX setYAxisLabel(String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
 		return this;
 	}
 
-	public Plot2DFX setYAxisRange(Double min, Double max) {
+	public Plot2DBarFX setYAxisRange(Double min, Double max) {
 		if(chart == null || chart.getYAxis() == null) return this;
 		if(min == null || max == null) {
 			chart.getYAxis().setAutoRanging(true);
