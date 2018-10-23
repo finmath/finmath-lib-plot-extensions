@@ -51,19 +51,43 @@ import net.finmath.time.TimeDiscretization;
  *
  * @author Christian Fries
  */
-public class Plot2DDemo6 {
+public class SmartDerivativeContractVisualization {
 
+	private List<Point2D> seriesMarketValues;
+	Plot2DBarFX plot;
+	Plot2DFX plot2;
+	
 	/**
 	 * Run the demo.
 	 * 
 	 * @param args Not used.
-	 * @throws Exception Exception from the graphics backend.
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void main(String args[]) throws Exception {
 
-		List<Point2D> seriesMarketValues = new ArrayList<>();
+		SmartDerivativeContractVisualization sdcVisual = new SmartDerivativeContractVisualization();
+		sdcVisual.start();
+		
+		double marginBuffer = 50;
 
-		Plot2DBarFX plot = new Plot2DBarFX(null,
+		Double marketValue = 0.0;
+		for(int i=0; i<100; i++) {
+			double marginCall = 90*(new Random()).nextDouble()-45;
+			sdcVisual.updateWithValue(marginBuffer, i, marketValue, marginCall);
+			marketValue += marginCall;
+			sdcVisual.updateWithValue(marginBuffer, i, null, 0);
+		}
+	}
+	
+	public SmartDerivativeContractVisualization() {
+		super();
+	}
+
+	public void start() throws Exception {
+
+		seriesMarketValues = new ArrayList<>();
+
+		plot = new Plot2DBarFX(null,
 				"Smart Contract Accounts",
 				"Account",
 				"Value",
@@ -72,7 +96,7 @@ public class Plot2DDemo6 {
 				150.0,
 				10.0, false);
 
-		Plot2DFX plot2 = new Plot2DFX();
+		plot2 = new Plot2DFX();
 		plot2.setIsLegendVisible(false);
 		plot2.setTitle("Market Value");
 		plot2.setXAxisLabel("Date");
@@ -105,19 +129,9 @@ public class Plot2DDemo6 {
 			}
 		});
 
-
-		double sum = 0;
-		for(int i=0; i<100; i++) {
-			double value = 80*(new Random()).nextDouble()-40;
-			updateWithValue(plot, plot2, null, 50, i, sum, value);
-			sum += value;
-			Thread.sleep(500);
-			updateWithValue(plot, plot2, seriesMarketValues, 50, i, sum, 0);
-			Thread.sleep(500);
-		}
 	}
 
-	static void updateWithValue(Plot2DBarFX plot, Plot2DFX plot2, List<Point2D> seriesMarketValues, double base, double x, double value, double increment) throws InterruptedException {
+	void updateWithValue(double base, double x, Double value, double increment) throws InterruptedException {
 		List<Category2D> density1 = new ArrayList<>();
 		density1.add(new Category2D("Us", base+Math.min(0,+increment)));
 		density1.add(new Category2D("Counterpart", base+Math.min(0,-increment)));
@@ -148,6 +162,7 @@ public class Plot2DDemo6 {
 				return density1;
 			}
 		});		
+
 		plotables.add(new PlotableCategories() {
 
 			@Override
@@ -186,7 +201,7 @@ public class Plot2DDemo6 {
 
 		plot.update(plotables);
 
-		if(seriesMarketValues != null) {
+		if(value != null) {
 			List<Plotable2D> plotables2 = new ArrayList<>();
 			plotables2.add(new Plotable2D() {
 
@@ -211,6 +226,6 @@ public class Plot2DDemo6 {
 			plot2.update(plotables2);
 		}
 
-
+		Thread.sleep(500);
 	}
 }
