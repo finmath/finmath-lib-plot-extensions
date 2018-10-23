@@ -213,7 +213,7 @@ public class SmartDerivativeContractVisualization {
 
 				@Override
 				public GraphStyle getStyle() {
-					return new GraphStyle(new Ellipse2D.Float(-1.0f,-1.0f,2.0f,2.0f), new BasicStroke(1.0f), new Color(0.0f, 0.0f, 1.0f));
+					return new GraphStyle(new Ellipse2D.Float(-3.0f,-3.0f,6.0f,6.0f), new BasicStroke(1.0f), new Color(1.0f, 0.0f, 0.0f));
 				}
 
 				@Override
