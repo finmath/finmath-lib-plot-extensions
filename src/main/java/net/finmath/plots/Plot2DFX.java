@@ -110,7 +110,9 @@ public class Plot2DFX implements Plot {
 						if(data == null) {
 							data = new XYChart.Data(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
 							if(style != null && style.getShape() != null) {
-								data.setNode(new javafx.scene.shape.Rectangle(10,10, color));
+//								data.setNode(new javafx.scene.shape.Rectangle(10,10, color));
+								data.setNode(new javafx.scene.shape.Circle(6, color));
+								
 							}
 							series.getData().add(i, data);
 						}

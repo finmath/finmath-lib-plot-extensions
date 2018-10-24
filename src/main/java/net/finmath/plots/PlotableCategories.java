@@ -6,7 +6,6 @@
 package net.finmath.plots;
 
 import java.util.List;
-import java.util.Map;
 
 public interface PlotableCategories extends Plotable {
 

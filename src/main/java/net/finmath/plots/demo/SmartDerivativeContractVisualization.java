@@ -8,43 +8,27 @@ package net.finmath.plots.demo;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Rectangle;
-import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.function.DoubleUnaryOperator;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.chart.Chart;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.Node;
 import javafx.scene.Group;
-import net.finmath.montecarlo.BrownianMotion;
-import net.finmath.montecarlo.BrownianMotionInterface;
+import javafx.scene.Scene;
+import javafx.scene.layout.FlowPane;
 import net.finmath.plots.Category2D;
 import net.finmath.plots.GraphStyle;
-import net.finmath.plots.Named;
-import net.finmath.plots.Plot2D;
 import net.finmath.plots.Plot2DBarFX;
 import net.finmath.plots.Plot2DFX;
 import net.finmath.plots.Plotable2D;
 import net.finmath.plots.PlotableCategories;
-import net.finmath.plots.PlotableFunction2D;
-import net.finmath.plots.PlotablePoints2D;
 import net.finmath.plots.Point2D;
-import net.finmath.stochastic.RandomVariableInterface;
-import net.finmath.time.TimeDiscretization;
 
 /**
  * Plots the regression estimation of a curve.

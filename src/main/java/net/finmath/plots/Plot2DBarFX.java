@@ -15,11 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.NumberFormat;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.function.DoubleUnaryOperator;
-import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -27,14 +23,11 @@ import javax.swing.SwingUtilities;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.image.WritableImage;
