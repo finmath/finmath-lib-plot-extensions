@@ -28,7 +28,7 @@ import net.finmath.plots.jfreechart.JFreeChartUtilities;
 
 /**
  * Small convenient wrapper for JFreeChart line plot derived.
- * 
+ *
  * @author Christian Fries
  */
 public class Plot2D implements Plot {
@@ -76,19 +76,19 @@ public class Plot2D implements Plot {
 			for(int i = 0; i<plotableSeries.size(); i++) {
 				series.add(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
 			}
-			data.addSeries(series);	
+			data.addSeries(series);
 
 			GraphStyle style = plotable.getStyle();
 			Color color = style != null ? plotable.getStyle().getColor() : null;
-			if(color == null) color = getDefaultColor(functionIndex);			
+			if(color == null) color = getDefaultColor(functionIndex);
 			renderer.setSeriesPaint(functionIndex, color);
 
 			if(style != null) {
 				renderer.setSeriesShape(functionIndex, plotable.getStyle().getShape());
 				renderer.setSeriesStroke(functionIndex, plotable.getStyle().getStoke());
+				renderer.setSeriesShapesVisible(functionIndex, style.getShape() != null);
+				renderer.setSeriesLinesVisible(functionIndex, style.getStoke() != null);
 			}
-			renderer.setSeriesShapesVisible(functionIndex, style != null && style.getShape() != null);
-			renderer.setSeriesLinesVisible(functionIndex, style != null && style.getStoke() != null);
 		}
 
 		synchronized (updateLock) {
@@ -114,7 +114,7 @@ public class Plot2D implements Plot {
 	public void show() {
 		init();
 		update(plotables);
-		JPanel chartPanel = new ChartPanel(chart, 
+		JPanel chartPanel = new ChartPanel(chart,
 				800, 400,   // size
 				128, 128,   // minimum size
 				2024, 2024, // maximum size
@@ -128,7 +128,7 @@ public class Plot2D implements Plot {
 				frame.setVisible(true);
 				frame.pack();
 			}
-		});	
+		});
 	}
 
 	@Override

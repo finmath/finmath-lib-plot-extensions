@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Christian P. Fries, Germany. All rights reserved. Contact: email@christianfries.com.
+https://java.com/de/download/mac_download.jsp * (c) Copyright Christian P. Fries, Germany. All rights reserved. Contact: email@christianfries.com.
  *
  * Created on 21 May 2018
  */
@@ -28,7 +28,7 @@ public class Plot2DDemoBlackScholesPaths {
 	/**
 	 * Run the demo.
 	 * Plots the value of an option under the Black-Scholes model as a function of strike and time-to-maturity.
-	 * 
+	 *
 	 * @param args Not used.
 	 * @throws Exception Exception from the graphics backend.
 	 */
@@ -57,7 +57,7 @@ public class Plot2DDemoBlackScholesPaths {
 		Plot plot = new PlotProcess2D(timeDiscretization, new Named<>("Black-Scholes",function), 100 /* maxNumberOfPaths */);
 		plot.setTitle("Black-Scholes Model Path").setXAxisLabel("time").setYAxisLabel("value");
 		plot.show();
-		
+
 		// To save as PDF uncomment the following line
 		// plot.saveAsPDF(new File("Black-Scholes Model Path.pdf"), 800, 400);
 	}

@@ -24,7 +24,7 @@ public class Plot2DDemo2 {
 	/**
 	 * Run the demo.
 	 * Plots the value of an option under the Black-Scholes model as a function of strike and time-to-maturity.
-	 * 
+	 *
 	 * @param args Not used.
 	 * @throws Exception Exception from the graphics backend.
 	 */
@@ -53,9 +53,9 @@ public class Plot2DDemo2 {
 		};
 
 		Plot plot = new Plot2D(0.0, 300.0, 100, Arrays.asList(
-				new Named<DoubleUnaryOperator>("Maturity 1", function), 
+				new Named<DoubleUnaryOperator>("Maturity 1", function),
 				new Named<DoubleUnaryOperator>("Maturity 2", function2)));
-		
+
 		plot.setTitle("Black-Scholes Model European Option Value").setXAxisLabel("strike").setYAxisLabel("value").setIsLegendVisible(true);
 		plot.show();
 	}

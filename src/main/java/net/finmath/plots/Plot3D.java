@@ -28,7 +28,7 @@ import org.jzy3d.plot3d.text.renderers.TextBitmapRenderer;
 
 /**
  * Small convenient wrapper for JZY3D derived from the JZY3D SurfaceDemo.
- * 
+ *
  * @author Christian Fries
  */
 public class Plot3D implements Plot {

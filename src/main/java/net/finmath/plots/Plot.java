@@ -18,7 +18,7 @@ public interface Plot {
 	void show() throws Exception;
 
 	void saveAsJPG(File file, int width, int height) throws IOException;
-	
+
 	void saveAsPDF(File file, int width, int height) throws IOException;
 
 	void saveAsSVG(File file, int width, int height) throws IOException;
@@ -30,6 +30,6 @@ public interface Plot {
 	Plot setYAxisLabel(String yAxisLabel);
 
 	Plot setZAxisLabel(String zAxisLabel);
-	
+
 	Plot setIsLegendVisible(Boolean isLegendVisible);
 }

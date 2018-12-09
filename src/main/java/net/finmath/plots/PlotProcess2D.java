@@ -27,7 +27,7 @@ import net.finmath.time.TimeDiscretizationInterface;
 
 /**
  * Small convenient wrapper for JFreeChart line plot of a stochastic process.
- * 
+ *
  * @author Christian Fries
  */
 public class PlotProcess2D implements Plot {
@@ -45,10 +45,10 @@ public class PlotProcess2D implements Plot {
 
 	private transient JFreeChart chart;
 
-	
+
 	/**
 	 * Plot the first (maxNumberOfPaths) paths of a time discrete stochastic process.
-	 * 
+	 *
 	 * @param timeDiscretization The time discretization to be used for the x-axis.
 	 * @param process The stochastic process to be plotted against the y-axsis (the first n paths are plotted).
 	 * @param maxNumberOfPaths Maximum number of path (n) to be plotted.
@@ -62,7 +62,7 @@ public class PlotProcess2D implements Plot {
 
 	/**
 	 * Plot the first 100 paths of a time discrete stochastic process.
-	 * 
+	 *
 	 * @param timeDiscretization The time discretization to be used for the x-axis.
 	 * @param process The stochastic process to be plotted against the y-axsis.
 	 */
@@ -80,14 +80,14 @@ public class PlotProcess2D implements Plot {
 					series = new XYSeries(pathIndex);
 					seriesList.add(pathIndex, series);
 				}
-				series.add(time, randomVariable.get(pathIndex));				
+				series.add(time, randomVariable.get(pathIndex));
 			}
 		}
 		XYSeriesCollection data = new XYSeriesCollection();
 		for(XYSeries series : seriesList) {
-			data.addSeries(series);			
+			data.addSeries(series);
 		}
-		
+
 		StandardXYItemRenderer renderer	= new StandardXYItemRenderer(StandardXYItemRenderer.LINES);
 		renderer.setSeriesPaint(0, new java.awt.Color(255, 0,  0));
 		renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
@@ -99,7 +99,7 @@ public class PlotProcess2D implements Plot {
 	@Override
 	public void show() {
 		init();
-		JPanel chartPanel = new ChartPanel(chart, 
+		JPanel chartPanel = new ChartPanel(chart,
 				800, 400,   // size
 				128, 128,   // minimum size
 				2024, 2024, // maximum size
@@ -113,7 +113,7 @@ public class PlotProcess2D implements Plot {
 				frame.setVisible(true);
 				frame.pack();
 			}
-		});	
+		});
 	}
 
 	@Override

@@ -18,23 +18,23 @@ import org.jfree.chart.title.LegendTitle;
  * @author Christian Fries
  */
 public class StyleGuide {
-	
+
 	static Font titleFont;
-    static Font axisLabelFont;
-    static Font annotationFont;
-    static Font tickLabelFont;
+	static Font axisLabelFont;
+	static Font annotationFont;
+	static Font tickLabelFont;
 
-    private Color chartBackgroundPaint;
-    private Color plotBackgroundPaint;
+	private Color chartBackgroundPaint;
+	private Color plotBackgroundPaint;
 
-    public StyleGuide(double scale) {
-        titleFont			= new Font("SansSerif", Font.PLAIN, (int)Math.round(10*scale));
-        axisLabelFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(10*scale));
-        annotationFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(8*scale));
-        tickLabelFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(9*scale));
+	public StyleGuide(double scale) {
+		titleFont			= new Font("SansSerif", Font.PLAIN, (int)Math.round(10*scale));
+		axisLabelFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(10*scale));
+		annotationFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(8*scale));
+		tickLabelFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(9*scale));
 
-        chartBackgroundPaint	= new java.awt.Color(247, 247, 247);
-        plotBackgroundPaint		= new java.awt.Color(255, 255, 255);
+		chartBackgroundPaint	= new java.awt.Color(247, 247, 247);
+		plotBackgroundPaint		= new java.awt.Color(255, 255, 255);
 	}
 
 	public static void applyStyleToChart(JFreeChart chart) {
@@ -44,57 +44,57 @@ public class StyleGuide {
 	public static void applyStyleToXYPlot(XYPlot xyPlot) {
 		new StyleGuide(1).applyStyleToXYPlot2(xyPlot);
 	}
-    
+
 	public void applyStyleToChart2(JFreeChart chart) {
 		chart.setBackgroundPaint(chartBackgroundPaint);
 
 		if(chart.getTitle() != null) {
 			chart.getTitle().setFont(titleFont);
 		}
-		
+
 		LegendTitle legend = chart.getLegend();
 		if(legend != null) {
 			legend.setBackgroundPaint(chartBackgroundPaint);
 		}
-		
+
 		XYPlot xyPlot = chart.getXYPlot();
 		if(xyPlot != null) {
 			applyStyleToXYPlot2(xyPlot);
 		}
 	}
-	
+
 	public void applyStyleToXYPlot2(XYPlot xyPlot) {
-	    if(xyPlot.getDomainAxis() != null) {
-	        xyPlot.getDomainAxis().setTickLabelFont(tickLabelFont);
-	        xyPlot.getDomainAxis().setLabelFont(axisLabelFont);
-		    xyPlot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-	    }
-	    if(xyPlot.getRangeAxis() != null) {
-	        xyPlot.getRangeAxis().setTickLabelFont(tickLabelFont);
-	        xyPlot.getRangeAxis().setLabelFont(axisLabelFont);
-		    xyPlot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-	    }
-	    xyPlot.setBackgroundPaint(plotBackgroundPaint);
+		if(xyPlot.getDomainAxis() != null) {
+			xyPlot.getDomainAxis().setTickLabelFont(tickLabelFont);
+			xyPlot.getDomainAxis().setLabelFont(axisLabelFont);
+			xyPlot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+		}
+		if(xyPlot.getRangeAxis() != null) {
+			xyPlot.getRangeAxis().setTickLabelFont(tickLabelFont);
+			xyPlot.getRangeAxis().setLabelFont(axisLabelFont);
+			xyPlot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+		}
+		xyPlot.setBackgroundPaint(plotBackgroundPaint);
 	}
 
 	/**
-     * @return Font for axis labels.
-     */
-    public static Font getAxisLabelFont() {
-        return new Font("SansSerif", Font.PLAIN, Math.round(10*1));
-    }
+	 * @return Font for axis labels.
+	 */
+	public static Font getAxisLabelFont() {
+		return new Font("SansSerif", Font.PLAIN, Math.round(10*1));
+	}
 
 	/**
-     * @return Font for axis tick labels.
-     */
-    public static Font getTickLabelFont() {
-        return new Font("SansSerif", Font.PLAIN, Math.round(9*1));
-    }
+	 * @return Font for axis tick labels.
+	 */
+	public static Font getTickLabelFont() {
+		return new Font("SansSerif", Font.PLAIN, Math.round(9*1));
+	}
 
 	/**
-     * @return Title font.
-     */
-    public static Font getTitleFont() {
-        return new Font("SansSerif", Font.PLAIN, Math.round(10*1));
-    }
+	 * @return Title font.
+	 */
+	public static Font getTitleFont() {
+		return new Font("SansSerif", Font.PLAIN, Math.round(10*1));
+	}
 }

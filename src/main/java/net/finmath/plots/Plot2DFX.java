@@ -38,7 +38,7 @@ import javafx.scene.paint.Color;
 
 /**
  * Small convenient wrapper for Java FX line plot.
- * 
+ *
  * @author Christian Fries
  */
 public class Plot2DFX implements Plot {
@@ -81,7 +81,7 @@ public class Plot2DFX implements Plot {
 		//creating the chart
 		chart = new LineChart<Number,Number>(xAxis,yAxis);
 		update();
-	}	
+	}
 
 	private void update() {
 		Platform.runLater(new Runnable() {
@@ -110,9 +110,9 @@ public class Plot2DFX implements Plot {
 						if(data == null) {
 							data = new XYChart.Data(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
 							if(style != null && style.getShape() != null) {
-//								data.setNode(new javafx.scene.shape.Rectangle(10,10, color));
+								//								data.setNode(new javafx.scene.shape.Rectangle(10,10, color));
 								data.setNode(new javafx.scene.shape.Circle(6, color));
-								
+
 							}
 							series.getData().add(i, data);
 						}
@@ -181,7 +181,7 @@ public class Plot2DFX implements Plot {
 				frame.add(fxPanel);
 				frame.setVisible(true);
 				frame.setSize(800, 600);
-//				frame.setSize(960, 540+22);
+				//				frame.setSize(960, 540+22);
 
 				Platform.runLater(new Runnable() {
 					@Override
@@ -189,7 +189,7 @@ public class Plot2DFX implements Plot {
 						init();
 
 						fxPanel.setScene(new Scene(chart, 800,600));
-//						fxPanel.setScene(new Scene(chart,960,540+22));
+						//						fxPanel.setScene(new Scene(chart,960,540+22));
 					}
 				});
 				update();

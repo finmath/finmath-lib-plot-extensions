@@ -22,7 +22,7 @@ public class Plot2DDemo {
 	/**
 	 * Run the demo.
 	 * Plots the value of an option under the Black-Scholes model as a function of strike and time-to-maturity.
-	 * 
+	 *
 	 * @param args Not used.
 	 * @throws Exception Exception from the graphics backend.
 	 */

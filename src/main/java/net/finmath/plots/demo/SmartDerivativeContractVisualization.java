@@ -40,18 +40,18 @@ public class SmartDerivativeContractVisualization {
 	private List<Point2D> seriesMarketValues;
 	Plot2DBarFX plot;
 	Plot2DFX plot2;
-	
+
 	/**
 	 * Run the demo.
-	 * 
+	 *
 	 * @param args Not used.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static void main(String args[]) throws Exception {
 
 		SmartDerivativeContractVisualization sdcVisual = new SmartDerivativeContractVisualization();
 		sdcVisual.start();
-		
+
 		double marginBuffer = 50;
 
 		Double marketValue = 0.0;
@@ -63,7 +63,7 @@ public class SmartDerivativeContractVisualization {
 			sdcVisual.updateWithValue(marginBuffer, i, null, 0);
 		}
 	}
-	
+
 	public SmartDerivativeContractVisualization() {
 		super();
 	}
@@ -146,7 +146,7 @@ public class SmartDerivativeContractVisualization {
 			public List<Category2D> getSeries() {
 				return density1;
 			}
-		});		
+		});
 
 		plotables.add(new PlotableCategories() {
 

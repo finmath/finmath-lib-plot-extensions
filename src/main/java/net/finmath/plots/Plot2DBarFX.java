@@ -24,10 +24,10 @@ import javax.swing.SwingUtilities;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.image.WritableImage;
@@ -35,7 +35,7 @@ import javafx.scene.paint.Color;
 
 /**
  * Small convenient wrapper for Java FX line plot.
- * 
+ *
  * @author Christian Fries
  */
 public class Plot2DBarFX implements Plot {
@@ -49,10 +49,10 @@ public class Plot2DBarFX implements Plot {
 	private NumberFormat yAxisNumberFormat;
 	private Double yAxisLowerBound;
 	private Double yAxisUpperBound;
-	private Double yAxisTick;	
+	private Double yAxisTick;
 	private Boolean isLegendVisible = false;
 
-	StackedBarChart<String,Number> chart;
+	BarChart<String,Number> chart;
 	private Object updateLock = new Object();
 
 
@@ -77,7 +77,7 @@ public class Plot2DBarFX implements Plot {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Plot2DBarFX() {
 	}
@@ -85,16 +85,16 @@ public class Plot2DBarFX implements Plot {
 	private void init() {
 		//defining the axes
 		final CategoryAxis xAxis = new CategoryAxis();
-		xAxis.setAutoRanging(true);
+		xAxis.setAutoRanging(false);
 
 		final NumberAxis yAxis = new NumberAxis(yAxisLowerBound, yAxisUpperBound, yAxisTick);
 		xAxis.setLabel(xAxisLabel);
 		yAxis.setLabel(yAxisLabel);
 		//creating the chart
-//		chart = new BarChart<String,Number>(xAxis,yAxis);
-		chart = new StackedBarChart<String,Number>(xAxis,yAxis);
+		chart = new BarChart<String,Number>(xAxis,yAxis);
+		//		chart = new StackedBarChart<String,Number>(xAxis,yAxis);
 		update();
-	}	
+	}
 
 	private void update() {
 		Platform.runLater(new Runnable() {
@@ -123,7 +123,7 @@ public class Plot2DBarFX implements Plot {
 						if(data == null) {
 							data = new XYChart.Data(plotableSeries.get(i).getName(), plotableSeries.get(i).getValue());
 							if(style != null && style.getShape() != null) {
-//								data.setNode(new javafx.scene.shape.Rectangle(30,30, color));
+								//								data.setNode(new javafx.scene.shape.Rectangle(30,30, color));
 							}
 							series.getData().add(i, data);
 						}
@@ -134,8 +134,8 @@ public class Plot2DBarFX implements Plot {
 					/*
 					 * Apply style to line
 					 */
-//					if(style != null && style.getStoke() != null) series.getNode().setStyle("-fx-stroke: rgba(" + rgba + ");");
-//					else series.getNode().setStyle("-fx-stroke: none;");
+					//					if(style != null && style.getStoke() != null) series.getNode().setStyle("-fx-stroke: rgba(" + rgba + ");");
+					//					else series.getNode().setStyle("-fx-stroke: none;");
 
 					/*
 			String rgb = String.format("%d, %d, %d", (int) (color.getRed() * 255), (int) (color.getGreen() * 255),(int) (color.getBlue() * 255));
@@ -156,7 +156,7 @@ public class Plot2DBarFX implements Plot {
 					chart.applyCss();
 				}
 				chart.applyCss();
-				*/
+				 */
 			}
 		});
 	}
@@ -199,7 +199,7 @@ public class Plot2DBarFX implements Plot {
 				frame.add(fxPanel);
 				frame.setVisible(true);
 				frame.setSize(800, 600);
-//				frame.setSize(960, 540+22);
+				//				frame.setSize(960, 540+22);
 
 				Platform.runLater(new Runnable() {
 					@Override
@@ -207,7 +207,7 @@ public class Plot2DBarFX implements Plot {
 						init();
 
 						fxPanel.setScene(new Scene(chart, 800,600));
-//						fxPanel.setScene(new Scene(chart,960,540+22));
+						//						fxPanel.setScene(new Scene(chart,960,540+22));
 					}
 				});
 				update();

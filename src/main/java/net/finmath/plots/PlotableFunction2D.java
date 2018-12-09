@@ -17,7 +17,7 @@ public class PlotableFunction2D implements Plotable2D {
 	private int numberOfPointsX;
 	private Named<DoubleUnaryOperator> namedFunction;
 	private GraphStyle style;
-	
+
 	public PlotableFunction2D(double xmin, double xmax, int numberOfPointsX, Named<DoubleUnaryOperator> namedFunction, GraphStyle style) {
 		super();
 		this.xmin = xmin;

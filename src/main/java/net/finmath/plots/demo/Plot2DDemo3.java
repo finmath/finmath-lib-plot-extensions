@@ -33,7 +33,7 @@ public class Plot2DDemo3 {
 
 	/**
 	 * Run the demo.
-	 * 
+	 *
 	 * @param args Not used.
 	 * @throws Exception Exception from the graphics backend.
 	 */
@@ -41,7 +41,7 @@ public class Plot2DDemo3 {
 
 		LocalDate date = LocalDate.now();
 
-		Plot2D plot = new Plot2D(new ArrayList<Plotable2D>());		
+		Plot2D plot = new Plot2D(new ArrayList<Plotable2D>());
 		plot
 		.setXAxisLabel("time")
 		.setYAxisLabel("value")

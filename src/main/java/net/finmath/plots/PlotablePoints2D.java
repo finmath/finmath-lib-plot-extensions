@@ -12,7 +12,7 @@ public class PlotablePoints2D implements Plotable2D {
 	private String name;
 	private List<Point2D> series;
 	private GraphStyle style;
-	
+
 	public PlotablePoints2D(String name, List<Point2D> series, GraphStyle style) {
 		super();
 		this.name = name;

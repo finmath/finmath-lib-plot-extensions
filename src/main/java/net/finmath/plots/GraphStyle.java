@@ -13,15 +13,15 @@ import java.awt.Stroke;
  * A stile for a given graph specifying color, shape and stroke.
  * If shape is null, no points will be drawn.
  * If stroke is null, no line will be drawn.
- * 
+ *
  * @author Christian Fries
  */
 public class GraphStyle {
-	
+
 	private Shape shape;
 	private Stroke stoke;
 	private Color color;
-	
+
 	public GraphStyle(Shape shape, Stroke stoke, Color color) {
 		super();
 		this.shape = shape;
