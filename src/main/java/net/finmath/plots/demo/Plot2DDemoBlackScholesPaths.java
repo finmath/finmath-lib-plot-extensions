@@ -9,7 +9,7 @@ package net.finmath.plots.demo;
 import java.util.function.DoubleFunction;
 
 import net.finmath.exception.CalculationException;
-import net.finmath.montecarlo.assetderivativevaluation.AssetModelMonteCarloSimulationInterface;
+import net.finmath.montecarlo.assetderivativevaluation.AssetModelMonteCarloSimulationModel;
 import net.finmath.montecarlo.assetderivativevaluation.MonteCarloBlackScholesModel;
 import net.finmath.plots.Named;
 import net.finmath.plots.Plot;
@@ -42,7 +42,7 @@ public class Plot2DDemoBlackScholesPaths {
 		final int numberOfPaths = 1000;
 
 		TimeDiscretization timeDiscretization = new TimeDiscretizationFromArray(0.0, numberOfTimeSteps, deltaT);
-		AssetModelMonteCarloSimulationInterface blackScholesMonteCarlo = new MonteCarloBlackScholesModel(timeDiscretization, numberOfPaths, initialValue, riskFreeRate, volatility);
+		AssetModelMonteCarloSimulationModel blackScholesMonteCarlo = new MonteCarloBlackScholesModel(timeDiscretization, numberOfPaths, initialValue, riskFreeRate, volatility);
 
 		DoubleFunction<RandomVariable> function = (time) -> {
 			try {
