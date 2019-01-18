@@ -22,8 +22,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import net.finmath.plots.jfreechart.JFreeChartUtilities;
-import net.finmath.stochastic.RandomVariableInterface;
-import net.finmath.time.TimeDiscretizationInterface;
+import net.finmath.stochastic.RandomVariable;
+import net.finmath.time.TimeDiscretization;
 
 /**
  * Small convenient wrapper for JFreeChart line plot of a stochastic process.
@@ -32,8 +32,8 @@ import net.finmath.time.TimeDiscretizationInterface;
  */
 public class PlotProcess2D implements Plot {
 
-	private final TimeDiscretizationInterface timeDiscretization;
-	private final Named<DoubleFunction<RandomVariableInterface>> process;
+	private final TimeDiscretization timeDiscretization;
+	private final Named<DoubleFunction<RandomVariable>> process;
 	private final int maxNumberOfPaths;
 
 	private String title = "";
@@ -49,11 +49,11 @@ public class PlotProcess2D implements Plot {
 	/**
 	 * Plot the first (maxNumberOfPaths) paths of a time discrete stochastic process.
 	 *
-	 * @param timeDiscretization The time discretization to be used for the x-axis.
+	 * @param timeDiscretizationFromArray The time discretization to be used for the x-axis.
 	 * @param process The stochastic process to be plotted against the y-axsis (the first n paths are plotted).
 	 * @param maxNumberOfPaths Maximum number of path (n) to be plotted.
 	 */
-	public PlotProcess2D(TimeDiscretizationInterface timeDiscretization, Named<DoubleFunction<RandomVariableInterface>> process, int maxNumberOfPaths) {
+	public PlotProcess2D(TimeDiscretization timeDiscretization, Named<DoubleFunction<RandomVariable>> process, int maxNumberOfPaths) {
 		super();
 		this.timeDiscretization = timeDiscretization;
 		this.process = process;
@@ -63,17 +63,17 @@ public class PlotProcess2D implements Plot {
 	/**
 	 * Plot the first 100 paths of a time discrete stochastic process.
 	 *
-	 * @param timeDiscretization The time discretization to be used for the x-axis.
+	 * @param timeDiscretizationFromArray The time discretization to be used for the x-axis.
 	 * @param process The stochastic process to be plotted against the y-axsis.
 	 */
-	public PlotProcess2D(TimeDiscretizationInterface timeDiscretization, Named<DoubleFunction<RandomVariableInterface>> process) {
+	public PlotProcess2D(TimeDiscretization timeDiscretization, Named<DoubleFunction<RandomVariable>> process) {
 		this(timeDiscretization, process, 100);
 	}
 
 	private void init() {
 		ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>();
 		for(double time : timeDiscretization) {
-			RandomVariableInterface randomVariable = process.get().apply(time);
+			RandomVariable randomVariable = process.get().apply(time);
 			for(int pathIndex=0; pathIndex<Math.min(randomVariable.size(),maxNumberOfPaths); pathIndex++) {
 				XYSeries series = pathIndex < seriesList.size() ? seriesList.get(pathIndex) : null;
 				if(series == null) {

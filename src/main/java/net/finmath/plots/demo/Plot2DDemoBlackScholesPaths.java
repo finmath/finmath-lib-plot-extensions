@@ -14,9 +14,9 @@ import net.finmath.montecarlo.assetderivativevaluation.MonteCarloBlackScholesMod
 import net.finmath.plots.Named;
 import net.finmath.plots.Plot;
 import net.finmath.plots.PlotProcess2D;
-import net.finmath.stochastic.RandomVariableInterface;
+import net.finmath.stochastic.RandomVariable;
+import net.finmath.time.TimeDiscretizationFromArray;
 import net.finmath.time.TimeDiscretization;
-import net.finmath.time.TimeDiscretizationInterface;
 
 /**
  * Plots the value of an option under the Black-Scholes model as a function of strike and time-to-maturity.
@@ -41,10 +41,10 @@ public class Plot2DDemoBlackScholesPaths {
 		final double deltaT = 0.1;
 		final int numberOfPaths = 1000;
 
-		TimeDiscretizationInterface timeDiscretization = new TimeDiscretization(0.0, numberOfTimeSteps, deltaT);
+		TimeDiscretization timeDiscretization = new TimeDiscretizationFromArray(0.0, numberOfTimeSteps, deltaT);
 		AssetModelMonteCarloSimulationInterface blackScholesMonteCarlo = new MonteCarloBlackScholesModel(timeDiscretization, numberOfPaths, initialValue, riskFreeRate, volatility);
 
-		DoubleFunction<RandomVariableInterface> function = (time) -> {
+		DoubleFunction<RandomVariable> function = (time) -> {
 			try {
 				return blackScholesMonteCarlo.getAssetValue(time, 0 /* assetIndex */);
 			} catch (ArrayIndexOutOfBoundsException | CalculationException e) {
