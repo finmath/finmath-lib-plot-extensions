@@ -87,12 +87,14 @@
 			<artifactId>jfreesvg</artifactId>
 			<version>3.3</version>
 		</dependency>
+
 		<dependency>
 			<groupId>net.finmath</groupId>
 			<artifactId>finmath-lib</artifactId>
-			<version>3.6.0</version>
+			<version>4.0.1</version>
 			<classifier />
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-math3</artifactId>
