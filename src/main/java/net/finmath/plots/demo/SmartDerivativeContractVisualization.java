@@ -54,11 +54,13 @@ public class SmartDerivativeContractVisualization {
 
 		double marginBuffer = 50;
 
+		Random random = new Random(3413);
 		Double marketValue = 0.0;
 		for(int i=0; i<100; i++) {
-			double marginCall = 90*(new Random()).nextDouble()-45;
-			sdcVisual.updateWithValue(marginBuffer, i /* Date index */, marketValue, marginCall);
+			double marginCall = 90*(random).nextDouble()-45;
 			marketValue += marginCall;
+			sdcVisual.updateWithValue(marginBuffer, i /* Date index */, marketValue, marginCall);
+			Thread.sleep(2000);
 			// The null will result in no update for the market value plot
 			sdcVisual.updateWithValue(marginBuffer, i, null, 0);
 		}
