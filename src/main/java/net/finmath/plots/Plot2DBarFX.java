@@ -25,6 +25,7 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.NumberAxis;
@@ -52,7 +53,8 @@ public class Plot2DBarFX implements Plot {
 	private Double yAxisTick;
 	private Boolean isLegendVisible = false;
 
-	BarChart<String,Number> chart;
+	//BarChart<String,Number> chart;
+	StackedBarChart<String,Number> chart;
 	private Object updateLock = new Object();
 
 
@@ -85,14 +87,16 @@ public class Plot2DBarFX implements Plot {
 	private void init() {
 		//defining the axes
 		final CategoryAxis xAxis = new CategoryAxis();
-		xAxis.setAutoRanging(false);
+		xAxis.setAutoRanging(true);
+		xAxis.setAnimated(false);
 
 		final NumberAxis yAxis = new NumberAxis(yAxisLowerBound, yAxisUpperBound, yAxisTick);
 		xAxis.setLabel(xAxisLabel);
 		yAxis.setLabel(yAxisLabel);
 		//creating the chart
-		chart = new BarChart<String,Number>(xAxis,yAxis);
-		//		chart = new StackedBarChart<String,Number>(xAxis,yAxis);
+		//chart = new BarChart<String,Number>(xAxis,yAxis);
+				chart = new StackedBarChart<String,Number>(xAxis,yAxis);
+				chart.setAnimated(true);
 		update();
 	}
 
@@ -266,12 +270,14 @@ public class Plot2DBarFX implements Plot {
 	}
 
 	public Plot2DBarFX update(List<PlotableCategories> plotables) {
+		if(chart != null) chart.setAnimated(true);
 		this.plotables = plotables;
 		synchronized (updateLock) {
 			if(chart != null) {
 				update();
 			}
 		}
+		if(chart != null) chart.setAnimated(false);
 		return this;
 	}
 
