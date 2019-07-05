@@ -9,6 +9,7 @@ package net.finmath.plots;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +21,9 @@ import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -94,6 +97,13 @@ public class Plot2D implements Plot {
 		synchronized (updateLock) {
 			chart.getXYPlot().setDataset(0, data);
 			chart.getXYPlot().setRenderer(0, renderer);
+
+			NumberAxis domain = (NumberAxis) chart.getXYPlot().getDomainAxis();
+			if(xAxisNumberFormat != null) domain.setNumberFormatOverride(xAxisNumberFormat);
+
+			NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
+			if(yAxisNumberFormat != null) range.setNumberFormatOverride(yAxisNumberFormat);
+			range.setAutoRange(true);
 		}
 	}
 
@@ -193,6 +203,22 @@ public class Plot2D implements Plot {
 	@Override
 	public Plot setZAxisLabel(String zAxisLabel) {
 		throw new UnsupportedOperationException("The 2D plot does not suport a z-axis. Try 3D plot instead.");
+	}
+
+	public Plot2D setxAxisNumberFormat(NumberFormat xAxisNumberFormat) {
+		this.xAxisNumberFormat = xAxisNumberFormat;
+		return this;
+	}
+
+	public Plot2D setyAxisNumberFormat(NumberFormat yAxisNumberFormat) {
+		this.yAxisNumberFormat = yAxisNumberFormat;
+		return this;
+	}
+
+	public Plot setYRange(double ymin, double ymax) {
+		NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
+		range.setRange(new Range(ymin, ymax));
+		return this;
 	}
 
 	/**
