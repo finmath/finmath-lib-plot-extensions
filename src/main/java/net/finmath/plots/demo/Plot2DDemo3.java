@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.DoubleUnaryOperator;
 
-import net.finmath.marketdata.model.curves.CurveInterface;
+import net.finmath.marketdata.model.curves.Curve;
+import net.finmath.marketdata.model.curves.CurveInterpolation;
 import net.finmath.marketdata.model.curves.locallinearregression.CurveEstimation;
 import net.finmath.plots.GraphStyle;
 import net.finmath.plots.Named;
@@ -62,7 +63,7 @@ public class Plot2DDemo3 {
 
 
 			CurveEstimation estimatedcurve = new CurveEstimation(date, bandwidth, xValues, yValues, xValues.clone(), 0.0);
-			CurveInterface regressionCurve = estimatedcurve.getRegressionCurve();
+			Curve regressionCurve = estimatedcurve.getRegressionCurve();
 
 			DoubleUnaryOperator function = (x) -> {
 				return regressionCurve.getValue(x);
