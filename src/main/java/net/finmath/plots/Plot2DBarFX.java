@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -82,6 +83,44 @@ public class Plot2DBarFX implements Plot {
 	 *
 	 */
 	public Plot2DBarFX() {
+	}
+
+	public static Plot2DBarFX of(String[] labels, double[] values, String title, String xAxisLabel, String yAxisLabel, NumberFormat yAxisNumberFormat, boolean isLegendVisible) {
+		double min = Double.MAX_VALUE;
+		double max = -Double.MAX_VALUE;
+		List<PlotableCategories> plotables = new ArrayList<PlotableCategories>();
+
+			final String name = "Swaption";
+			List<Category2D> histogramAsList = new ArrayList<Category2D>();
+			for(int i=0; i<values.length; i++) {
+				double value = values[i];
+				histogramAsList.add(new Category2D(labels != null ? labels[i] : ""+i, value));
+				min = Math.min(min, value);
+				max = Math.max(max, value);
+			}
+				
+			PlotableCategories histo = new PlotableCategories() {
+
+				@Override
+				public String getName() {
+					return name;
+				}
+
+				@Override
+				public GraphStyle getStyle() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public List<Category2D> getSeries() {
+					return histogramAsList;
+				}
+			};
+
+			plotables.add(histo);
+			
+			return new Plot2DBarFX(plotables, title, xAxisLabel, yAxisLabel, yAxisNumberFormat, min, max, (max-min)/10.0, isLegendVisible);
 	}
 
 	private void init() {
