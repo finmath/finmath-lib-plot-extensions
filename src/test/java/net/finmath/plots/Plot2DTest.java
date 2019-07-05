@@ -34,8 +34,7 @@ public class Plot2DTest {
 			plot.show();
 			Thread.sleep(2000);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail("Failing with exception " + e.getMessage());
 		}
 	}
 
