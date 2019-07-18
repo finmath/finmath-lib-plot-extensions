@@ -48,6 +48,9 @@ public class Plot2D implements Plot {
 	private transient JFreeChart chart;
 	private Object updateLock = new Object();
 
+	private Double ymin;
+	private Double ymax;
+
 	public Plot2D(double xmin, double xmax, int numberOfPointsX, DoubleUnaryOperator function) {
 		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
 	}
@@ -62,10 +65,13 @@ public class Plot2D implements Plot {
 	}
 
 	private void init() {
-		XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
-		XYSeriesCollection data = new XYSeriesCollection();
+		synchronized (updateLock) {
+			if(chart != null) return;
 
-		chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.##" /* xAxisNumberFormat */, yAxisLabel, "#.##" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
+			XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
+			XYSeriesCollection data = new XYSeriesCollection();
+			chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.##" /* xAxisNumberFormat */, yAxisLabel, "#.##" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
+		}
 	}
 
 	private void update() {
@@ -95,15 +101,23 @@ public class Plot2D implements Plot {
 		}
 
 		synchronized (updateLock) {
-			chart.getXYPlot().setDataset(0, data);
-			chart.getXYPlot().setRenderer(0, renderer);
+			if(chart != null) {
+				chart.getXYPlot().setDataset(0, data);
+				chart.getXYPlot().setRenderer(0, renderer);
 
-			NumberAxis domain = (NumberAxis) chart.getXYPlot().getDomainAxis();
-			if(xAxisNumberFormat != null) domain.setNumberFormatOverride(xAxisNumberFormat);
+				NumberAxis domain = (NumberAxis) chart.getXYPlot().getDomainAxis();
+				if(xAxisNumberFormat != null) domain.setNumberFormatOverride(xAxisNumberFormat);
 
-			NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
-			if(yAxisNumberFormat != null) range.setNumberFormatOverride(yAxisNumberFormat);
-			range.setAutoRange(true);
+				NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
+				if(yAxisNumberFormat != null) range.setNumberFormatOverride(yAxisNumberFormat);
+				if(ymin != null && ymin != null) {
+					range.setAutoRange(false);
+					range.setRange(new Range(ymin, ymax));
+				}
+				else {
+					range.setAutoRange(true);
+				}
+			}
 		}
 	}
 
@@ -133,27 +147,41 @@ public class Plot2D implements Plot {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				JFrame frame = new JFrame();
-				frame.add(chartPanel);
-				frame.setVisible(true);
-				frame.pack();
+				synchronized (updateLock) {
+					JFrame frame = new JFrame();
+					frame.add(chartPanel);
+					frame.setVisible(true);
+					frame.pack();
+				}
 			}
 		});
 	}
 
 	@Override
 	public void saveAsJPG(File file, int width, int height) throws IOException {
-		JFreeChartUtilities.saveChartAsJPG(file, chart, width, height);
+		init();
+		update(plotables);
+		synchronized (updateLock) {
+			JFreeChartUtilities.saveChartAsJPG(file, chart, width, height);
+		}
 	}
 
 	@Override
 	public void saveAsPDF(File file, int width, int height) throws IOException {
-		JFreeChartUtilities.saveChartAsPDF(file, chart, width, height);
+		init();
+		update(plotables);
+		synchronized (updateLock) {
+			JFreeChartUtilities.saveChartAsPDF(file, chart, width, height);
+		}
 	}
 
 	@Override
 	public void saveAsSVG(File file, int width, int height) throws IOException {
-		JFreeChartUtilities.saveChartAsSVG(file, chart, width, height);
+		init();
+		update(plotables);
+		synchronized (updateLock) {
+			JFreeChartUtilities.saveChartAsSVG(file, chart, width, height);
+		}
 	}
 
 	public Plot2D update(List<Plotable2D> plotables) {
@@ -166,15 +194,10 @@ public class Plot2D implements Plot {
 		return this;
 	}
 
-
 	@Override
 	public Plot2D setTitle(String title) {
 		this.title = title;
-		synchronized (updateLock) {
-			if(chart != null) {
-				chart.setTitle(title);
-			}
-		}
+		update();
 		return this;
 	}
 
@@ -216,8 +239,11 @@ public class Plot2D implements Plot {
 	}
 
 	public Plot setYRange(double ymin, double ymax) {
-		NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
-		range.setRange(new Range(ymin, ymax));
+		this.ymin = ymin;
+		this.ymax = ymax;
+
+		update();
+
 		return this;
 	}
 
@@ -226,11 +252,7 @@ public class Plot2D implements Plot {
 	 */
 	public Plot setIsLegendVisible(Boolean isLegendVisible) {
 		this.isLegendVisible = isLegendVisible;
-		synchronized (updateLock) {
-			if(chart != null) {
-				// @TODO Add live update for legend.
-			}
-		}
+		update();
 		return this;
 	}
 }
