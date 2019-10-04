@@ -55,6 +55,10 @@ public class Plot2D implements Plot {
 		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
 	}
 
+	public Plot2D(double xmin, double xmax, DoubleUnaryOperator function) {
+		this(xmin, xmax, 300, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
+	}
+
 	public Plot2D(double xmin, double xmax, int numberOfPointsX, List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
 		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
 	}
