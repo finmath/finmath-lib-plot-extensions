@@ -63,6 +63,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>openjfx</groupId>
+			<artifactId>javafx-COMPONENT</artifactId>
+			<version>11</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
