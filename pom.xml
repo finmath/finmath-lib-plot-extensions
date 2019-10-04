@@ -11,7 +11,7 @@
 
 	<groupId>net.finmath</groupId>
 	<artifactId>finmath-lib-plot-extensions</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.4</version>
 	<packaging>jar</packaging>
 
 	<name>finmath lib plot extensions</name>
@@ -63,9 +63,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>openjfx</groupId>
-			<artifactId>javafx-COMPONENT</artifactId>
-			<version>11</version>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>11.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
