@@ -53,9 +53,10 @@ public class Plot2DBarFX implements Plot {
 	private Double yAxisUpperBound;
 	private Double yAxisTick;
 	private Boolean isLegendVisible = false;
+	private Boolean isSeriesStacked = false;
 
-	//BarChart<String,Number> chart;
-	StackedBarChart<String,Number> chart;
+	XYChart<String,Number> chart;
+	
 	private Object updateLock = new Object();
 
 
@@ -132,10 +133,11 @@ public class Plot2DBarFX implements Plot {
 		final NumberAxis yAxis = new NumberAxis(yAxisLowerBound, yAxisUpperBound, yAxisTick);
 		xAxis.setLabel(xAxisLabel);
 		yAxis.setLabel(yAxisLabel);
-		//creating the chart
-		//chart = new BarChart<String,Number>(xAxis,yAxis);
-				chart = new StackedBarChart<String,Number>(xAxis,yAxis);
-				chart.setAnimated(true);
+
+		// creating the chart
+		chart = isSeriesStacked ? new StackedBarChart<String,Number>(xAxis,yAxis) : new BarChart<String,Number>(xAxis,yAxis);
+		chart.setAnimated(true);
+
 		update();
 	}
 
@@ -362,5 +364,9 @@ public class Plot2DBarFX implements Plot {
 	public Plot setIsLegendVisible(Boolean isLegendVisible) {
 		this.isLegendVisible = isLegendVisible;
 		return this;
+	}
+
+	public void setIsSeriesStacked(Boolean isSeriesStacked) {
+		this.isSeriesStacked = isSeriesStacked;
 	}
 }
