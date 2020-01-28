@@ -175,4 +175,11 @@ public class PlotProcess2D implements Plot {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		return "PlotProcess2D [timeDiscretization=" + timeDiscretization + ", process=" + process
+				+ ", maxNumberOfPaths=" + maxNumberOfPaths + ", title=" + title + ", xAxisLabel=" + xAxisLabel
+				+ ", yAxisLabel=" + yAxisLabel + ", xAxisNumberFormat=" + xAxisNumberFormat + ", yAxisNumberFormat="
+				+ yAxisNumberFormat + ", isLegendVisible=" + isLegendVisible + "]";
+	}
 }

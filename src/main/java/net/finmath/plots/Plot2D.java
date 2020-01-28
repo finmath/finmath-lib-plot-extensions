@@ -259,4 +259,11 @@ public class Plot2D implements Plot {
 		update();
 		return this;
 	}
+
+	@Override
+	public String toString() {
+		return "Plot2D [plotables=" + plotables + ", title=" + title + ", xAxisLabel=" + xAxisLabel + ", yAxisLabel="
+				+ yAxisLabel + ", xAxisNumberFormat=" + xAxisNumberFormat + ", yAxisNumberFormat=" + yAxisNumberFormat
+				+ ", isLegendVisible=" + isLegendVisible + ", ymin=" + ymin + ", ymax=" + ymax + "]";
+	}
 }

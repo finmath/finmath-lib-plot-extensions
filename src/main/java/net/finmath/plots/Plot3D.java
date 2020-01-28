@@ -161,4 +161,12 @@ public class Plot3D implements Plot {
 		this.isLegendVisible = isLegendVisible;
 		return this;
 	}
+
+	@Override
+	public String toString() {
+		return "Plot3D [xmin=" + xmin + ", xmax=" + xmax + ", ymin=" + ymin + ", ymax=" + ymax + ", numberOfPointsX="
+				+ numberOfPointsX + ", numberOfPointsY=" + numberOfPointsY + ", function=" + function + ", title="
+				+ title + ", xAxisLabel=" + xAxisLabel + ", yAxisLabel=" + yAxisLabel + ", zAxisLabel=" + zAxisLabel
+				+ ", isLegendVisible=" + isLegendVisible + "]";
+	}
 }
