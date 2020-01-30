@@ -12,4 +12,8 @@ public interface Plotable2D extends Plotable {
 	List<Point2D> getSeries();
 
 	GraphStyle getStyle();
+	
+	default NumberAxis getDomainAxis() { return null; }
+	
+	default NumberAxis getRangeAxis() { return null; }
 }

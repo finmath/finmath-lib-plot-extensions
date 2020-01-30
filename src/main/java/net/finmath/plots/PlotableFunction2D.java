@@ -50,5 +50,4 @@ public class PlotableFunction2D implements Plotable2D {
 	public GraphStyle getStyle() {
 		return style;
 	}
-
 }

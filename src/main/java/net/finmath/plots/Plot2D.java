@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.DoubleUnaryOperator;
 import java.util.stream.Collectors;
 
@@ -22,6 +24,7 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
@@ -72,6 +75,9 @@ public class Plot2D implements Plot {
 		synchronized (updateLock) {
 			if(chart != null) return;
 
+			/*
+			 * Creates an empty chart (the update method will set the data)
+			 */
 			XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
 			XYSeriesCollection data = new XYSeriesCollection();
 			chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.##" /* xAxisNumberFormat */, yAxisLabel, "#.##" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
@@ -79,47 +85,62 @@ public class Plot2D implements Plot {
 	}
 
 	private void update() {
-		XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
-		XYSeriesCollection data = new XYSeriesCollection();
-		for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
-			Plotable2D plotable = plotables.get(functionIndex);
-
-			List<Point2D> plotableSeries = plotable.getSeries();
-			XYSeries series = new XYSeries(plotable.getName());
-			for(int i = 0; i<plotableSeries.size(); i++) {
-				series.add(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
-			}
-			data.addSeries(series);
-
-			GraphStyle style = plotable.getStyle();
-			Color color = style != null ? plotable.getStyle().getColor() : null;
-			if(color == null) color = getDefaultColor(functionIndex);
-			renderer.setSeriesPaint(functionIndex, color);
-
-			if(style != null) {
-				renderer.setSeriesShape(functionIndex, plotable.getStyle().getShape());
-				renderer.setSeriesStroke(functionIndex, plotable.getStyle().getStoke());
-				renderer.setSeriesShapesVisible(functionIndex, style.getShape() != null);
-				renderer.setSeriesLinesVisible(functionIndex, style.getStoke() != null);
-			}
-		}
-
 		synchronized (updateLock) {
-			if(chart != null) {
-				chart.getXYPlot().setDataset(0, data);
-				chart.getXYPlot().setRenderer(0, renderer);
 
-				NumberAxis domain = (NumberAxis) chart.getXYPlot().getDomainAxis();
-				if(xAxisNumberFormat != null) domain.setNumberFormatOverride(xAxisNumberFormat);
+			Map<net.finmath.plots.NumberAxis, Integer> rangeAxisMap = new HashMap();
+			for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
+				XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
+				XYSeriesCollection data = new XYSeriesCollection();
+				Plotable2D plotable = plotables.get(functionIndex);
 
-				NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
-				if(yAxisNumberFormat != null) range.setNumberFormatOverride(yAxisNumberFormat);
+				List<Point2D> plotableSeries = plotable.getSeries();
+				XYSeries series = new XYSeries(plotable.getName());
+				for(int i = 0; i<plotableSeries.size(); i++) {
+					series.add(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
+				}
+				data.addSeries(series);
+
+				GraphStyle style = plotable.getStyle();
+				Color color = style != null ? plotable.getStyle().getColor() : null;
+				if(color == null) color = getDefaultColor(functionIndex);
+				renderer.setSeriesPaint(0, color);
+
+				if(style != null) {
+					renderer.setSeriesShape(0, plotable.getStyle().getShape());
+					renderer.setSeriesStroke(0, plotable.getStyle().getStoke());
+					renderer.setSeriesShapesVisible(0, style.getShape() != null);
+					renderer.setSeriesLinesVisible(0, style.getStoke() != null);
+				}
+
+				if(chart != null) {
+					chart.getXYPlot().setDataset(functionIndex, data);
+					chart.getXYPlot().setRenderer(functionIndex, renderer);
+
+					NumberAxis domain = (NumberAxis) chart.getXYPlot().getDomainAxis();
+					if(plotable.getDomainAxis() != null) domain = plotable.getDomainAxis().getImplementationJFree();
+					if(xAxisNumberFormat != null) domain.setNumberFormatOverride(xAxisNumberFormat);
+					if(!domain.equals(chart.getXYPlot().getDomainAxis())) chart.getXYPlot().setDomainAxis(functionIndex, domain);
+
+					NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
+					if(plotable.getRangeAxis() != null) {
+						range = plotable.getRangeAxis().getImplementationJFree();
+					}
+					if(yAxisNumberFormat != null) range.setNumberFormatOverride(yAxisNumberFormat);
+
+					rangeAxisMap.putIfAbsent(plotable.getRangeAxis(), functionIndex);
+
+					chart.getXYPlot().mapDatasetToRangeAxis(functionIndex, rangeAxisMap.get(plotable.getRangeAxis()));
+					chart.getXYPlot().setRangeAxis(rangeAxisMap.get(plotable.getRangeAxis()), range);
+
+					/*
 				if(ymin != null && ymin != null) {
 					range.setAutoRange(false);
 					range.setRange(new Range(ymin, ymax));
 				}
 				else {
 					range.setAutoRange(true);
+				}
+					 */
 				}
 			}
 		}
