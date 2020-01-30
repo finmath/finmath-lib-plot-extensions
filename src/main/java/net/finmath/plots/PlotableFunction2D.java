@@ -13,12 +13,12 @@ import java.util.function.DoubleUnaryOperator;
 
 public class PlotableFunction2D implements Plotable2D {
 
-	private double xmin, xmax;
-	private int numberOfPointsX;
-	private Named<DoubleUnaryOperator> namedFunction;
-	private GraphStyle style;
+	private final double xmin, xmax;
+	private final int numberOfPointsX;
+	private final Named<DoubleUnaryOperator> namedFunction;
+	private final GraphStyle style;
 
-	public PlotableFunction2D(double xmin, double xmax, int numberOfPointsX, Named<DoubleUnaryOperator> namedFunction, GraphStyle style) {
+	public PlotableFunction2D(final double xmin, final double xmax, final int numberOfPointsX, final Named<DoubleUnaryOperator> namedFunction, final GraphStyle style) {
 		super();
 		this.xmin = xmin;
 		this.xmax = xmax;
@@ -26,7 +26,9 @@ public class PlotableFunction2D implements Plotable2D {
 		this.namedFunction = namedFunction;
 		this.style = new GraphStyle(new Rectangle(-1, -1, 2, 2), new BasicStroke(1.0f), null);
 
-		if(numberOfPointsX < 2) throw new IllegalArgumentException("Number of points needs to be larger than 1.");
+		if(numberOfPointsX < 2) {
+			throw new IllegalArgumentException("Number of points needs to be larger than 1.");
+		}
 	}
 
 	@Override
@@ -36,11 +38,11 @@ public class PlotableFunction2D implements Plotable2D {
 
 	@Override
 	public List<Point2D> getSeries() {
-		List<Point2D> series = new ArrayList<Point2D>();
-		DoubleUnaryOperator function = namedFunction.get();
+		final List<Point2D> series = new ArrayList<Point2D>();
+		final DoubleUnaryOperator function = namedFunction.get();
 		for(int i = 0; i<numberOfPointsX; i++) {
-			double x = xmin + i * ((xmax-xmin) / (numberOfPointsX-1));
-			double y = function.applyAsDouble(x);
+			final double x = xmin + i * ((xmax-xmin) / (numberOfPointsX-1));
+			final double y = function.applyAsDouble(x);
 			series.add(new Point2D(x, y));
 		}
 		return series;

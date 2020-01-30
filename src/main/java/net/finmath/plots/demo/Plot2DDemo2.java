@@ -28,31 +28,31 @@ public class Plot2DDemo2 {
 	 * @param args Not used.
 	 * @throws Exception Exception from the graphics backend.
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void main(final String[] args) throws Exception {
 
 		final double initialStockValue = 100;
 		final double riskFreeRate = 0.04;
 		final double volatility = 0.40;
 
-		DoubleUnaryOperator function = (strike) -> {
+		final DoubleUnaryOperator function = (strike) -> {
 			final double optionMaturity = 1.0;
-			double optionStrike = strike;
+			final double optionStrike = strike;
 
-			double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
+			final double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
 
 			return z;
 		};
 
-		DoubleUnaryOperator function2 = (strike) -> {
-			double optionStrike = strike;
+		final DoubleUnaryOperator function2 = (strike) -> {
+			final double optionStrike = strike;
 			final double optionMaturity = 2.0;
 
-			double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
+			final double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
 
 			return z;
 		};
 
-		Plot plot = new Plot2D(0.0, 300.0, 100, Arrays.asList(
+		final Plot plot = new Plot2D(0.0, 300.0, 100, Arrays.asList(
 				new Named<DoubleUnaryOperator>("Maturity 1", function),
 				new Named<DoubleUnaryOperator>("Maturity 2", function2)));
 

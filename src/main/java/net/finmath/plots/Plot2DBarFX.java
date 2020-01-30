@@ -26,10 +26,10 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.image.WritableImage;
@@ -56,13 +56,13 @@ public class Plot2DBarFX implements Plot {
 	private Boolean isSeriesStacked = false;
 
 	XYChart<String,Number> chart;
-	
-	private Object updateLock = new Object();
+
+	private final Object updateLock = new Object();
 
 
-	public Plot2DBarFX(List<PlotableCategories> plotables, String title, String xAxisLabel, String yAxisLabel,
-			NumberFormat yAxisNumberFormat, Double yAxisLowerBound, Double yAxisUpperBound, Double yAxisTick,
-			Boolean isLegendVisible) {
+	public Plot2DBarFX(final List<PlotableCategories> plotables, final String title, final String xAxisLabel, final String yAxisLabel,
+			final NumberFormat yAxisNumberFormat, final Double yAxisLowerBound, final Double yAxisUpperBound, final Double yAxisTick,
+			final Boolean isLegendVisible) {
 		super();
 		this.plotables = plotables;
 		this.title = title;
@@ -75,7 +75,7 @@ public class Plot2DBarFX implements Plot {
 		this.isLegendVisible = isLegendVisible;
 	}
 
-	public Plot2DBarFX(List<PlotableCategories> plotables) {
+	public Plot2DBarFX(final List<PlotableCategories> plotables) {
 		super();
 		this.plotables = plotables;
 	}
@@ -86,42 +86,42 @@ public class Plot2DBarFX implements Plot {
 	public Plot2DBarFX() {
 	}
 
-	public static Plot2DBarFX of(String[] labels, double[] values, String title, String xAxisLabel, String yAxisLabel, NumberFormat yAxisNumberFormat, boolean isLegendVisible) {
+	public static Plot2DBarFX of(final String[] labels, final double[] values, final String title, final String xAxisLabel, final String yAxisLabel, final NumberFormat yAxisNumberFormat, final boolean isLegendVisible) {
 		double min = Double.MAX_VALUE;
 		double max = -Double.MAX_VALUE;
-		List<PlotableCategories> plotables = new ArrayList<PlotableCategories>();
+		final List<PlotableCategories> plotables = new ArrayList<PlotableCategories>();
 
-			final String name = "Swaption";
-			List<Category2D> histogramAsList = new ArrayList<Category2D>();
-			for(int i=0; i<values.length; i++) {
-				double value = values[i];
-				histogramAsList.add(new Category2D(labels != null ? labels[i] : ""+i, value));
-				min = Math.min(min, value);
-				max = Math.max(max, value);
+		final String name = "Swaption";
+		final List<Category2D> histogramAsList = new ArrayList<Category2D>();
+		for(int i=0; i<values.length; i++) {
+			final double value = values[i];
+			histogramAsList.add(new Category2D(labels != null ? labels[i] : ""+i, value));
+			min = Math.min(min, value);
+			max = Math.max(max, value);
+		}
+
+		final PlotableCategories histo = new PlotableCategories() {
+
+			@Override
+			public String getName() {
+				return name;
 			}
-				
-			PlotableCategories histo = new PlotableCategories() {
 
-				@Override
-				public String getName() {
-					return name;
-				}
+			@Override
+			public GraphStyle getStyle() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
-				@Override
-				public GraphStyle getStyle() {
-					// TODO Auto-generated method stub
-					return null;
-				}
+			@Override
+			public List<Category2D> getSeries() {
+				return histogramAsList;
+			}
+		};
 
-				@Override
-				public List<Category2D> getSeries() {
-					return histogramAsList;
-				}
-			};
+		plotables.add(histo);
 
-			plotables.add(histo);
-			
-			return new Plot2DBarFX(plotables, title, xAxisLabel, yAxisLabel, yAxisNumberFormat, min, max, (max-min)/10.0, isLegendVisible);
+		return new Plot2DBarFX(plotables, title, xAxisLabel, yAxisLabel, yAxisNumberFormat, min, max, (max-min)/10.0, isLegendVisible);
 	}
 
 	private void init() {
@@ -144,19 +144,25 @@ public class Plot2DBarFX implements Plot {
 	private void update() {
 		Platform.runLater(new Runnable() {
 			@Override public void run() {
-				if(plotables == null) return;
+				if(plotables == null) {
+					return;
+				}
 				chart.setTitle(title);
 				for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
-					PlotableCategories plotable = plotables.get(functionIndex);
-					GraphStyle style = plotable.getStyle();
+					final PlotableCategories plotable = plotables.get(functionIndex);
+					final GraphStyle style = plotable.getStyle();
 					Color color = getColor(style);
-					if(color == null) color = getDefaultColor(functionIndex);
+					if(color == null) {
+						color = getDefaultColor(functionIndex);
+					}
 
-					String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
+					final String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
 
-					List<Category2D> plotableSeries = plotable.getSeries();
+					final List<Category2D> plotableSeries = plotable.getSeries();
 					XYChart.Series series = null;
-					if(functionIndex < chart.getData().size()) series = chart.getData().get(functionIndex);
+					if(functionIndex < chart.getData().size()) {
+						series = chart.getData().get(functionIndex);
+					}
 					if(series == null) {
 						series = new XYChart.Series();
 						chart.getData().add(functionIndex,series);
@@ -164,7 +170,9 @@ public class Plot2DBarFX implements Plot {
 					series.setName(plotable.getName());
 					for(int i = 0; i<plotableSeries.size(); i++) {
 						XYChart.Data<String, Number> data = null;
-						if(i < series.getData().size()) data = (Data<String, Number>) series.getData().get(i);
+						if(i < series.getData().size()) {
+							data = (Data<String, Number>) series.getData().get(i);
+						}
 						if(data == null) {
 							data = new XYChart.Data(plotableSeries.get(i).getName(), plotableSeries.get(i).getValue());
 							if(style != null && style.getShape() != null) {
@@ -206,8 +214,8 @@ public class Plot2DBarFX implements Plot {
 		});
 	}
 
-	private Color getColor(GraphStyle style) {
-		java.awt.Color awtColor = style != null ? style.getColor() : null;
+	private Color getColor(final GraphStyle style) {
+		final java.awt.Color awtColor = style != null ? style.getColor() : null;
 		Color color = null;
 		if(awtColor != null) {
 			color = new Color(awtColor.getRed()/255.0, awtColor.getGreen()/255.0, awtColor.getBlue()/255.0, awtColor.getAlpha()/255.0);
@@ -215,7 +223,7 @@ public class Plot2DBarFX implements Plot {
 		return color;
 	}
 
-	private Color getDefaultColor(int functionIndex) {
+	private Color getDefaultColor(final int functionIndex) {
 		switch (functionIndex) {
 		case 0:
 			return new Color(1.0, 0,  0, 1.0);
@@ -239,7 +247,7 @@ public class Plot2DBarFX implements Plot {
 			@Override
 			public void run() {
 				// This method is invoked on Swing thread
-				JFrame frame = new JFrame("FX");
+				final JFrame frame = new JFrame("FX");
 				final JFXPanel fxPanel = new JFXPanel();
 				frame.add(fxPanel);
 				frame.setVisible(true);
@@ -261,11 +269,13 @@ public class Plot2DBarFX implements Plot {
 	}
 
 	@Override
-	public void saveAsJPG(File file, int width, int height) throws IOException {
+	public void saveAsJPG(final File file, final int width, final int height) throws IOException {
 	}
 
-	public void saveAsPNG(File file, int width, int height) throws IOException {
-		if(chart == null) return;
+	public void saveAsPNG(final File file, final int width, final int height) throws IOException {
+		if(chart == null) {
+			return;
+		}
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -273,13 +283,13 @@ public class Plot2DBarFX implements Plot {
 
 					chart.setAnimated(false);
 
-					OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+					final OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 
-					BufferedImage imageWithAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
-					Graphics2D g2 = imageWithAlpha.createGraphics();
-					Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
+					final BufferedImage imageWithAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+					final Graphics2D g2 = imageWithAlpha.createGraphics();
+					final Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
 
-					WritableImage image = chart.getScene().snapshot(null);
+					final WritableImage image = chart.getScene().snapshot(null);
 					ImageIO.write(javafx.embed.swing.SwingFXUtils.fromFXImage(image, null), "png", out);
 
 					/*
@@ -294,7 +304,7 @@ public class Plot2DBarFX implements Plot {
 
 					out.close();
 
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -303,45 +313,51 @@ public class Plot2DBarFX implements Plot {
 	}
 
 	@Override
-	public void saveAsPDF(File file, int width, int height) throws IOException {
+	public void saveAsPDF(final File file, final int width, final int height) throws IOException {
 	}
 
 	@Override
-	public void saveAsSVG(File file, int width, int height) throws IOException {
+	public void saveAsSVG(final File file, final int width, final int height) throws IOException {
 	}
 
-	public Plot2DBarFX update(List<PlotableCategories> plotables) {
-		if(chart != null) chart.setAnimated(true);
+	public Plot2DBarFX update(final List<PlotableCategories> plotables) {
+		if(chart != null) {
+			chart.setAnimated(true);
+		}
 		this.plotables = plotables;
 		synchronized (updateLock) {
 			if(chart != null) {
 				update();
 			}
 		}
-		if(chart != null) chart.setAnimated(false);
+		if(chart != null) {
+			chart.setAnimated(false);
+		}
 		return this;
 	}
 
 	@Override
-	public Plot2DBarFX setTitle(String title) {
+	public Plot2DBarFX setTitle(final String title) {
 		this.title = title;
 		return this;
 	}
 
 	@Override
-	public Plot2DBarFX setXAxisLabel(String xAxisLabel) {
+	public Plot2DBarFX setXAxisLabel(final String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		return this;
 	}
 
 	@Override
-	public Plot2DBarFX setYAxisLabel(String yAxisLabel) {
+	public Plot2DBarFX setYAxisLabel(final String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
 		return this;
 	}
 
-	public Plot2DBarFX setYAxisRange(Double min, Double max) {
-		if(chart == null || chart.getYAxis() == null) return this;
+	public Plot2DBarFX setYAxisRange(final Double min, final Double max) {
+		if(chart == null || chart.getYAxis() == null) {
+			return this;
+		}
 		if(min == null || max == null) {
 			chart.getYAxis().setAutoRanging(true);
 		}
@@ -354,19 +370,19 @@ public class Plot2DBarFX implements Plot {
 	}
 
 	@Override
-	public Plot setZAxisLabel(String zAxisLabel) {
+	public Plot setZAxisLabel(final String zAxisLabel) {
 		throw new UnsupportedOperationException("The 2D plot does not suport a z-axis. Try 3D plot instead.");
 	}
 
 	/**
 	 * @param isLegendVisible the isLegendVisible to set
 	 */
-	public Plot setIsLegendVisible(Boolean isLegendVisible) {
+	public Plot setIsLegendVisible(final Boolean isLegendVisible) {
 		this.isLegendVisible = isLegendVisible;
 		return this;
 	}
 
-	public void setIsSeriesStacked(Boolean isSeriesStacked) {
+	public void setIsSeriesStacked(final Boolean isSeriesStacked) {
 		this.isSeriesStacked = isSeriesStacked;
 	}
 }

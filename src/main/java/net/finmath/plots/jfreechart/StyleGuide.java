@@ -24,10 +24,10 @@ public class StyleGuide {
 	static Font annotationFont;
 	static Font tickLabelFont;
 
-	private Color chartBackgroundPaint;
-	private Color plotBackgroundPaint;
+	private final Color chartBackgroundPaint;
+	private final Color plotBackgroundPaint;
 
-	public StyleGuide(double scale) {
+	public StyleGuide(final double scale) {
 		titleFont			= new Font("SansSerif", Font.PLAIN, (int)Math.round(10*scale));
 		axisLabelFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(10*scale));
 		annotationFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(8*scale));
@@ -37,33 +37,33 @@ public class StyleGuide {
 		plotBackgroundPaint		= new java.awt.Color(255, 255, 255);
 	}
 
-	public static void applyStyleToChart(JFreeChart chart) {
+	public static void applyStyleToChart(final JFreeChart chart) {
 		new StyleGuide(1).applyStyleToChart2(chart);
 	}
 
-	public static void applyStyleToXYPlot(XYPlot xyPlot) {
+	public static void applyStyleToXYPlot(final XYPlot xyPlot) {
 		new StyleGuide(1).applyStyleToXYPlot2(xyPlot);
 	}
 
-	public void applyStyleToChart2(JFreeChart chart) {
+	public void applyStyleToChart2(final JFreeChart chart) {
 		chart.setBackgroundPaint(chartBackgroundPaint);
 
 		if(chart.getTitle() != null) {
 			chart.getTitle().setFont(titleFont);
 		}
 
-		LegendTitle legend = chart.getLegend();
+		final LegendTitle legend = chart.getLegend();
 		if(legend != null) {
 			legend.setBackgroundPaint(chartBackgroundPaint);
 		}
 
-		XYPlot xyPlot = chart.getXYPlot();
+		final XYPlot xyPlot = chart.getXYPlot();
 		if(xyPlot != null) {
 			applyStyleToXYPlot2(xyPlot);
 		}
 	}
 
-	public void applyStyleToXYPlot2(XYPlot xyPlot) {
+	public void applyStyleToXYPlot2(final XYPlot xyPlot) {
 		if(xyPlot.getDomainAxis() != null) {
 			xyPlot.getDomainAxis().setTickLabelFont(tickLabelFont);
 			xyPlot.getDomainAxis().setLabelFont(axisLabelFont);

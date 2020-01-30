@@ -33,10 +33,10 @@ import org.jzy3d.plot3d.text.renderers.TextBitmapRenderer;
  */
 public class Plot3D implements Plot {
 
-	private double xmin, xmax;
-	private double ymin, ymax;
-	private int numberOfPointsX, numberOfPointsY;
-	private Named<DoubleBinaryOperator> function;
+	private final double xmin, xmax;
+	private final double ymin, ymax;
+	private final int numberOfPointsX, numberOfPointsY;
+	private final Named<DoubleBinaryOperator> function;
 
 	private String title = "";
 	private String xAxisLabel = "x";
@@ -44,7 +44,7 @@ public class Plot3D implements Plot {
 	private String zAxisLabel = "z";
 	private Boolean isLegendVisible;
 
-	public Plot3D(double xmin, double xmax, double ymin, double ymax, int numberOfPointsX, int numberOfPointsY, Named<DoubleBinaryOperator> function) {
+	public Plot3D(final double xmin, final double xmax, final double ymin, final double ymax, final int numberOfPointsX, final int numberOfPointsY, final Named<DoubleBinaryOperator> function) {
 		super();
 		this.xmin = xmin;
 		this.xmax = xmax;
@@ -55,7 +55,7 @@ public class Plot3D implements Plot {
 		this.function = function;
 	}
 
-	public Plot3D(double xmin, double xmax, double ymin, double ymax, int numberOfPointsX, int numberOfPointsY, DoubleBinaryOperator function) {
+	public Plot3D(final double xmin, final double xmax, final double ymin, final double ymax, final int numberOfPointsX, final int numberOfPointsY, final DoubleBinaryOperator function) {
 		this(xmin, xmax, ymin, ymax, numberOfPointsX, numberOfPointsY, new Named<DoubleBinaryOperator>("",function));
 	}
 
@@ -67,10 +67,10 @@ public class Plot3D implements Plot {
 
 		public void init() {
 			// Define a function to plot
-			Mapper mapper = new Mapper() {
+			final Mapper mapper = new Mapper() {
 				private final DoubleBinaryOperator functionToPlot = Plot3D.this.function.get();
 				@Override
-				public double f(double x, double y) {
+				public double f(final double x, final double y) {
 					return functionToPlot.applyAsDouble(x,y);
 				}
 			};
@@ -98,10 +98,10 @@ public class Plot3D implements Plot {
 			//chart.getAxeLayout().setZTickRenderer( new ScientificNotationTickRenderer(2) );
 
 
-			AxeBox box = (AxeBox)chart.getView().getAxe();
+			final AxeBox box = (AxeBox)chart.getView().getAxe();
 			//			ITextRenderer renderer2 = new JOGLTextRenderer(new ShadowedTextStyle(128f, 10, java.awt.Color.RED, java.awt.Color.CYAN));
 			//			ITextRenderer renderer3 = new TextBillboardRenderer();
-			ITextRenderer renderer = new TextBitmapRenderer(TextBitmapRenderer.Font.TimesRoman_24);
+			final ITextRenderer renderer = new TextBitmapRenderer(TextBitmapRenderer.Font.TimesRoman_24);
 			box.setTextRenderer(renderer);
 		}
 	}
@@ -112,22 +112,22 @@ public class Plot3D implements Plot {
 	}
 
 	@Override
-	public void saveAsJPG(File file, int width, int height) throws IOException {
+	public void saveAsJPG(final File file, final int width, final int height) throws IOException {
 		(this.new Surface()).getChart().screenshot(file);
 	}
 
 	@Override
-	public void saveAsPDF(File file, int width, int height) {
+	public void saveAsPDF(final File file, final int width, final int height) {
 		throw new UnsupportedOperationException("Save as PDF is not supported for this plot. Use saveAsJPG instead.");
 	}
 
 	@Override
-	public void saveAsSVG(File file, int width, int height) {
+	public void saveAsSVG(final File file, final int width, final int height) {
 		throw new UnsupportedOperationException("Save as SVG is not supported for this plot. Use saveAsJPG instead.");
 	}
 
 	@Override
-	public Plot setTitle(String title) {
+	public Plot setTitle(final String title) {
 		this.title = title;
 		return this;
 	}
@@ -136,7 +136,7 @@ public class Plot3D implements Plot {
 	 * @see net.finmath.plots.experimental.Plot#setXAxisLabel(java.lang.String)
 	 */
 	@Override
-	public Plot setXAxisLabel(String xAxisLabel) {
+	public Plot setXAxisLabel(final String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		return this;
 	}
@@ -145,19 +145,19 @@ public class Plot3D implements Plot {
 	 * @see net.finmath.plots.experimental.Plot#setYAxisLabel(java.lang.String)
 	 */
 	@Override
-	public Plot setYAxisLabel(String yAxisLabel) {
+	public Plot setYAxisLabel(final String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
 		return this;
 	}
 
 	@Override
-	public Plot setZAxisLabel(String zAxisLabel) {
+	public Plot setZAxisLabel(final String zAxisLabel) {
 		this.zAxisLabel = zAxisLabel;
 		return this;
 	}
 
 	@Override
-	public Plot setIsLegendVisible(Boolean isLegendVisible) {
+	public Plot setIsLegendVisible(final Boolean isLegendVisible) {
 		this.isLegendVisible = isLegendVisible;
 		return this;
 	}

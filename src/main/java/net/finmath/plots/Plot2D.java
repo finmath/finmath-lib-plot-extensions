@@ -9,7 +9,6 @@ package net.finmath.plots;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,9 +23,7 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -49,37 +46,39 @@ public class Plot2D implements Plot {
 	private Boolean isLegendVisible = false;
 
 	private transient JFreeChart chart;
-	private Object updateLock = new Object();
+	private final Object updateLock = new Object();
 
 	private Double ymin;
 	private Double ymax;
 
-	public Plot2D(double xmin, double xmax, int numberOfPointsX, DoubleUnaryOperator function) {
+	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final DoubleUnaryOperator function) {
 		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
 	}
 
-	public Plot2D(double xmin, double xmax, DoubleUnaryOperator function) {
+	public Plot2D(final double xmin, final double xmax, final DoubleUnaryOperator function) {
 		this(xmin, xmax, 300, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
 	}
 
-	public Plot2D(double xmin, double xmax, int numberOfPointsX, List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
+	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
 		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
 	}
 
-	public Plot2D(List<Plotable2D> plotables) {
+	public Plot2D(final List<Plotable2D> plotables) {
 		super();
 		this.plotables = plotables;
 	}
 
 	private void init() {
 		synchronized (updateLock) {
-			if(chart != null) return;
+			if(chart != null) {
+				return;
+			}
 
 			/*
 			 * Creates an empty chart (the update method will set the data)
 			 */
-			XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
-			XYSeriesCollection data = new XYSeriesCollection();
+			final XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
+			final XYSeriesCollection data = new XYSeriesCollection();
 			chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.##" /* xAxisNumberFormat */, yAxisLabel, "#.##" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
 		}
 	}
@@ -87,22 +86,24 @@ public class Plot2D implements Plot {
 	private void update() {
 		synchronized (updateLock) {
 
-			Map<net.finmath.plots.NumberAxis, Integer> rangeAxisMap = new HashMap();
+			final Map<net.finmath.plots.axis.NumberAxis, Integer> rangeAxisMap = new HashMap();
 			for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
-				XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
-				XYSeriesCollection data = new XYSeriesCollection();
-				Plotable2D plotable = plotables.get(functionIndex);
+				final XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
+				final XYSeriesCollection data = new XYSeriesCollection();
+				final Plotable2D plotable = plotables.get(functionIndex);
 
-				List<Point2D> plotableSeries = plotable.getSeries();
-				XYSeries series = new XYSeries(plotable.getName());
+				final List<Point2D> plotableSeries = plotable.getSeries();
+				final XYSeries series = new XYSeries(plotable.getName());
 				for(int i = 0; i<plotableSeries.size(); i++) {
 					series.add(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
 				}
 				data.addSeries(series);
 
-				GraphStyle style = plotable.getStyle();
+				final GraphStyle style = plotable.getStyle();
 				Color color = style != null ? plotable.getStyle().getColor() : null;
-				if(color == null) color = getDefaultColor(functionIndex);
+				if(color == null) {
+					color = getDefaultColor(functionIndex);
+				}
 				renderer.setSeriesPaint(0, color);
 
 				if(style != null) {
@@ -117,15 +118,23 @@ public class Plot2D implements Plot {
 					chart.getXYPlot().setRenderer(functionIndex, renderer);
 
 					NumberAxis domain = (NumberAxis) chart.getXYPlot().getDomainAxis();
-					if(plotable.getDomainAxis() != null) domain = plotable.getDomainAxis().getImplementationJFree();
-					if(xAxisNumberFormat != null) domain.setNumberFormatOverride(xAxisNumberFormat);
-					if(!domain.equals(chart.getXYPlot().getDomainAxis())) chart.getXYPlot().setDomainAxis(functionIndex, domain);
+					if(plotable.getDomainAxis() != null) {
+						domain = plotable.getDomainAxis().getImplementationJFree();
+					}
+					if(xAxisNumberFormat != null) {
+						domain.setNumberFormatOverride(xAxisNumberFormat);
+					}
+					if(!domain.equals(chart.getXYPlot().getDomainAxis())) {
+						chart.getXYPlot().setDomainAxis(functionIndex, domain);
+					}
 
 					NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
 					if(plotable.getRangeAxis() != null) {
 						range = plotable.getRangeAxis().getImplementationJFree();
 					}
-					if(yAxisNumberFormat != null) range.setNumberFormatOverride(yAxisNumberFormat);
+					if(yAxisNumberFormat != null) {
+						range.setNumberFormatOverride(yAxisNumberFormat);
+					}
 
 					rangeAxisMap.putIfAbsent(plotable.getRangeAxis(), functionIndex);
 
@@ -146,7 +155,7 @@ public class Plot2D implements Plot {
 		}
 	}
 
-	private Color getDefaultColor(int functionIndex) {
+	private Color getDefaultColor(final int functionIndex) {
 		switch (functionIndex) {
 		case 0:
 			return new java.awt.Color(255, 0,  0);
@@ -163,7 +172,7 @@ public class Plot2D implements Plot {
 	public void show() {
 		init();
 		update(plotables);
-		JPanel chartPanel = new ChartPanel(chart,
+		final JPanel chartPanel = new ChartPanel(chart,
 				800, 400,   // size
 				128, 128,   // minimum size
 				2024, 2024, // maximum size
@@ -173,7 +182,7 @@ public class Plot2D implements Plot {
 			@Override
 			public void run() {
 				synchronized (updateLock) {
-					JFrame frame = new JFrame();
+					final JFrame frame = new JFrame();
 					frame.add(chartPanel);
 					frame.setVisible(true);
 					frame.pack();
@@ -183,7 +192,7 @@ public class Plot2D implements Plot {
 	}
 
 	@Override
-	public void saveAsJPG(File file, int width, int height) throws IOException {
+	public void saveAsJPG(final File file, final int width, final int height) throws IOException {
 		init();
 		update(plotables);
 		synchronized (updateLock) {
@@ -192,7 +201,7 @@ public class Plot2D implements Plot {
 	}
 
 	@Override
-	public void saveAsPDF(File file, int width, int height) throws IOException {
+	public void saveAsPDF(final File file, final int width, final int height) throws IOException {
 		init();
 		update(plotables);
 		synchronized (updateLock) {
@@ -201,7 +210,7 @@ public class Plot2D implements Plot {
 	}
 
 	@Override
-	public void saveAsSVG(File file, int width, int height) throws IOException {
+	public void saveAsSVG(final File file, final int width, final int height) throws IOException {
 		init();
 		update(plotables);
 		synchronized (updateLock) {
@@ -209,7 +218,7 @@ public class Plot2D implements Plot {
 		}
 	}
 
-	public Plot2D update(List<Plotable2D> plotables) {
+	public Plot2D update(final List<Plotable2D> plotables) {
 		this.plotables = plotables;
 		synchronized (updateLock) {
 			if(chart != null) {
@@ -220,14 +229,14 @@ public class Plot2D implements Plot {
 	}
 
 	@Override
-	public Plot2D setTitle(String title) {
+	public Plot2D setTitle(final String title) {
 		this.title = title;
 		update();
 		return this;
 	}
 
 	@Override
-	public Plot2D setXAxisLabel(String xAxisLabel) {
+	public Plot2D setXAxisLabel(final String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		synchronized (updateLock) {
 			if(chart != null) {
@@ -238,7 +247,7 @@ public class Plot2D implements Plot {
 	}
 
 	@Override
-	public Plot2D setYAxisLabel(String yAxisLabel) {
+	public Plot2D setYAxisLabel(final String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
 		synchronized (updateLock) {
 			if(chart != null) {
@@ -249,21 +258,21 @@ public class Plot2D implements Plot {
 	}
 
 	@Override
-	public Plot setZAxisLabel(String zAxisLabel) {
+	public Plot setZAxisLabel(final String zAxisLabel) {
 		throw new UnsupportedOperationException("The 2D plot does not suport a z-axis. Try 3D plot instead.");
 	}
 
-	public Plot2D setxAxisNumberFormat(NumberFormat xAxisNumberFormat) {
+	public Plot2D setxAxisNumberFormat(final NumberFormat xAxisNumberFormat) {
 		this.xAxisNumberFormat = xAxisNumberFormat;
 		return this;
 	}
 
-	public Plot2D setyAxisNumberFormat(NumberFormat yAxisNumberFormat) {
+	public Plot2D setyAxisNumberFormat(final NumberFormat yAxisNumberFormat) {
 		this.yAxisNumberFormat = yAxisNumberFormat;
 		return this;
 	}
 
-	public Plot setYRange(double ymin, double ymax) {
+	public Plot setYRange(final double ymin, final double ymax) {
 		this.ymin = ymin;
 		this.ymax = ymax;
 
@@ -275,7 +284,7 @@ public class Plot2D implements Plot {
 	/**
 	 * @param isLegendVisible the isLegendVisible to set
 	 */
-	public Plot setIsLegendVisible(Boolean isLegendVisible) {
+	public Plot setIsLegendVisible(final Boolean isLegendVisible) {
 		this.isLegendVisible = isLegendVisible;
 		update();
 		return this;

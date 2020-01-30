@@ -15,8 +15,8 @@ import net.finmath.plots.Named;
 import net.finmath.plots.Plot;
 import net.finmath.plots.PlotProcess2D;
 import net.finmath.stochastic.RandomVariable;
-import net.finmath.time.TimeDiscretizationFromArray;
 import net.finmath.time.TimeDiscretization;
+import net.finmath.time.TimeDiscretizationFromArray;
 
 /**
  * Plots the value of an option under the Black-Scholes model as a function of strike and time-to-maturity.
@@ -32,7 +32,7 @@ public class Plot2DDemoBlackScholesPaths {
 	 * @param args Not used.
 	 * @throws Exception Exception from the graphics backend.
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void main(final String[] args) throws Exception {
 
 		final double initialValue = 100;
 		final double riskFreeRate = 0.04;
@@ -41,10 +41,10 @@ public class Plot2DDemoBlackScholesPaths {
 		final double deltaT = 0.1;
 		final int numberOfPaths = 1000;
 
-		TimeDiscretization timeDiscretization = new TimeDiscretizationFromArray(0.0, numberOfTimeSteps, deltaT);
-		AssetModelMonteCarloSimulationModel blackScholesMonteCarlo = new MonteCarloBlackScholesModel(timeDiscretization, numberOfPaths, initialValue, riskFreeRate, volatility);
+		final TimeDiscretization timeDiscretization = new TimeDiscretizationFromArray(0.0, numberOfTimeSteps, deltaT);
+		final AssetModelMonteCarloSimulationModel blackScholesMonteCarlo = new MonteCarloBlackScholesModel(timeDiscretization, numberOfPaths, initialValue, riskFreeRate, volatility);
 
-		DoubleFunction<RandomVariable> function = (time) -> {
+		final DoubleFunction<RandomVariable> function = (time) -> {
 			try {
 				return blackScholesMonteCarlo.getAssetValue(time, 0 /* assetIndex */);
 			} catch (ArrayIndexOutOfBoundsException | CalculationException e) {
@@ -54,7 +54,7 @@ public class Plot2DDemoBlackScholesPaths {
 			return null;
 		};
 
-		Plot plot = new PlotProcess2D(timeDiscretization, new Named<>("Black-Scholes",function), 100 /* maxNumberOfPaths */);
+		final Plot plot = new PlotProcess2D(timeDiscretization, new Named<>("Black-Scholes",function), 100 /* maxNumberOfPaths */);
 		plot.setTitle("Black-Scholes Model Path").setXAxisLabel("time").setYAxisLabel("value");
 		plot.show();
 

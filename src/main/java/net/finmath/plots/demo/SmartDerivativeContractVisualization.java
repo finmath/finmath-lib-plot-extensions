@@ -47,17 +47,17 @@ public class SmartDerivativeContractVisualization {
 	 * @param args Not used.
 	 * @throws Exception Any exception.
 	 */
-	public static void main(String args[]) throws Exception {
+	public static void main(final String args[]) throws Exception {
 
-		SmartDerivativeContractVisualization sdcVisual = new SmartDerivativeContractVisualization();
+		final SmartDerivativeContractVisualization sdcVisual = new SmartDerivativeContractVisualization();
 		sdcVisual.start();
 
-		double marginBuffer = 50;
+		final double marginBuffer = 50;
 
-		Random random = new Random(3413);
+		final Random random = new Random(3413);
 		Double marketValue = 0.0;
 		for(int i=0; i<100; i++) {
-			double marginCall = 90*(random).nextDouble()-45;
+			final double marginCall = 90*(random).nextDouble()-45;
 			marketValue += marginCall;
 			sdcVisual.updateWithValue(marginBuffer, i /* Date index */, marketValue, marginCall);
 			Thread.sleep(2000);
@@ -93,7 +93,7 @@ public class SmartDerivativeContractVisualization {
 			@Override
 			public void run() {
 				// This method is invoked on Swing thread
-				JFrame frame = new JFrame("FX");
+				final JFrame frame = new JFrame("FX");
 				final JFXPanel fxPanel = new JFXPanel();
 				frame.add(fxPanel);
 				frame.setVisible(true);
@@ -104,11 +104,11 @@ public class SmartDerivativeContractVisualization {
 					@Override
 					public void run() {
 
-						FlowPane root = new FlowPane();
+						final FlowPane root = new FlowPane();
 						root.getChildren().addAll(new Group(plot.get()), plot2.get());
 
 
-						Scene scene = new Scene(root, 1600, 600);
+						final Scene scene = new Scene(root, 1600, 600);
 						scene.getStylesheets().add("barchart.css");
 						fxPanel.setScene(scene);
 					}
@@ -118,20 +118,20 @@ public class SmartDerivativeContractVisualization {
 
 	}
 
-	void updateWithValue(double base, double x, Double value, double increment) throws InterruptedException {
-		List<Category2D> density1 = new ArrayList<>();
+	void updateWithValue(final double base, final double x, final Double value, final double increment) throws InterruptedException {
+		final List<Category2D> density1 = new ArrayList<>();
 		density1.add(new Category2D("Us", base+Math.min(0,+increment)));
 		density1.add(new Category2D("Counterpart", base+Math.min(0,-increment)));
 
-		List<Category2D> density2 = new ArrayList<>();
+		final List<Category2D> density2 = new ArrayList<>();
 		density2.add(new Category2D("Us", -Math.min(0,+increment)));
 		density2.add(new Category2D("Counterpart", -Math.min(0,-increment)));
 
-		List<Category2D> density3 = new ArrayList<>();
+		final List<Category2D> density3 = new ArrayList<>();
 		density3.add(new Category2D("Us", Math.max(0,+increment)));
 		density3.add(new Category2D("Counterpart", Math.max(0,-increment)));
 
-		List<PlotableCategories> plotables = new ArrayList<>();
+		final List<PlotableCategories> plotables = new ArrayList<>();
 		plotables.add(new PlotableCategories() {
 
 			@Override
@@ -189,7 +189,7 @@ public class SmartDerivativeContractVisualization {
 		plot.update(plotables);
 
 		if(value != null) {
-			List<Plotable2D> plotables2 = new ArrayList<>();
+			final List<Plotable2D> plotables2 = new ArrayList<>();
 			plotables2.add(new Plotable2D() {
 
 				@Override

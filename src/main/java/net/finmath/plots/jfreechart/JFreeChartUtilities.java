@@ -54,14 +54,14 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class JFreeChartUtilities {
 
-	public static JFreeChart getContourPlot(String labelX, String labelY, String labelZ, RealMatrix dataMatrix) {
+	public static JFreeChart getContourPlot(final String labelX, final String labelY, final String labelZ, final RealMatrix dataMatrix) {
 		/*
 		 * Generate contour plot
 		 */
-		int			numberOfValues	= dataMatrix.getColumnDimension()*dataMatrix.getRowDimension();
-		double[]	xValues			= new double[numberOfValues];
-		double[]	yValues			= new double[numberOfValues];
-		double[]	zValues			= new double[numberOfValues];
+		final int			numberOfValues	= dataMatrix.getColumnDimension()*dataMatrix.getRowDimension();
+		final double[]	xValues			= new double[numberOfValues];
+		final double[]	yValues			= new double[numberOfValues];
+		final double[]	zValues			= new double[numberOfValues];
 		int valueIndex = 0;
 		for(int col=0; col<dataMatrix.getColumnDimension(); col++) {
 			for(int row=0; row<dataMatrix.getRowDimension(); row++) {
@@ -72,13 +72,13 @@ public class JFreeChartUtilities {
 			}
 		}
 
-		DefaultXYZDataset dataset = new DefaultXYZDataset();
+		final DefaultXYZDataset dataset = new DefaultXYZDataset();
 		dataset.addSeries("Correlation", new double[][] { xValues, yValues, zValues});
 
 		return getContourPlot(dataset, new XYBlockRenderer(), new HuePaintScale(-1.0,1.0), new NumberAxis(labelX), new NumberAxis(labelY), new NumberAxis(labelZ), dataMatrix.getColumnDimension(), dataMatrix.getRowDimension());
 	}
 
-	public static JFreeChart getContourPlot(DefaultXYZDataset dataset, XYBlockRenderer renderer, HuePaintScale paintScale, NumberAxis xAxis, NumberAxis yAxis, NumberAxis zAxis, int xItems, int yItems)
+	public static JFreeChart getContourPlot(final DefaultXYZDataset dataset, final XYBlockRenderer renderer, final HuePaintScale paintScale, final NumberAxis xAxis, final NumberAxis yAxis, final NumberAxis zAxis, final int xItems, final int yItems)
 	{
 		xAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
 		yAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
@@ -87,14 +87,14 @@ public class JFreeChartUtilities {
 		xAxis.setTickLabelFont(StyleGuide.tickLabelFont);
 		yAxis.setTickLabelFont(StyleGuide.tickLabelFont);
 
-		XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
+		final XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
 		plot.setBackgroundPaint(Color.lightGray);
 		plot.setDomainGridlinePaint(Color.white);
 		plot.setRangeGridlinePaint(Color.white);
 		//        plot.setForegroundAlpha(0.66f);
 		plot.setAxisOffset(new org.jfree.chart.ui.RectangleInsets(5, 5, 5, 5));
 
-		JFreeChart chart = new JFreeChart(null, StyleGuide.titleFont, plot, false);
+		final JFreeChart chart = new JFreeChart(null, StyleGuide.titleFont, plot, false);
 		chart.removeLegend();
 		chart.setBackgroundPaint(Color.white);
 
@@ -108,7 +108,7 @@ public class JFreeChartUtilities {
 		 */
 
 		renderer.setPaintScale(paintScale);
-		PaintScaleLegend psl = new PaintScaleLegend(renderer.getPaintScale(), zAxis);
+		final PaintScaleLegend psl = new PaintScaleLegend(renderer.getPaintScale(), zAxis);
 		psl.setAxisOffset(5.0);
 		psl.setPosition(RectangleEdge.LEFT);
 		psl.setMargin(new RectangleInsets(5, 5, 5, 5));
@@ -119,7 +119,7 @@ public class JFreeChartUtilities {
 		return chart;
 	}
 
-	public static void updateContourPlot(DefaultXYZDataset dataset, XYBlockRenderer renderer, HuePaintScale paintScale, NumberAxis xAxis, NumberAxis yAxis, NumberAxis zAxis, int xItems, int yItems)
+	public static void updateContourPlot(final DefaultXYZDataset dataset, final XYBlockRenderer renderer, final HuePaintScale paintScale, final NumberAxis xAxis, final NumberAxis yAxis, final NumberAxis zAxis, final int xItems, final int yItems)
 	{
 		double minX = Double.MAX_VALUE, maxX = Double.MIN_VALUE;
 		double minY = Double.MAX_VALUE, maxY = Double.MIN_VALUE;
@@ -162,16 +162,16 @@ public class JFreeChartUtilities {
 	}
 
 	public static JFreeChart getXYLinesPlotChart(
-			String title,
-			String xAxisLabel, String xAxisNumberFormat,
-			String yAxisLabel, String yAxisNumberFormat,
-			double[] xValues, double[] yValues)
+			final String title,
+			final String xAxisLabel, final String xAxisNumberFormat,
+			final String yAxisLabel, final String yAxisNumberFormat,
+			final double[] xValues, final double[] yValues)
 	{
 		/*
 		 * Create data series
 		 */
-		XYSeriesCollection data = new XYSeriesCollection();
-		XYSeries series = new XYSeries("1");
+		final XYSeriesCollection data = new XYSeriesCollection();
+		final XYSeries series = new XYSeries("1");
 		for(int i=0; i<xValues.length; i++) {
 			series.add(xValues[i], yValues[i]);
 		}
@@ -184,17 +184,17 @@ public class JFreeChartUtilities {
 	}
 
 	public static JFreeChart getXYLinesPlotChart(
-			String title,
-			String xAxisLabel, String xAxisNumberFormat,
-			String yAxisLabel, String yAxisNumberFormat,
-			RealMatrix xyData)
+			final String title,
+			final String xAxisLabel, final String xAxisNumberFormat,
+			final String yAxisLabel, final String yAxisNumberFormat,
+			final RealMatrix xyData)
 	{
 		/*
 		 * Create data series
 		 */
-		XYSeriesCollection data = new XYSeriesCollection();
+		final XYSeriesCollection data = new XYSeriesCollection();
 		for(int col=1; col<xyData.getColumnDimension(); col++) {
-			XYSeries series = new XYSeries("" + col);
+			final XYSeries series = new XYSeries("" + col);
 			for(int row=0; row<xyData.getRowDimension(); row++) {
 				series.add(xyData.getEntry(row, 0), xyData.getEntry(row, col));
 			}
@@ -208,17 +208,17 @@ public class JFreeChartUtilities {
 	}
 
 	public static JFreeChart getCategoryLinesPlotChart(
-			String title,
-			String xAxisLabel, String xAxisNumberFormat,
-			String yAxisLabel, String yAxisNumberFormat,
-			RealMatrix xyData)
+			final String title,
+			final String xAxisLabel, final String xAxisNumberFormat,
+			final String yAxisLabel, final String yAxisNumberFormat,
+			final RealMatrix xyData)
 	{
 		/*
 		 * Create data series
 		 */
-		XYSeriesCollection data = new XYSeriesCollection();
+		final XYSeriesCollection data = new XYSeriesCollection();
 		for(int col=0; col<xyData.getColumnDimension(); col++) {
-			XYSeries series = new XYSeries("" + col);
+			final XYSeries series = new XYSeries("" + col);
 			for(int row=0; row<xyData.getRowDimension(); row++) {
 				series.add(row, xyData.getEntry(row, col));
 			}
@@ -232,12 +232,12 @@ public class JFreeChartUtilities {
 	}
 
 	public static JFreeChart getXYPlotChart(
-			String title,
-			String xAxisLabel, String xAxisNumberFormat,
-			String yAxisLabel, String yAxisNumberFormat,
-			XYSeriesCollection data)
+			final String title,
+			final String xAxisLabel, final String xAxisNumberFormat,
+			final String yAxisLabel, final String yAxisNumberFormat,
+			final XYSeriesCollection data)
 	{
-		StandardXYItemRenderer renderer	= new StandardXYItemRenderer(StandardXYItemRenderer.LINES);
+		final StandardXYItemRenderer renderer	= new StandardXYItemRenderer(StandardXYItemRenderer.LINES);
 		renderer.setSeriesPaint(0, new java.awt.Color(255, 0,  0));
 		renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
 		renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
@@ -251,25 +251,25 @@ public class JFreeChartUtilities {
 	}
 
 	public static JFreeChart getXYPlotChart(
-			String title,
-			String xAxisLabel, String xAxisNumberFormat,
-			String yAxisLabel, String yAxisNumberFormat,
-			XYSeriesCollection data,
-			AbstractXYItemRenderer renderer)
+			final String title,
+			final String xAxisLabel, final String xAxisNumberFormat,
+			final String yAxisLabel, final String yAxisNumberFormat,
+			final XYSeriesCollection data,
+			final AbstractXYItemRenderer renderer)
 	{
 		return getXYPlotChart(title, xAxisLabel, xAxisNumberFormat, yAxisLabel, yAxisNumberFormat, data, renderer, false);
 	}
 
 	public static JFreeChart getXYPlotChart(
-			String title,
-			String xAxisLabel, String xAxisNumberFormat,
-			String yAxisLabel, String yAxisNumberFormat,
-			XYSeriesCollection data,
-			AbstractXYItemRenderer renderer,
-			boolean legend)
+			final String title,
+			final String xAxisLabel, final String xAxisNumberFormat,
+			final String yAxisLabel, final String yAxisNumberFormat,
+			final XYSeriesCollection data,
+			final AbstractXYItemRenderer renderer,
+			final boolean legend)
 	{
-		NumberAxis xAxis = new NumberAxis(xAxisLabel);
-		NumberAxis yAxis = new NumberAxis(yAxisLabel);
+		final NumberAxis xAxis = new NumberAxis(xAxisLabel);
+		final NumberAxis yAxis = new NumberAxis(yAxisLabel);
 
 		xAxis.setNumberFormatOverride(new DecimalFormat(xAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
 		yAxis.setNumberFormatOverride(new DecimalFormat(yAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
@@ -282,27 +282,27 @@ public class JFreeChartUtilities {
 		xAxis.setAutoRangeIncludesZero(false);
 		yAxis.setAutoRangeIncludesZero(false);
 
-		XYPlot plot = new XYPlot(data, xAxis, yAxis, renderer);
+		final XYPlot plot = new XYPlot(data, xAxis, yAxis, renderer);
 		plot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 		plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 
 		new StyleGuide(2).applyStyleToXYPlot2(plot);
-		JFreeChart chart = new JFreeChart(title, StyleGuide.getTitleFont(), plot, legend);
+		final JFreeChart chart = new JFreeChart(title, StyleGuide.getTitleFont(), plot, legend);
 		new StyleGuide(2).applyStyleToChart2(chart);
 
 		return chart;
 	}
 
 	public static JFreeChart getXYPlotLogChart(
-			String title,
-			String xAxisLabel, String xAxisNumberFormat,
-			String yAxisLabel, String yAxisNumberFormat,
-			XYSeriesCollection data,
-			AbstractXYItemRenderer renderer,
-			boolean legend)
+			final String title,
+			final String xAxisLabel, final String xAxisNumberFormat,
+			final String yAxisLabel, final String yAxisNumberFormat,
+			final XYSeriesCollection data,
+			final AbstractXYItemRenderer renderer,
+			final boolean legend)
 	{
-		NumberAxis xAxis = new LogarithmicAxis(xAxisLabel);
-		NumberAxis yAxis = new NumberAxis(yAxisLabel);
+		final NumberAxis xAxis = new LogarithmicAxis(xAxisLabel);
+		final NumberAxis yAxis = new NumberAxis(yAxisLabel);
 
 		xAxis.setNumberFormatOverride(new DecimalFormat(xAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
 		yAxis.setNumberFormatOverride(new DecimalFormat(yAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
@@ -314,11 +314,11 @@ public class JFreeChartUtilities {
 
 		yAxis.setAutoRangeIncludesZero(false);
 
-		XYPlot plot = new XYPlot(data, xAxis, yAxis, renderer);
+		final XYPlot plot = new XYPlot(data, xAxis, yAxis, renderer);
 		plot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 		plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 
-		JFreeChart chart = new JFreeChart(title, StyleGuide.titleFont, plot, legend);
+		final JFreeChart chart = new JFreeChart(title, StyleGuide.titleFont, plot, legend);
 
 		return chart;
 	}
@@ -332,8 +332,8 @@ public class JFreeChartUtilities {
 	 * @param height The height.
 	 * @throws IOException Thrown if the file could not be written.
 	 */
-	public static void saveChartAsPDF(File file, JFreeChart chart, int width, int height) throws IOException {
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+	public static void saveChartAsPDF(final File file, final JFreeChart chart, final int width, final int height) throws IOException {
+		final OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 		writeChartAsPDF(out, chart, width, height);
 		out.close();
 	}
@@ -347,10 +347,10 @@ public class JFreeChartUtilities {
 	 * @param height The height.
 	 * @throws IOException Thrown if the file could not be written.
 	 */
-	public static void saveChartAsSVG(File file, JFreeChart chart, int width, int height) throws IOException {
-		SVGGraphics2D g2 = new SVGGraphics2D(width, height);
+	public static void saveChartAsSVG(final File file, final JFreeChart chart, final int width, final int height) throws IOException {
+		final SVGGraphics2D g2 = new SVGGraphics2D(width, height);
 		g2.setRenderingHint(JFreeChart.KEY_SUPPRESS_SHADOW_GENERATION, true);
-		java.awt.Rectangle r = new java.awt.Rectangle(0, 0, 600, 400);
+		final java.awt.Rectangle r = new java.awt.Rectangle(0, 0, 600, 400);
 		chart.draw(g2, r);
 		SVGUtils.writeToSVG(file, g2.getSVGElement());
 
@@ -365,20 +365,20 @@ public class JFreeChartUtilities {
 	 * @param height The height.
 	 * @throws IOException Thrown if the file could not be written.
 	 */
-	public static void saveChartAsJPG(File file, JFreeChart chart, int width, int height) throws IOException {
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+	public static void saveChartAsJPG(final File file, final JFreeChart chart, final int width, final int height) throws IOException {
+		final OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 
-		BufferedImage imageWithAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = imageWithAlpha.createGraphics();
-		Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
+		final BufferedImage imageWithAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+		final Graphics2D g2 = imageWithAlpha.createGraphics();
+		final Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
 
 		chart.draw(g2, r2D);
 		g2.dispose();
 
 		// Strip alpha channel
-		BufferedImage imageWithoutAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
+		final BufferedImage imageWithoutAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
 
-		Graphics2D graphics = imageWithoutAlpha.createGraphics();
+		final Graphics2D graphics = imageWithoutAlpha.createGraphics();
 		graphics.drawImage(imageWithAlpha, null, 0, 0);
 
 		ImageIO.write(imageWithoutAlpha, "jpg", out);
@@ -394,23 +394,23 @@ public class JFreeChartUtilities {
 	 * @param width the chart width.
 	 * @param height the chart height.
 	 */
-	public static void writeChartAsPDF(OutputStream out, JFreeChart chart, int width, int height) {
-		com.itextpdf.text.Rectangle pagesize = new com.itextpdf.text.Rectangle(width, height);
-		Document document = new Document(pagesize, 50, 50, 50, 50);
+	public static void writeChartAsPDF(final OutputStream out, final JFreeChart chart, final int width, final int height) {
+		final com.itextpdf.text.Rectangle pagesize = new com.itextpdf.text.Rectangle(width, height);
+		final Document document = new Document(pagesize, 50, 50, 50, 50);
 		try {
-			PdfWriter writer = PdfWriter.getInstance(document, out);
+			final PdfWriter writer = PdfWriter.getInstance(document, out);
 			document.addAuthor("Christian Fries");
 			document.addSubject("Chart");
 			document.open();
-			PdfContentByte cb = writer.getDirectContent();
-			PdfTemplate tp = cb.createTemplate(width, height);
-			Graphics2D g2 = new PdfGraphics2D(tp, width, height);
-			Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
+			final PdfContentByte cb = writer.getDirectContent();
+			final PdfTemplate tp = cb.createTemplate(width, height);
+			final Graphics2D g2 = new PdfGraphics2D(tp, width, height);
+			final Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
 
 			chart.draw(g2, r2D);
 			g2.dispose();
 			cb.addTemplate(tp, 0, 0);
-		} catch (DocumentException de) {
+		} catch (final DocumentException de) {
 			System.err.println(de.getMessage());
 		}
 		document.close();

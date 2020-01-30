@@ -27,22 +27,22 @@ public class Plot3DDemo {
 	 * @param args Not used.
 	 * @throws Exception Exception from the graphics backend.
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void main(final String[] args) throws Exception {
 
 		final double initialStockValue = 100;
 		final double riskFreeRate = 0.04;
 		final double volatility = 0.40;
 
-		DoubleBinaryOperator function = (strike, timeToMaturity) -> {
-			double optionMaturity = timeToMaturity;
-			double optionStrike = strike;
+		final DoubleBinaryOperator function = (strike, timeToMaturity) -> {
+			final double optionMaturity = timeToMaturity;
+			final double optionStrike = strike;
 
-			double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
+			final double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
 
 			return z;
 		};
 
-		Plot plot = new Plot3D(0,300.0, 0, 10, 100, 100, new Named<DoubleBinaryOperator>("Black Scholes European Option Value", function));
+		final Plot plot = new Plot3D(0,300.0, 0, 10, 100, 100, new Named<DoubleBinaryOperator>("Black Scholes European Option Value", function));
 		plot.setXAxisLabel("strike").setYAxisLabel("time to maturity").setZAxisLabel("value");
 		plot.show();
 	}

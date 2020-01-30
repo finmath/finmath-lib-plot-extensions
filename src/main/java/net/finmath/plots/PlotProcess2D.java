@@ -52,7 +52,7 @@ public class PlotProcess2D implements Plot {
 	 * @param process The stochastic process to be plotted against the y-axsis (the first n paths are plotted).
 	 * @param maxNumberOfPaths Maximum number of path (n) to be plotted.
 	 */
-	public PlotProcess2D(TimeDiscretization timeDiscretization, Named<DoubleFunction<RandomVariable>> process, int maxNumberOfPaths) {
+	public PlotProcess2D(final TimeDiscretization timeDiscretization, final Named<DoubleFunction<RandomVariable>> process, final int maxNumberOfPaths) {
 		super();
 		this.timeDiscretization = timeDiscretization;
 		this.process = process;
@@ -66,7 +66,7 @@ public class PlotProcess2D implements Plot {
 	 * @param process The stochastic process to be plotted against the y-axsis (the first n paths are plotted).
 	 * @param maxNumberOfPaths Maximum number of path (n) to be plotted.
 	 */
-	public PlotProcess2D(TimeDiscretization timeDiscretization, DoubleFunction<RandomVariable> process, int maxNumberOfPaths) {
+	public PlotProcess2D(final TimeDiscretization timeDiscretization, final DoubleFunction<RandomVariable> process, final int maxNumberOfPaths) {
 		super();
 		this.timeDiscretization = timeDiscretization;
 		this.process = new Named<DoubleFunction<RandomVariable>>("", process);
@@ -79,14 +79,14 @@ public class PlotProcess2D implements Plot {
 	 * @param timeDiscretization The time discretization to be used for the x-axis.
 	 * @param process The stochastic process to be plotted against the y-axsis.
 	 */
-	public PlotProcess2D(TimeDiscretization timeDiscretization, Named<DoubleFunction<RandomVariable>> process) {
+	public PlotProcess2D(final TimeDiscretization timeDiscretization, final Named<DoubleFunction<RandomVariable>> process) {
 		this(timeDiscretization, process, 100);
 	}
 
 	private void init() {
-		ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>();
-		for(double time : timeDiscretization) {
-			RandomVariable randomVariable = process.get().apply(time);
+		final ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>();
+		for(final double time : timeDiscretization) {
+			final RandomVariable randomVariable = process.get().apply(time);
 			for(int pathIndex=0; pathIndex<Math.min(randomVariable.size(),maxNumberOfPaths); pathIndex++) {
 				XYSeries series = pathIndex < seriesList.size() ? seriesList.get(pathIndex) : null;
 				if(series == null) {
@@ -96,12 +96,12 @@ public class PlotProcess2D implements Plot {
 				series.add(time, randomVariable.get(pathIndex));
 			}
 		}
-		XYSeriesCollection data = new XYSeriesCollection();
-		for(XYSeries series : seriesList) {
+		final XYSeriesCollection data = new XYSeriesCollection();
+		for(final XYSeries series : seriesList) {
 			data.addSeries(series);
 		}
 
-		StandardXYItemRenderer renderer	= new StandardXYItemRenderer(StandardXYItemRenderer.LINES);
+		final StandardXYItemRenderer renderer	= new StandardXYItemRenderer(StandardXYItemRenderer.LINES);
 		renderer.setSeriesPaint(0, new java.awt.Color(255, 0,  0));
 		renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
 		renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
@@ -112,7 +112,7 @@ public class PlotProcess2D implements Plot {
 	@Override
 	public void show() {
 		init();
-		JPanel chartPanel = new ChartPanel(chart,
+		final JPanel chartPanel = new ChartPanel(chart,
 				800, 400,   // size
 				128, 128,   // minimum size
 				2024, 2024, // maximum size
@@ -121,7 +121,7 @@ public class PlotProcess2D implements Plot {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				JFrame frame = new JFrame();
+				final JFrame frame = new JFrame();
 				frame.add(chartPanel);
 				frame.setVisible(true);
 				frame.pack();
@@ -130,47 +130,47 @@ public class PlotProcess2D implements Plot {
 	}
 
 	@Override
-	public void saveAsJPG(File file, int width, int height) throws IOException {
+	public void saveAsJPG(final File file, final int width, final int height) throws IOException {
 		JFreeChartUtilities.saveChartAsJPG(file, chart, width, height);
 	}
 
 	@Override
-	public void saveAsPDF(File file, int width, int height) throws IOException {
+	public void saveAsPDF(final File file, final int width, final int height) throws IOException {
 		JFreeChartUtilities.saveChartAsPDF(file, chart, width, height);
 	}
 
 	@Override
-	public void saveAsSVG(File file, int width, int height) throws IOException {
+	public void saveAsSVG(final File file, final int width, final int height) throws IOException {
 		JFreeChartUtilities.saveChartAsSVG(file, chart, width, height);
 	}
 
 	@Override
-	public PlotProcess2D setTitle(String title) {
+	public PlotProcess2D setTitle(final String title) {
 		this.title = title;
 		return this;
 	}
 
 	@Override
-	public PlotProcess2D setXAxisLabel(String xAxisLabel) {
+	public PlotProcess2D setXAxisLabel(final String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		return this;
 	}
 
 	@Override
-	public PlotProcess2D setYAxisLabel(String yAxisLabel) {
+	public PlotProcess2D setYAxisLabel(final String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
 		return this;
 	}
 
 	@Override
-	public Plot setZAxisLabel(String zAxisLabel) {
+	public Plot setZAxisLabel(final String zAxisLabel) {
 		throw new UnsupportedOperationException("The 2D plot does not suport a z-axis. Try 3D plot instead.");
 	}
 
 	/**
 	 * @param isLegendVisible the isLegendVisible to set
 	 */
-	public Plot setIsLegendVisible(Boolean isLegendVisible) {
+	public Plot setIsLegendVisible(final Boolean isLegendVisible) {
 		this.isLegendVisible = isLegendVisible;
 		return this;
 	}

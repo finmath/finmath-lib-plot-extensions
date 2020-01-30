@@ -22,7 +22,7 @@ public class Named<T extends Object> {
 	 * @param name Name of the object.
 	 * @param object The object.
 	 */
-	public Named(String name, T object) {
+	public Named(final String name, final T object) {
 		super();
 		this.name = name;
 		this.object = object;

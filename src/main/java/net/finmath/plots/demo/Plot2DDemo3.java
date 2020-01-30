@@ -15,7 +15,6 @@ import java.util.Random;
 import java.util.function.DoubleUnaryOperator;
 
 import net.finmath.marketdata.model.curves.Curve;
-import net.finmath.marketdata.model.curves.CurveInterpolation;
 import net.finmath.marketdata.model.curves.locallinearregression.CurveEstimation;
 import net.finmath.plots.GraphStyle;
 import net.finmath.plots.Named;
@@ -38,11 +37,11 @@ public class Plot2DDemo3 {
 	 * @param args Not used.
 	 * @throws Exception Exception from the graphics backend.
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void main(final String[] args) throws Exception {
 
-		LocalDate date = LocalDate.now();
+		final LocalDate date = LocalDate.now();
 
-		Plot2D plot = new Plot2D(new ArrayList<Plotable2D>());
+		final Plot2D plot = new Plot2D(new ArrayList<Plotable2D>());
 		plot
 		.setXAxisLabel("time")
 		.setYAxisLabel("value")
@@ -50,31 +49,31 @@ public class Plot2DDemo3 {
 		.show();
 
 		for(int bandwidthIndex=0; bandwidthIndex<20; bandwidthIndex++) {
-			double bandwidth = 10.0+bandwidthIndex*5;
+			final double bandwidth = 10.0+bandwidthIndex*5;
 
-			Random random = new Random(3141);
-			int numberOfSamplePoints = 100;
-			double[] xValues = new double[numberOfSamplePoints];
-			double[] yValues = new double[numberOfSamplePoints];
+			final Random random = new Random(3141);
+			final int numberOfSamplePoints = 100;
+			final double[] xValues = new double[numberOfSamplePoints];
+			final double[] yValues = new double[numberOfSamplePoints];
 			for(int i=0; i<numberOfSamplePoints; i++) {
 				xValues[i] = random.nextDouble() * 360.0;
 				yValues[i] = 10.0*Math.sin(Math.PI * xValues[i]/180.0) + 10.0*(random.nextDouble()-0.5);
 			}
 
 
-			CurveEstimation estimatedcurve = new CurveEstimation(date, bandwidth, xValues, yValues, xValues.clone(), 0.0);
-			Curve regressionCurve = estimatedcurve.getRegressionCurve();
+			final CurveEstimation estimatedcurve = new CurveEstimation(date, bandwidth, xValues, yValues, xValues.clone(), 0.0);
+			final Curve regressionCurve = estimatedcurve.getRegressionCurve();
 
-			DoubleUnaryOperator function = (x) -> {
+			final DoubleUnaryOperator function = (x) -> {
 				return regressionCurve.getValue(x);
 			};
 
-			List<Point2D> series = new ArrayList<Point2D>();
+			final List<Point2D> series = new ArrayList<Point2D>();
 			for(int i=0; i<xValues.length; i++) {
 				series.add(new Point2D(xValues[i],yValues[i]));
 			}
 
-			List<Plotable2D> plotables = Arrays.asList(
+			final List<Plotable2D> plotables = Arrays.asList(
 					new PlotableFunction2D(0.0, 360.0, 1000, new Named<DoubleUnaryOperator>("Regression Curve", function), null),
 					new PlotablePoints2D("Values", series, new GraphStyle(new Rectangle(1, 1), null, null))
 					);

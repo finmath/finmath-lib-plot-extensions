@@ -7,16 +7,18 @@ package net.finmath.plots;
 
 import java.util.List;
 
+import net.finmath.plots.axis.NumberAxis;
+
 public class PlotablePoints2D implements Plotable2D {
 
-	private String name;
-	private List<Point2D> series;
-	private NumberAxis domainAxis;
-	private NumberAxis rangeAxis;
-	private GraphStyle style;
-	
-	public PlotablePoints2D(String name, List<Point2D> series, NumberAxis domainAxis, NumberAxis rangeAxis,
-			GraphStyle style) {
+	private final String name;
+	private final List<Point2D> series;
+	private final NumberAxis domainAxis;
+	private final NumberAxis rangeAxis;
+	private final GraphStyle style;
+
+	public PlotablePoints2D(final String name, final List<Point2D> series, final NumberAxis domainAxis, final NumberAxis rangeAxis,
+			final GraphStyle style) {
 		super();
 		this.name = name;
 		this.series = series;
@@ -25,7 +27,7 @@ public class PlotablePoints2D implements Plotable2D {
 		this.style = style;
 	}
 
-	public PlotablePoints2D(String name, List<Point2D> series, GraphStyle style) {
+	public PlotablePoints2D(final String name, final List<Point2D> series, final GraphStyle style) {
 		this(name, series, null, null, style);
 	}
 

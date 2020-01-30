@@ -15,7 +15,7 @@ public class HuePaintScale implements PaintScale {
 	double lowerBound;
 	double upperBound;
 
-	public HuePaintScale(double lowerBound, double upperBound) {
+	public HuePaintScale(final double lowerBound, final double upperBound) {
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
 	}
@@ -28,8 +28,10 @@ public class HuePaintScale implements PaintScale {
 		return upperBound;
 	}
 
-	public Paint getPaint(double value) {
-		if(value > upperBound || value < lowerBound || Double.isNaN(value)) return Color.GRAY;
+	public Paint getPaint(final double value) {
+		if(value > upperBound || value < lowerBound || Double.isNaN(value)) {
+			return Color.GRAY;
+		}
 		return Color.getHSBColor((float) ((value-lowerBound) / (upperBound-lowerBound) * 240.0/360.0), 1.0f, 1.0f);
 	}
 }

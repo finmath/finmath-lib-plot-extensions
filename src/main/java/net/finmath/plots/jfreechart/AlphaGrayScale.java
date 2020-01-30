@@ -17,7 +17,7 @@ public class AlphaGrayScale implements PaintScale {
 	double frequency;
 	double thickness;
 
-	public AlphaGrayScale(double lowerBound, double upperBound, double frequency, double thickness) {
+	public AlphaGrayScale(final double lowerBound, final double upperBound, final double frequency, final double thickness) {
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
 		this.frequency = frequency;
@@ -32,11 +32,13 @@ public class AlphaGrayScale implements PaintScale {
 		return upperBound;
 	}
 
-	public Paint getPaint(double value) {
+	public Paint getPaint(final double value) {
 		final float level = (float)Math.sin(0.5*Math.PI*(1.0-thickness));
 
-		if(Double.isNaN(value)) return Color.GRAY;
-		double percentageValue = Math.min(Math.max((value-lowerBound) / (upperBound-lowerBound),0.0),1.0);
+		if(Double.isNaN(value)) {
+			return Color.GRAY;
+		}
+		final double percentageValue = Math.min(Math.max((value-lowerBound) / (upperBound-lowerBound),0.0),1.0);
 		return new Color(0.0f, 0.0f, 0.0f, (float)Math.max(Math.sin(10*2*Math.PI*percentageValue)-level,0.0)/(1.0f-level));
 	}
 }

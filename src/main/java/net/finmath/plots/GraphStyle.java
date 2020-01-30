@@ -18,11 +18,11 @@ import java.awt.Stroke;
  */
 public class GraphStyle {
 
-	private Shape shape;
-	private Stroke stoke;
-	private Color color;
+	private final Shape shape;
+	private final Stroke stoke;
+	private final Color color;
 
-	public GraphStyle(Shape shape, Stroke stoke, Color color) {
+	public GraphStyle(final Shape shape, final Stroke stoke, final Color color) {
 		super();
 		this.shape = shape;
 		this.stoke = stoke;

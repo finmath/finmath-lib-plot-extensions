@@ -53,18 +53,18 @@ public class Plot2DFX implements Plot {
 	private Boolean isLegendVisible = false;
 
 	LineChart<Number,Number> chart;
-	private Object updateLock = new Object();
+	private final Object updateLock = new Object();
 
-	public Plot2DFX(List<Plotable2D> plotables) {
+	public Plot2DFX(final List<Plotable2D> plotables) {
 		super();
 		this.plotables = plotables;
 	}
 
-	public Plot2DFX(double xmin, double xmax, int numberOfPointsX, DoubleUnaryOperator function) {
+	public Plot2DFX(final double xmin, final double xmax, final int numberOfPointsX, final DoubleUnaryOperator function) {
 		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
 	}
 
-	public Plot2DFX(double xmin, double xmax, int numberOfPointsX, List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
+	public Plot2DFX(final double xmin, final double xmax, final int numberOfPointsX, final List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
 		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
 	}
 
@@ -86,19 +86,25 @@ public class Plot2DFX implements Plot {
 	private void update() {
 		Platform.runLater(new Runnable() {
 			@Override public void run() {
-				if(plotables == null) return;
+				if(plotables == null) {
+					return;
+				}
 				chart.setTitle(title);
 				for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
-					Plotable2D plotable = plotables.get(functionIndex);
-					GraphStyle style = plotable.getStyle();
+					final Plotable2D plotable = plotables.get(functionIndex);
+					final GraphStyle style = plotable.getStyle();
 					Color color = getColor(style);
-					if(color == null) color = getDefaultColor(functionIndex);
+					if(color == null) {
+						color = getDefaultColor(functionIndex);
+					}
 
-					String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
+					final String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
 
-					List<Point2D> plotableSeries = plotable.getSeries();
+					final List<Point2D> plotableSeries = plotable.getSeries();
 					XYChart.Series series = null;
-					if(functionIndex < chart.getData().size()) series = chart.getData().get(functionIndex);
+					if(functionIndex < chart.getData().size()) {
+						series = chart.getData().get(functionIndex);
+					}
 					if(series == null) {
 						series = new XYChart.Series();
 						chart.getData().add(functionIndex,series);
@@ -106,7 +112,9 @@ public class Plot2DFX implements Plot {
 					series.setName(plotable.getName());
 					for(int i = 0; i<plotableSeries.size(); i++) {
 						XYChart.Data<Number, Number> data = null;
-						if(i < series.getData().size()) data = (Data<Number, Number>) series.getData().get(i);
+						if(i < series.getData().size()) {
+							data = (Data<Number, Number>) series.getData().get(i);
+						}
 						if(data == null) {
 							data = new XYChart.Data(plotableSeries.get(i).getX(), plotableSeries.get(i).getY());
 							if(style != null && style.getShape() != null) {
@@ -123,8 +131,11 @@ public class Plot2DFX implements Plot {
 					/*
 					 * Apply style to line
 					 */
-					if(style != null && style.getStoke() != null) series.getNode().setStyle("-fx-stroke: rgba(" + rgba + ");");
-					else series.getNode().setStyle("-fx-stroke: none;");
+					if(style != null && style.getStoke() != null) {
+						series.getNode().setStyle("-fx-stroke: rgba(" + rgba + ");");
+					} else {
+						series.getNode().setStyle("-fx-stroke: none;");
+					}
 
 					/*
 			String rgb = String.format("%d, %d, %d", (int) (color.getRed() * 255), (int) (color.getGreen() * 255),(int) (color.getBlue() * 255));
@@ -135,11 +146,11 @@ public class Plot2DFX implements Plot {
 
 					//			.default-color2.chart-line-symbol { -fx-background-color: #dda0dd, white; }
 				}
-				Node[] legendItems = chart.lookupAll(".chart-legend-item-symbol").toArray(new Node[0]);
+				final Node[] legendItems = chart.lookupAll(".chart-legend-item-symbol").toArray(new Node[0]);
 				for(int i = 0; i<legendItems.length; i++) {
-					Node legendItemNode = legendItems[i];
-					Color color = getDefaultColor(i);
-					String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
+					final Node legendItemNode = legendItems[i];
+					final Color color = getDefaultColor(i);
+					final String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
 					legendItemNode.setStyle("-fx-background-color: rgba("+rgba+");");
 					chart.applyCss();
 				}
@@ -148,8 +159,8 @@ public class Plot2DFX implements Plot {
 		});
 	}
 
-	private Color getColor(GraphStyle style) {
-		java.awt.Color awtColor = style != null ? style.getColor() : null;
+	private Color getColor(final GraphStyle style) {
+		final java.awt.Color awtColor = style != null ? style.getColor() : null;
 		Color color = null;
 		if(awtColor != null) {
 			color = new Color(awtColor.getRed()/255.0, awtColor.getGreen()/255.0, awtColor.getBlue()/255.0, awtColor.getAlpha()/255.0);
@@ -157,7 +168,7 @@ public class Plot2DFX implements Plot {
 		return color;
 	}
 
-	private Color getDefaultColor(int functionIndex) {
+	private Color getDefaultColor(final int functionIndex) {
 		switch (functionIndex) {
 		case 0:
 			return new Color(1.0, 0,  0, 1.0);
@@ -176,7 +187,7 @@ public class Plot2DFX implements Plot {
 			@Override
 			public void run() {
 				// This method is invoked on Swing thread
-				JFrame frame = new JFrame("FX");
+				final JFrame frame = new JFrame("FX");
 				final JFXPanel fxPanel = new JFXPanel();
 				frame.add(fxPanel);
 				frame.setVisible(true);
@@ -203,11 +214,13 @@ public class Plot2DFX implements Plot {
 	}
 
 	@Override
-	public void saveAsJPG(File file, int width, int height) throws IOException {
+	public void saveAsJPG(final File file, final int width, final int height) throws IOException {
 	}
 
-	public void saveAsPNG(File file, int width, int height) throws IOException {
-		if(chart == null) return;
+	public void saveAsPNG(final File file, final int width, final int height) throws IOException {
+		if(chart == null) {
+			return;
+		}
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -215,13 +228,13 @@ public class Plot2DFX implements Plot {
 
 					chart.setAnimated(false);
 
-					OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+					final OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 
-					BufferedImage imageWithAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
-					Graphics2D g2 = imageWithAlpha.createGraphics();
-					Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
+					final BufferedImage imageWithAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+					final Graphics2D g2 = imageWithAlpha.createGraphics();
+					final Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
 
-					WritableImage image = chart.getScene().snapshot(null);
+					final WritableImage image = chart.getScene().snapshot(null);
 					ImageIO.write(javafx.embed.swing.SwingFXUtils.fromFXImage(image, null), "png", out);
 
 					/*
@@ -236,7 +249,7 @@ public class Plot2DFX implements Plot {
 
 					out.close();
 
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -245,14 +258,14 @@ public class Plot2DFX implements Plot {
 	}
 
 	@Override
-	public void saveAsPDF(File file, int width, int height) throws IOException {
+	public void saveAsPDF(final File file, final int width, final int height) throws IOException {
 	}
 
 	@Override
-	public void saveAsSVG(File file, int width, int height) throws IOException {
+	public void saveAsSVG(final File file, final int width, final int height) throws IOException {
 	}
 
-	public Plot2DFX update(List<Plotable2D> plotables) {
+	public Plot2DFX update(final List<Plotable2D> plotables) {
 		this.plotables = plotables;
 		synchronized (updateLock) {
 			if(chart != null) {
@@ -263,25 +276,27 @@ public class Plot2DFX implements Plot {
 	}
 
 	@Override
-	public Plot2DFX setTitle(String title) {
+	public Plot2DFX setTitle(final String title) {
 		this.title = title;
 		return this;
 	}
 
 	@Override
-	public Plot2DFX setXAxisLabel(String xAxisLabel) {
+	public Plot2DFX setXAxisLabel(final String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		return this;
 	}
 
 	@Override
-	public Plot2DFX setYAxisLabel(String yAxisLabel) {
+	public Plot2DFX setYAxisLabel(final String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
 		return this;
 	}
 
-	public Plot2DFX setYAxisRange(Double min, Double max) {
-		if(chart == null || chart.getYAxis() == null) return this;
+	public Plot2DFX setYAxisRange(final Double min, final Double max) {
+		if(chart == null || chart.getYAxis() == null) {
+			return this;
+		}
 		if(min == null || max == null) {
 			chart.getYAxis().setAutoRanging(true);
 		}
@@ -294,14 +309,14 @@ public class Plot2DFX implements Plot {
 	}
 
 	@Override
-	public Plot setZAxisLabel(String zAxisLabel) {
+	public Plot setZAxisLabel(final String zAxisLabel) {
 		throw new UnsupportedOperationException("The 2D plot does not suport a z-axis. Try 3D plot instead.");
 	}
 
 	/**
 	 * @param isLegendVisible the isLegendVisible to set
 	 */
-	public Plot setIsLegendVisible(Boolean isLegendVisible) {
+	public Plot setIsLegendVisible(final Boolean isLegendVisible) {
 		this.isLegendVisible = isLegendVisible;
 		return this;
 	}

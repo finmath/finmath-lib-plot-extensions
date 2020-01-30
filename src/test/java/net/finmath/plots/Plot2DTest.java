@@ -1,6 +1,6 @@
 package net.finmath.plots;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.function.DoubleUnaryOperator;
@@ -17,23 +17,23 @@ public class Plot2DTest {
 		final double riskFreeRate = 0.04;
 		final double volatility = 0.40;
 
-		DoubleUnaryOperator function = (strike) -> {
+		final DoubleUnaryOperator function = (strike) -> {
 			final double optionMaturity = 1.0;
-			double optionStrike = strike;
+			final double optionStrike = strike;
 
-			double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
+			final double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
 
 			return z;
 		};
 
-		Plot plot = new Plot2D(0.0, 300.0, 100, Arrays.asList(
+		final Plot plot = new Plot2D(0.0, 300.0, 100, Arrays.asList(
 				new Named<DoubleUnaryOperator>("Maturity 1", function)));
 
 		plot.setTitle("Black-Scholes Model European Option Value").setXAxisLabel("strike").setYAxisLabel("value").setIsLegendVisible(true);
 		try {
 			plot.show();
 			Thread.sleep(2000);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			fail("Failing with exception " + e.getMessage());
 		}
 	}
