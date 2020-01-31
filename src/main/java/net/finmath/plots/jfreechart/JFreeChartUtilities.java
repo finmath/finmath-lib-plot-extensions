@@ -80,12 +80,14 @@ public class JFreeChartUtilities {
 
 	public static JFreeChart getContourPlot(final DefaultXYZDataset dataset, final XYBlockRenderer renderer, final HuePaintScale paintScale, final NumberAxis xAxis, final NumberAxis yAxis, final NumberAxis zAxis, final int xItems, final int yItems)
 	{
+		StyleGuide style = new StyleGuide(1);
+		
 		xAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
 		yAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
-		xAxis.setLabelFont(StyleGuide.axisLabelFont);
-		yAxis.setLabelFont(StyleGuide.axisLabelFont);
-		xAxis.setTickLabelFont(StyleGuide.tickLabelFont);
-		yAxis.setTickLabelFont(StyleGuide.tickLabelFont);
+		xAxis.setLabelFont(style.getAxisLabelFont());
+		yAxis.setLabelFont(style.getAxisLabelFont());
+		xAxis.setTickLabelFont(style.getTickLabelFont());
+		yAxis.setTickLabelFont(style.getTickLabelFont());
 
 		final XYPlot plot = new XYPlot(dataset, xAxis, yAxis, renderer);
 		plot.setBackgroundPaint(Color.lightGray);
@@ -94,7 +96,7 @@ public class JFreeChartUtilities {
 		//        plot.setForegroundAlpha(0.66f);
 		plot.setAxisOffset(new org.jfree.chart.ui.RectangleInsets(5, 5, 5, 5));
 
-		final JFreeChart chart = new JFreeChart(null, StyleGuide.titleFont, plot, false);
+		final JFreeChart chart = new JFreeChart(null, style.getTitleFont(), plot, false);
 		chart.removeLegend();
 		chart.setBackgroundPaint(Color.white);
 
@@ -121,6 +123,8 @@ public class JFreeChartUtilities {
 
 	public static void updateContourPlot(final DefaultXYZDataset dataset, final XYBlockRenderer renderer, final HuePaintScale paintScale, final NumberAxis xAxis, final NumberAxis yAxis, final NumberAxis zAxis, final int xItems, final int yItems)
 	{
+		StyleGuide style = new StyleGuide(1);
+
 		double minX = Double.MAX_VALUE, maxX = Double.MIN_VALUE;
 		double minY = Double.MAX_VALUE, maxY = Double.MIN_VALUE;
 		double minZ = Double.MAX_VALUE, maxZ = Double.MIN_VALUE;
@@ -134,15 +138,15 @@ public class JFreeChartUtilities {
 
 		if(xAxis != null) {
 			xAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
-			xAxis.setLabelFont(StyleGuide.axisLabelFont);
-			xAxis.setTickLabelFont(StyleGuide.tickLabelFont);
+			xAxis.setLabelFont(style.getAxisLabelFont());
+			xAxis.setTickLabelFont(style.getTickLabelFont());
 			xAxis.setRange(minX, maxX);
 		}
 
 		if(yAxis != null) {
 			yAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
-			yAxis.setLabelFont(StyleGuide.axisLabelFont);
-			yAxis.setTickLabelFont(StyleGuide.tickLabelFont);
+			yAxis.setLabelFont(style.getAxisLabelFont());
+			yAxis.setTickLabelFont(style.getTickLabelFont());
 			yAxis.setRange(minY, maxY);
 		}
 
@@ -268,16 +272,17 @@ public class JFreeChartUtilities {
 			final AbstractXYItemRenderer renderer,
 			final boolean legend)
 	{
+		StyleGuide style = new StyleGuide(2);
 		final NumberAxis xAxis = new NumberAxis(xAxisLabel);
 		final NumberAxis yAxis = new NumberAxis(yAxisLabel);
 
 		xAxis.setNumberFormatOverride(new DecimalFormat(xAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
 		yAxis.setNumberFormatOverride(new DecimalFormat(yAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
 
-		xAxis.setLabelFont(StyleGuide.getAxisLabelFont());
-		yAxis.setLabelFont(StyleGuide.getAxisLabelFont());
-		xAxis.setTickLabelFont(StyleGuide.getTickLabelFont());
-		yAxis.setTickLabelFont(StyleGuide.getTickLabelFont());
+		xAxis.setLabelFont(style.getAxisLabelFont());
+		yAxis.setLabelFont(style.getAxisLabelFont());
+		xAxis.setTickLabelFont(style.getTickLabelFont());
+		yAxis.setTickLabelFont(style.getTickLabelFont());
 
 		xAxis.setAutoRangeIncludesZero(false);
 		yAxis.setAutoRangeIncludesZero(false);
@@ -286,9 +291,11 @@ public class JFreeChartUtilities {
 		plot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 		plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 
-		new StyleGuide(2).applyStyleToXYPlot2(plot);
-		final JFreeChart chart = new JFreeChart(title, StyleGuide.getTitleFont(), plot, legend);
-		new StyleGuide(2).applyStyleToChart2(chart);
+		style.applyStyleToXYPlot2(plot);
+
+		final JFreeChart chart = new JFreeChart(title, style.getTitleFont(), plot, legend);
+
+		style.applyStyleToChart2(chart);
 
 		return chart;
 	}
@@ -301,16 +308,17 @@ public class JFreeChartUtilities {
 			final AbstractXYItemRenderer renderer,
 			final boolean legend)
 	{
+		StyleGuide style = new StyleGuide(2);
 		final NumberAxis xAxis = new LogarithmicAxis(xAxisLabel);
 		final NumberAxis yAxis = new NumberAxis(yAxisLabel);
 
 		xAxis.setNumberFormatOverride(new DecimalFormat(xAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
 		yAxis.setNumberFormatOverride(new DecimalFormat(yAxisNumberFormat, new DecimalFormatSymbols(Locale.ENGLISH)));
 
-		xAxis.setLabelFont(StyleGuide.axisLabelFont);
-		yAxis.setLabelFont(StyleGuide.axisLabelFont);
-		xAxis.setTickLabelFont(StyleGuide.tickLabelFont);
-		yAxis.setTickLabelFont(StyleGuide.tickLabelFont);
+		xAxis.setLabelFont(style.getAxisLabelFont());
+		yAxis.setLabelFont(style.getAxisLabelFont());
+		xAxis.setTickLabelFont(style.getTickLabelFont());
+		yAxis.setTickLabelFont(style.getTickLabelFont());
 
 		yAxis.setAutoRangeIncludesZero(false);
 
@@ -318,7 +326,7 @@ public class JFreeChartUtilities {
 		plot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 		plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 
-		final JFreeChart chart = new JFreeChart(title, StyleGuide.titleFont, plot, legend);
+		final JFreeChart chart = new JFreeChart(title, style.getTitleFont(), plot, legend);
 
 		return chart;
 	}

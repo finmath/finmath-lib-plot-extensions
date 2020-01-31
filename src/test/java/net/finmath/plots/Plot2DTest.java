@@ -26,13 +26,13 @@ public class Plot2DTest {
 			return z;
 		};
 
-		final Plot plot = new Plot2D(0.0, 300.0, 100, Arrays.asList(
+		final Plot plot = new Plot2DFX(0.0, 300.0, 100, Arrays.asList(
 				new Named<DoubleUnaryOperator>("Maturity 1", function)));
 
 		plot.setTitle("Black-Scholes Model European Option Value").setXAxisLabel("strike").setYAxisLabel("value").setIsLegendVisible(true);
 		try {
 			plot.show();
-			Thread.sleep(2000);
+			Thread.sleep(10000);
 		} catch (final Exception e) {
 			fail("Failing with exception " + e.getMessage());
 		}

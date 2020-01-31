@@ -11,6 +11,7 @@ import java.awt.Font;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.title.LegendTitle;
 
@@ -19,21 +20,23 @@ import org.jfree.chart.title.LegendTitle;
  */
 public class StyleGuide {
 
-	static Font titleFont;
-	static Font axisLabelFont;
-	static Font annotationFont;
-	static Font tickLabelFont;
+	private final String fontName = "Arial";
+	private final Font titleFont;
+	private final Font axisLabelFont;
+	private final Font annotationFont;
+	private final Font tickLabelFont;
 
 	private final Color chartBackgroundPaint;
 	private final Color plotBackgroundPaint;
 
 	public StyleGuide(final double scale) {
-		titleFont			= new Font("SansSerif", Font.PLAIN, (int)Math.round(10*scale));
-		axisLabelFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(10*scale));
-		annotationFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(8*scale));
-		tickLabelFont		= new Font("SansSerif", Font.PLAIN, (int)Math.round(9*scale));
+		titleFont			= new Font(Font.DIALOG, Font.PLAIN, (int)Math.round(10*scale));
+		axisLabelFont		= new Font(Font.DIALOG, Font.PLAIN, (int)Math.round(10*scale));
+		annotationFont		= new Font(Font.DIALOG, Font.PLAIN, (int)Math.round(8*scale));
+		tickLabelFont		= new Font(Font.SERIF, Font.PLAIN, (int)Math.round(9*scale));
 
-		chartBackgroundPaint	= new java.awt.Color(247, 247, 247);
+		chartBackgroundPaint	= new java.awt.Color(250, 250, 250);
+//		chartBackgroundPaint	= new java.awt.Color(255, 255, 255);
 		plotBackgroundPaint		= new java.awt.Color(255, 255, 255);
 	}
 
@@ -64,37 +67,44 @@ public class StyleGuide {
 	}
 
 	public void applyStyleToXYPlot2(final XYPlot xyPlot) {
-		if(xyPlot.getDomainAxis() != null) {
-			xyPlot.getDomainAxis().setTickLabelFont(tickLabelFont);
-			xyPlot.getDomainAxis().setLabelFont(axisLabelFont);
-			xyPlot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+		for(int i=0; i < xyPlot.getDomainAxisCount(); i++) {
+			ValueAxis axis = xyPlot.getDomainAxis(i);
+			if(axis != null) {
+				axis.setTickLabelFont(tickLabelFont);
+				axis.setLabelFont(axisLabelFont);
+			}
 		}
-		if(xyPlot.getRangeAxis() != null) {
-			xyPlot.getRangeAxis().setTickLabelFont(tickLabelFont);
-			xyPlot.getRangeAxis().setLabelFont(axisLabelFont);
-			xyPlot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+		xyPlot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+
+		for(int i=0; i < xyPlot.getRangeAxisCount(); i++) {
+			ValueAxis axis = xyPlot.getRangeAxis(i);
+			if(axis != null) {
+				axis.setTickLabelFont(tickLabelFont);
+				axis.setLabelFont(axisLabelFont);
+			}
 		}
+		xyPlot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 		xyPlot.setBackgroundPaint(plotBackgroundPaint);
 	}
 
 	/**
 	 * @return Font for axis labels.
 	 */
-	public static Font getAxisLabelFont() {
-		return new Font("SansSerif", Font.PLAIN, Math.round(10*1));
+	public Font getAxisLabelFont() {
+		return axisLabelFont;
 	}
 
 	/**
 	 * @return Font for axis tick labels.
 	 */
-	public static Font getTickLabelFont() {
-		return new Font("SansSerif", Font.PLAIN, Math.round(9*1));
+	public Font getTickLabelFont() {
+		return tickLabelFont;
 	}
 
 	/**
 	 * @return Title font.
 	 */
-	public static Font getTitleFont() {
-		return new Font("SansSerif", Font.PLAIN, Math.round(10*1));
+	public Font getTitleFont() {
+		return titleFont;
 	}
 }

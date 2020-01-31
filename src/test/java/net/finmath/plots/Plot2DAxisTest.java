@@ -38,7 +38,7 @@ public class Plot2DAxisTest {
 
 		// Create a corresponding MC process
 		final var td = new TimeDiscretizationFromArray(0.0, 300, 0.01);
-		final var brownianMotion = new BrownianMotionLazyInit(td, 1, 10000, 3231);
+		final var brownianMotion = new BrownianMotionLazyInit(td, 1, 100000, 3231);
 		final var process = new EulerSchemeFromProcessModel(brownianMotion);
 
 		// Using the process (Euler scheme), create an MC simulation of a Black-Scholes model
@@ -47,15 +47,16 @@ public class Plot2DAxisTest {
 		final EuropeanOption europeanOption = new EuropeanOption(maturity, strike);
 
 		try {
-			final Plot2D plot = createPlotOfHistogramBehindValues(simulation.getAssetValue(maturity, 0 /* assetIndex */), europeanOption.getValue(0.0, simulation), 100, 5.0);
+			final Plot plot = createPlotOfHistogramBehindValues(simulation.getAssetValue(maturity, 0 /* assetIndex */), europeanOption.getValue(0.0, simulation), 100, 5.0);
 			plot.show();
-			Thread.sleep(2000);
+			Thread.sleep(20000);
 		} catch (final Exception e) {
+			e.printStackTrace();
 			fail("Failing with exception " + e.getMessage());
 		}
 	}
 
-	private static Plot2D createPlotOfHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations) {
+	private static Plot createPlotOfHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations) {
 
 		/*
 		 * Create historgram
@@ -75,16 +76,21 @@ public class Plot2DAxisTest {
 		}
 
 		/*
+		 * Create axis
+		 * 
 		 * The scatter and the histogram should be displaced on different axis.
 		 * This will be the case if we pass different Axis objects.
 		 */
-		final NumberAxis domainAxis = new NumberAxis();
-		final NumberAxis rangeAxis1 = new NumberAxis(-0.01, 0.1);
-		final NumberAxis rangeAxis2 = new NumberAxis(-20.0, 200.0);
+		final NumberAxis domainAxis = new NumberAxis("underlying value", -30.0, 300.0);
+		final NumberAxis rangeAxisHistogram = new NumberAxis("frequency", -0.01, 0.1);
+		final NumberAxis rangeAxisScatter = new NumberAxis("value", -20.0, 200.0);
 
+		/*
+		 * Create plot
+		 */
 		final List<Plotable2D> plotables = Arrays.asList(
-				new PlotablePoints2D("Scatter", seriesForScatter, domainAxis, rangeAxis2, new GraphStyle(new Rectangle(1, 1), null, Color.red)),
-				new PlotablePoints2D("Histogram", seriesForHistogram, domainAxis, rangeAxis1, new GraphStyle(new Rectangle(10, 2), null, Color.BLUE))
+				new PlotablePoints2D("Scatter", seriesForScatter, domainAxis, rangeAxisScatter, new GraphStyle(new Rectangle(1, 1), null, Color.RED)),
+				new PlotablePoints2D("Histogram", seriesForHistogram, domainAxis, rangeAxisHistogram, new GraphStyle(new Rectangle(10, 2), null, Color.DARK_GRAY, Color.LIGHT_GRAY))
 				);
 
 		return new Plot2D(plotables);

@@ -23,11 +23,14 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.renderer.xy.XYAreaRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import net.finmath.plots.jfreechart.JFreeChartUtilities;
+import net.finmath.plots.jfreechart.StyleGuide;
 
 /**
  * Small convenient wrapper for JFreeChart line plot derived.
@@ -51,6 +54,11 @@ public class Plot2D implements Plot {
 	private Double ymin;
 	private Double ymax;
 
+	public Plot2D(final List<Plotable2D> plotables) {
+		super();
+		this.plotables = plotables;
+	}
+
 	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final DoubleUnaryOperator function) {
 		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
 	}
@@ -61,11 +69,6 @@ public class Plot2D implements Plot {
 
 	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
 		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
-	}
-
-	public Plot2D(final List<Plotable2D> plotables) {
-		super();
-		this.plotables = plotables;
 	}
 
 	private void init() {
@@ -88,7 +91,6 @@ public class Plot2D implements Plot {
 
 			final Map<net.finmath.plots.axis.NumberAxis, Integer> rangeAxisMap = new HashMap();
 			for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
-				final XYLineAndShapeRenderer renderer	= new XYLineAndShapeRenderer();
 				final XYSeriesCollection data = new XYSeriesCollection();
 				final Plotable2D plotable = plotables.get(functionIndex);
 
@@ -99,18 +101,34 @@ public class Plot2D implements Plot {
 				}
 				data.addSeries(series);
 
+				/*
+				 * Define renderer from style
+				 */
 				final GraphStyle style = plotable.getStyle();
+				final XYItemRenderer renderer;
+
 				Color color = style != null ? plotable.getStyle().getColor() : null;
 				if(color == null) {
 					color = getDefaultColor(functionIndex);
 				}
-				renderer.setSeriesPaint(0, color);
 
 				if(style != null) {
-					renderer.setSeriesShape(0, plotable.getStyle().getShape());
-					renderer.setSeriesStroke(0, plotable.getStyle().getStoke());
-					renderer.setSeriesShapesVisible(0, style.getShape() != null);
-					renderer.setSeriesLinesVisible(0, style.getStoke() != null);
+					if(style.getFillColor() != null) {
+						renderer	= new XYAreaRenderer();
+						renderer.setSeriesShape(0, plotable.getStyle().getShape());
+						renderer.setSeriesStroke(0, plotable.getStyle().getStroke());
+						renderer.setSeriesPaint(0, style.getFillColor());
+					}
+					else {
+						renderer = new XYLineAndShapeRenderer();
+						((XYLineAndShapeRenderer)renderer).setSeriesShapesVisible(0, style.getShape() != null);
+						((XYLineAndShapeRenderer)renderer).setSeriesLinesVisible(0, style.getStroke() != null);						
+						renderer.setSeriesPaint(0, color);
+					}
+				}
+				else {
+					renderer = new XYLineAndShapeRenderer();
+					renderer.setSeriesPaint(0, color);
 				}
 
 				if(chart != null) {
@@ -141,6 +159,7 @@ public class Plot2D implements Plot {
 					chart.getXYPlot().mapDatasetToRangeAxis(functionIndex, rangeAxisMap.get(plotable.getRangeAxis()));
 					chart.getXYPlot().setRangeAxis(rangeAxisMap.get(plotable.getRangeAxis()), range);
 
+					(new StyleGuide(2)).applyStyleToChart2(chart);
 					/*
 				if(ymin != null && ymin != null) {
 					range.setAutoRange(false);

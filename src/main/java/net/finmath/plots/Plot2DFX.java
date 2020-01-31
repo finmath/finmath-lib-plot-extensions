@@ -131,7 +131,7 @@ public class Plot2DFX implements Plot {
 					/*
 					 * Apply style to line
 					 */
-					if(style != null && style.getStoke() != null) {
+					if(style != null && style.getStroke() != null) {
 						series.getNode().setStyle("-fx-stroke: rgba(" + rgba + ");");
 					} else {
 						series.getNode().setStyle("-fx-stroke: none;");

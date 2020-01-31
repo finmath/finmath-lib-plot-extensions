@@ -19,25 +19,35 @@ import java.awt.Stroke;
 public class GraphStyle {
 
 	private final Shape shape;
-	private final Stroke stoke;
+	private final Stroke stroke;
 	private final Color color;
+	private final Color fillColor;
 
-	public GraphStyle(final Shape shape, final Stroke stoke, final Color color) {
+	public GraphStyle(final Shape shape, final Stroke stroke, final Color color, final Color fillColor) {
 		super();
 		this.shape = shape;
-		this.stoke = stoke;
+		this.stroke = stroke;
 		this.color = color;
+		this.fillColor = fillColor;
 	}
-
+	
+	public GraphStyle(final Shape shape, final Stroke stroke, final Color color) {
+		this(shape, stroke, color, null);
+	}
+	
 	public Shape getShape() {
 		return shape;
 	}
 
-	public Stroke getStoke() {
-		return stoke;
+	public Stroke getStroke() {
+		return stroke;
 	}
 
 	public Color getColor() {
 		return color;
+	}
+
+	public Color getFillColor() {
+		return fillColor;
 	}
 }
