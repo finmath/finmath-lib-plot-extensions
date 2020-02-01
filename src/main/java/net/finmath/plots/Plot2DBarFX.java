@@ -156,16 +156,16 @@ public class Plot2DBarFX implements Plot {
 						color = getDefaultColor(functionIndex);
 					}
 
-					final String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
+					//					final String rgba = String.format("%d, %d, %d, %f", (int)(color.getRed() * 255), (int)(color.getGreen() * 255), (int)(color.getBlue() * 255), (float)color.getOpacity());
 
 					final List<Category2D> plotableSeries = plotable.getSeries();
-					XYChart.Series series = null;
+					XYChart.Series<String, Number> series = null;
 					if(functionIndex < chart.getData().size()) {
 						series = chart.getData().get(functionIndex);
 					}
 					if(series == null) {
-						series = new XYChart.Series();
-						chart.getData().add(functionIndex,series);
+						series = new XYChart.Series<String, Number>();
+						chart.getData().add(functionIndex, series);
 					}
 					series.setName(plotable.getName());
 					for(int i = 0; i<plotableSeries.size(); i++) {
@@ -174,7 +174,7 @@ public class Plot2DBarFX implements Plot {
 							data = (Data<String, Number>) series.getData().get(i);
 						}
 						if(data == null) {
-							data = new XYChart.Data(plotableSeries.get(i).getName(), plotableSeries.get(i).getValue());
+							data = new XYChart.Data<String, Number>(plotableSeries.get(i).getName(), plotableSeries.get(i).getValue());
 							if(style != null && style.getShape() != null) {
 								//								data.setNode(new javafx.scene.shape.Rectangle(30,30, color));
 							}

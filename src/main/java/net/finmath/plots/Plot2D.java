@@ -89,7 +89,7 @@ public class Plot2D implements Plot {
 	private void update() {
 		synchronized (updateLock) {
 
-			final Map<net.finmath.plots.axis.NumberAxis, Integer> rangeAxisMap = new HashMap();
+			final Map<net.finmath.plots.axis.NumberAxis, Integer> rangeAxisMap = new HashMap<net.finmath.plots.axis.NumberAxis, Integer>();
 			for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
 				final XYSeriesCollection data = new XYSeriesCollection();
 				final Plotable2D plotable = plotables.get(functionIndex);
@@ -115,16 +115,20 @@ public class Plot2D implements Plot {
 				if(style != null) {
 					if(style.getFillColor() != null) {
 						renderer	= new XYAreaRenderer();
-						renderer.setSeriesShape(0, plotable.getStyle().getShape());
-						renderer.setSeriesStroke(0, plotable.getStyle().getStroke());
 						renderer.setSeriesPaint(0, style.getFillColor());
+						if(style.getClass() != null) {
+							((XYAreaRenderer)renderer).setSeriesOutlinePaint(0, style.getColor());
+							((XYAreaRenderer)renderer).setOutline(true);
+						}
 					}
 					else {
 						renderer = new XYLineAndShapeRenderer();
 						((XYLineAndShapeRenderer)renderer).setSeriesShapesVisible(0, style.getShape() != null);
-						((XYLineAndShapeRenderer)renderer).setSeriesLinesVisible(0, style.getStroke() != null);						
+						((XYLineAndShapeRenderer)renderer).setSeriesLinesVisible(0, style.getStroke() != null);
 						renderer.setSeriesPaint(0, color);
 					}
+					renderer.setSeriesShape(0, plotable.getStyle().getShape());
+					renderer.setSeriesStroke(0, plotable.getStyle().getStroke());
 				}
 				else {
 					renderer = new XYLineAndShapeRenderer();

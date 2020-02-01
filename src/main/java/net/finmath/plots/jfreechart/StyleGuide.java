@@ -36,7 +36,7 @@ public class StyleGuide {
 		tickLabelFont		= new Font(Font.SERIF, Font.PLAIN, (int)Math.round(9*scale));
 
 		chartBackgroundPaint	= new java.awt.Color(250, 250, 250);
-//		chartBackgroundPaint	= new java.awt.Color(255, 255, 255);
+		//		chartBackgroundPaint	= new java.awt.Color(255, 255, 255);
 		plotBackgroundPaint		= new java.awt.Color(255, 255, 255);
 	}
 
@@ -68,7 +68,7 @@ public class StyleGuide {
 
 	public void applyStyleToXYPlot2(final XYPlot xyPlot) {
 		for(int i=0; i < xyPlot.getDomainAxisCount(); i++) {
-			ValueAxis axis = xyPlot.getDomainAxis(i);
+			final ValueAxis axis = xyPlot.getDomainAxis(i);
 			if(axis != null) {
 				axis.setTickLabelFont(tickLabelFont);
 				axis.setLabelFont(axisLabelFont);
@@ -77,7 +77,7 @@ public class StyleGuide {
 		xyPlot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 
 		for(int i=0; i < xyPlot.getRangeAxisCount(); i++) {
-			ValueAxis axis = xyPlot.getRangeAxis(i);
+			final ValueAxis axis = xyPlot.getRangeAxis(i);
 			if(axis != null) {
 				axis.setTickLabelFont(tickLabelFont);
 				axis.setLabelFont(axisLabelFont);

@@ -10,7 +10,9 @@ public class NumberAxis implements Axis {
 	public NumberAxis(final String label, final Double min, final Double max, final NumberFormat numberFormat) {
 		super();
 		numberAxisJF = new org.jfree.chart.axis.NumberAxis();
-		if(label != null) numberAxisJF.setLabel(label);
+		if(label != null) {
+			numberAxisJF.setLabel(label);
+		}
 		if(min != null && max != null) {
 			numberAxisJF.setRange(min, max);
 			numberAxisJF.setAutoRange(false);
@@ -18,7 +20,9 @@ public class NumberAxis implements Axis {
 		else {
 			numberAxisJF.setAutoRange(true);
 		}
-		if(numberFormat != null) numberAxisJF.setNumberFormatOverride(numberFormat);
+		if(numberFormat != null) {
+			numberAxisJF.setNumberFormatOverride(numberFormat);
+		}
 	}
 
 	public NumberAxis(final String label, final Double min, final Double max) {

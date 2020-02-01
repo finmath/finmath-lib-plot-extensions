@@ -80,8 +80,8 @@ public class JFreeChartUtilities {
 
 	public static JFreeChart getContourPlot(final DefaultXYZDataset dataset, final XYBlockRenderer renderer, final HuePaintScale paintScale, final NumberAxis xAxis, final NumberAxis yAxis, final NumberAxis zAxis, final int xItems, final int yItems)
 	{
-		StyleGuide style = new StyleGuide(1);
-		
+		final StyleGuide style = new StyleGuide(1);
+
 		xAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
 		yAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
 		xAxis.setLabelFont(style.getAxisLabelFont());
@@ -123,7 +123,7 @@ public class JFreeChartUtilities {
 
 	public static void updateContourPlot(final DefaultXYZDataset dataset, final XYBlockRenderer renderer, final HuePaintScale paintScale, final NumberAxis xAxis, final NumberAxis yAxis, final NumberAxis zAxis, final int xItems, final int yItems)
 	{
-		StyleGuide style = new StyleGuide(1);
+		final StyleGuide style = new StyleGuide(1);
 
 		double minX = Double.MAX_VALUE, maxX = Double.MIN_VALUE;
 		double minY = Double.MAX_VALUE, maxY = Double.MIN_VALUE;
@@ -272,7 +272,7 @@ public class JFreeChartUtilities {
 			final AbstractXYItemRenderer renderer,
 			final boolean legend)
 	{
-		StyleGuide style = new StyleGuide(2);
+		final StyleGuide style = new StyleGuide(2);
 		final NumberAxis xAxis = new NumberAxis(xAxisLabel);
 		final NumberAxis yAxis = new NumberAxis(yAxisLabel);
 
@@ -308,7 +308,7 @@ public class JFreeChartUtilities {
 			final AbstractXYItemRenderer renderer,
 			final boolean legend)
 	{
-		StyleGuide style = new StyleGuide(2);
+		final StyleGuide style = new StyleGuide(2);
 		final NumberAxis xAxis = new LogarithmicAxis(xAxisLabel);
 		final NumberAxis yAxis = new NumberAxis(yAxisLabel);
 

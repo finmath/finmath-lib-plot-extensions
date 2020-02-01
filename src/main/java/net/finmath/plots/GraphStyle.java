@@ -30,11 +30,11 @@ public class GraphStyle {
 		this.color = color;
 		this.fillColor = fillColor;
 	}
-	
+
 	public GraphStyle(final Shape shape, final Stroke stroke, final Color color) {
 		this(shape, stroke, color, null);
 	}
-	
+
 	public Shape getShape() {
 		return shape;
 	}

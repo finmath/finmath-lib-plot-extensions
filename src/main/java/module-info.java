@@ -2,8 +2,9 @@
 module net.finmath.plots {
 
 	exports net.finmath.plots;
-	
-	requires finmath.lib;
+	exports net.finmath.plots.axis;
+
+	requires transitive finmath.lib;
 
 	requires jfreechart;
 	requires jfreesvg;
@@ -16,8 +17,8 @@ module net.finmath.plots {
 
 	requires javafx.controls;
 	requires javafx.base;
-	requires javafx.graphics;
-	requires javafx.swing;
+	requires transitive javafx.graphics;
+	requires transitive javafx.swing;
 
 	requires java.desktop;
 	requires java.management;
