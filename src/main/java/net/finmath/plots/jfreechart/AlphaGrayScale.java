@@ -24,14 +24,17 @@ public class AlphaGrayScale implements PaintScale {
 		this.thickness = thickness;
 	}
 
+	@Override
 	public double getLowerBound() {
 		return lowerBound;
 	}
 
+	@Override
 	public double getUpperBound() {
 		return upperBound;
 	}
 
+	@Override
 	public Paint getPaint(final double value) {
 		final float level = (float)Math.sin(0.5*Math.PI*(1.0-thickness));
 

@@ -61,10 +61,12 @@ public class Plot3D implements Plot {
 
 	class Surface extends AbstractAnalysis {
 
+		@Override
 		public String getName() {
 			return function.getName();
 		}
 
+		@Override
 		public void init() {
 			// Define a function to plot
 			final Mapper mapper = new Mapper() {

@@ -20,14 +20,17 @@ public class HuePaintScale implements PaintScale {
 		this.upperBound = upperBound;
 	}
 
+	@Override
 	public double getLowerBound() {
 		return lowerBound;
 	}
 
+	@Override
 	public double getUpperBound() {
 		return upperBound;
 	}
 
+	@Override
 	public Paint getPaint(final double value) {
 		if(value > upperBound || value < lowerBound || Double.isNaN(value)) {
 			return Color.GRAY;

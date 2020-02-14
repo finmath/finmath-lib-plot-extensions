@@ -65,8 +65,8 @@ public class JFreeChartUtilities {
 		int valueIndex = 0;
 		for(int col=0; col<dataMatrix.getColumnDimension(); col++) {
 			for(int row=0; row<dataMatrix.getRowDimension(); row++) {
-				xValues[valueIndex] = (double)col;
-				yValues[valueIndex] = (double)row;
+				xValues[valueIndex] = col;
+				yValues[valueIndex] = row;
 				zValues[valueIndex] = dataMatrix.getEntry(row, col);
 				valueIndex++;
 			}

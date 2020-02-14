@@ -316,6 +316,7 @@ public class Plot2DFX implements Plot {
 	/**
 	 * @param isLegendVisible the isLegendVisible to set
 	 */
+	@Override
 	public Plot setIsLegendVisible(final Boolean isLegendVisible) {
 		this.isLegendVisible = isLegendVisible;
 		return this;

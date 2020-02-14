@@ -31,7 +31,6 @@ import javafx.scene.chart.Chart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
@@ -171,7 +170,7 @@ public class Plot2DBarFX implements Plot {
 					for(int i = 0; i<plotableSeries.size(); i++) {
 						XYChart.Data<String, Number> data = null;
 						if(i < series.getData().size()) {
-							data = (Data<String, Number>) series.getData().get(i);
+							data = series.getData().get(i);
 						}
 						if(data == null) {
 							data = new XYChart.Data<String, Number>(plotableSeries.get(i).getName(), plotableSeries.get(i).getValue());
@@ -377,6 +376,7 @@ public class Plot2DBarFX implements Plot {
 	/**
 	 * @param isLegendVisible the isLegendVisible to set
 	 */
+	@Override
 	public Plot setIsLegendVisible(final Boolean isLegendVisible) {
 		this.isLegendVisible = isLegendVisible;
 		return this;
