@@ -96,7 +96,7 @@
 						<link>http://commons.apache.org/proper/commons-lang/javadocs/api-release</link>
 						<link>http://commons.apache.org/proper/commons-math/javadocs/api-3.3</link>
 					</links>
-					<detectLinks>true</detectLinks>
+					<detectLinks>false</detectLinks>
 					<additionalOptions>
 						<additionalOption>--allow-script-in-comments</additionalOption>
 					</additionalOptions>
