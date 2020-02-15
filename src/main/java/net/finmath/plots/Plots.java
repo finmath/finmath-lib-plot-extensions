@@ -4,6 +4,8 @@
 package net.finmath.plots;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,8 +58,8 @@ public class Plots {
 		 * Create plot
 		 */
 		final List<Plotable2D> plotables = Arrays.asList(
-				new PlotablePoints2D("Scatter", seriesForScatter, domainAxis, rangeAxisScatter, new GraphStyle(new Rectangle(1, 1), null, Color.RED)),
-				new PlotablePoints2D("Histogram", seriesForHistogram, domainAxis, rangeAxisHistogram, new GraphStyle(new Rectangle(10, 2), null, Color.DARK_GRAY, Color.LIGHT_GRAY))
+				new PlotablePoints2D("Scatter", seriesForScatter, domainAxis, rangeAxisScatter, new GraphStyle(new Rectangle(new Point(-2,-2), new Dimension(4,4)), null, Color.RED)),
+				new PlotablePoints2D("Histogram", seriesForHistogram, domainAxis, rangeAxisHistogram, new GraphStyle(new Rectangle(2, 2), null, Color.DARK_GRAY, Color.LIGHT_GRAY))
 				);
 
 		return new Plot2D(plotables);
