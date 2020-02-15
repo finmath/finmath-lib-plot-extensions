@@ -20,7 +20,7 @@
 		plotting methods by providing consistent wrappers
 		to plot libraries (like JFreeChart or JavaFX).
 	</description>
-	<url>http://www.finmath.net/finmath-lib</url>
+	<url>http://www.finmath.net/finmath-lib-plot-extensions</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -110,6 +110,43 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.8.2</version>
+				<dependencies>
+					<dependency>
+						<!-- add support for ssh/scp -->
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh</artifactId>
+						<version>3.3.4</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.doxia</groupId>
+						<artifactId>doxia-module-markdown</artifactId>
+						<version>1.9</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<!-- We allow local modifications. The build number is reliable only 
+					in releases obtained via Maven central. -->
+				<configuration>
+					<doCheck>false</doCheck>
+					<doUpdate>false</doUpdate>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -184,6 +221,31 @@
 		</dependency>
 	</dependencies>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.0.0</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<!-- <report>index</report> -->
+							<report>summary</report>
+							<report>scm</report>
+							<!-- <report>distribution-management</report> -->
+							<report>dependency-info</report>
+							<!-- <report>dependencies</report> -->
+							<report>issue-management</report>
+							<report>ci-management</report>
+							<report>licenses</report>
+							<report>team</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
 	<repositories>
 		<repository>
 			<id>jzy3d-snapshots</id>
@@ -196,6 +258,16 @@
 			<url>http://maven.jzy3d.org/releases</url>
 		</repository>
 	</repositories>
+
+	<distributionManagement>
+
+		<!-- maven repositories inherited from parent pom -->
+
+		<site>
+			<id>finmath-site</id>
+			<url>scp://www.finmath.net/var/www/vhosts/finmath.net/httpdocs/finmath-lib-plot-extensions/</url>
+		</site>
+	</distributionManagement>
 
 	<scm>
 		<url>https://github.com/finmath/finmath-lib-plot-extensions</url>
