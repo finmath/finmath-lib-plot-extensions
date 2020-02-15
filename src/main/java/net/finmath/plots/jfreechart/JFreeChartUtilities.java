@@ -294,7 +294,6 @@ public class JFreeChartUtilities {
 		style.applyStyleToXYPlot2(plot);
 
 		final JFreeChart chart = new JFreeChart(title, style.getTitleFont(), plot, legend);
-
 		style.applyStyleToChart2(chart);
 
 		return chart;
