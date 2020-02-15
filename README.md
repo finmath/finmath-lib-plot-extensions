@@ -16,7 +16,7 @@ Main features:
 
 ## Usage
 
-### Eays lightweight plot creation
+### Easy and lightweight plot creation
 
 Aiming at quick creation of plots, plots can be specified using a function / operator (e.g. via a lambda expression) and a few parameters specifying the discretization:
 
