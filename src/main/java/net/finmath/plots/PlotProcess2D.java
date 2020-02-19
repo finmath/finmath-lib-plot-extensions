@@ -74,6 +74,20 @@ public class PlotProcess2D implements Plot {
 	}
 
 	/**
+	 * Plot the first (maxNumberOfPaths) paths of a time discrete stochastic process.
+	 *
+	 * @param timeDiscretization The time discretization to be used for the x-axis.
+	 * @param process The stochastic process to be plotted against the y-axsis (the first n paths are plotted).
+	 * @param maxNumberOfPaths Maximum number of path (n) to be plotted.
+	 */
+	public PlotProcess2D(final TimeDiscretization timeDiscretization, final DoubleToRandomVariableFunction process, final int maxNumberOfPaths) {
+		super();
+		this.timeDiscretization = timeDiscretization;
+		this.process = new Named<DoubleFunction<RandomVariable>>("", t -> { try{ return process.apply(t);} catch(Exception e) { return null; }});
+		this.maxNumberOfPaths = maxNumberOfPaths;
+	}
+
+	/**
 	 * Plot the first 100 paths of a time discrete stochastic process.
 	 *
 	 * @param timeDiscretization The time discretization to be used for the x-axis.
