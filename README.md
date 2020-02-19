@@ -26,8 +26,7 @@ Aiming at quick creation of plots, plots can be specified using a function / ope
 
 where function is, e.g.,
 
-		DoubleUnaryOperator function = (strike) -> {
-			double optionStrike = strike;
+		DoubleUnaryOperator function = (optionStrike) -> {
 			return AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
 		};
 
