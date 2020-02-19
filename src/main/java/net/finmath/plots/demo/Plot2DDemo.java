@@ -33,12 +33,8 @@ public class Plot2DDemo {
 		final double volatility = 0.40;
 		final double optionMaturity = 1.0;
 
-		final DoubleUnaryOperator function = (strike) -> {
-			final double optionStrike = strike;
-
-			final double z = AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
-
-			return z;
+		final DoubleUnaryOperator function = (optionStrike) -> {
+			return AnalyticFormulas.blackScholesOptionValue(initialStockValue, riskFreeRate, volatility, optionMaturity, optionStrike);
 		};
 
 		final Plot plot = new Plot2D(0.0, 300.0, 100, function);
