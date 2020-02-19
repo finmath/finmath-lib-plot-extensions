@@ -26,7 +26,6 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -165,9 +164,6 @@ public class Plot2D implements Plot {
 					chart.getXYPlot().setRangeAxis(rangeAxisMap.get(plotable.getRangeAxis()), range);
 
 					(new StyleGuide(2)).applyStyleToChart2(chart);
-					chart.setBackgroundPaint(new Color(0.0f, 0.0f, 0.0f, 0.0f));
-					chart.getXYPlot().setBackgroundPaint(new Color(0.0f, 0.0f, 0.0f, 0.0f));
-					chart.setBorderPaint(new Color(0.0f, 0.0f, 0.0f, 0.0f));
 
 					/*
 					if(ymin != null && ymax != null) {
