@@ -63,14 +63,14 @@ public class Plot2DDemo4 {
 				new Named<DoubleUnaryOperator>("Finite Difference Approximation", functionDerivativeForward),
 				new Named<DoubleUnaryOperator>("Analytic", functionDerivativeAnalytic)));
 		plotDerivativeForward.setTitle("(One Sided Finite Difference) Derivative of exp(x) at x = " + x).setXAxisLabel("scale (h = 10^{-scale})").setYAxisLabel("value").setIsLegendVisible(true);
-		((Plot2D)plotDerivativeForward).setyAxisNumberFormat(new DecimalFormat("0.0E00"));
+		((Plot2D)plotDerivativeForward).setYAxisNumberFormat(new DecimalFormat("0.0E00"));
 		plotDerivativeForward.show();
 
 		final Plot plotDerivativeCentral1 = new Plot2D(4.5, 6.5, 100, Arrays.asList(
 				new Named<DoubleUnaryOperator>("Finite Difference Approximation", functionDerivativeCentral),
 				new Named<DoubleUnaryOperator>("Analytic", functionDerivativeAnalytic)));
 		plotDerivativeCentral1.setTitle("(Central Finite Difference) Derivative of exp(x) at x = " + x).setXAxisLabel("scale (h = 10^{-scale})").setYAxisLabel("value").setIsLegendVisible(true);
-		((Plot2D)plotDerivativeCentral1).setyAxisNumberFormat(new DecimalFormat("0.0E00"));
+		((Plot2D)plotDerivativeCentral1).setYAxisNumberFormat(new DecimalFormat("0.0E00"));
 		((Plot2D)plotDerivativeCentral1).setYRange(-5E-10, 5E-10);
 		plotDerivativeCentral1.show();
 
@@ -78,7 +78,7 @@ public class Plot2DDemo4 {
 				new Named<DoubleUnaryOperator>("Finite Difference Approximation", functionDerivativeCentral),
 				new Named<DoubleUnaryOperator>("Analytic", functionDerivativeAnalytic)));
 		plotDerivativeCentral2.setTitle("(Central Finite Difference) Derivative of exp(x) at x = " + x).setXAxisLabel("scale (h = 10^{-scale})").setYAxisLabel("value").setIsLegendVisible(true);
-		((Plot2D)plotDerivativeCentral1).setyAxisNumberFormat(new DecimalFormat("0.0E00"));
+		((Plot2D)plotDerivativeCentral1).setYAxisNumberFormat(new DecimalFormat("0.0E00"));
 		plotDerivativeCentral2.show();
 
 	}

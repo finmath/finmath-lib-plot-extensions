@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.DoubleUnaryOperator;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
@@ -59,6 +60,10 @@ public class Plot2D implements Plot {
 		this.plotables = plotables;
 	}
 
+	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
+		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
+	}
+
 	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final DoubleUnaryOperator function) {
 		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
 	}
@@ -67,8 +72,13 @@ public class Plot2D implements Plot {
 		this(xmin, xmax, 300, Collections.singletonList(new Named<DoubleUnaryOperator>("",function)));
 	}
 
-	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
-		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
+	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final Function<Double, Double> function) {
+		this(xmin, xmax, numberOfPointsX, Collections.singletonList(new Named<DoubleUnaryOperator>("", new DoubleUnaryOperator() {
+			@Override
+			public double applyAsDouble(double operand) {
+				return function.apply(operand);
+			}
+		})));
 	}
 
 	private void init() {
@@ -288,12 +298,12 @@ public class Plot2D implements Plot {
 		throw new UnsupportedOperationException("The 2D plot does not suport a z-axis. Try 3D plot instead.");
 	}
 
-	public Plot2D setxAxisNumberFormat(final NumberFormat xAxisNumberFormat) {
+	public Plot2D setXAxisNumberFormat(final NumberFormat xAxisNumberFormat) {
 		this.xAxisNumberFormat = xAxisNumberFormat;
 		return this;
 	}
 
-	public Plot2D setyAxisNumberFormat(final NumberFormat yAxisNumberFormat) {
+	public Plot2D setYAxisNumberFormat(final NumberFormat yAxisNumberFormat) {
 		this.yAxisNumberFormat = yAxisNumberFormat;
 		return this;
 	}
