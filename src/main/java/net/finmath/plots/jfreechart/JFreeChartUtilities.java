@@ -357,7 +357,7 @@ public class JFreeChartUtilities {
 	public static void saveChartAsSVG(final File file, final JFreeChart chart, final int width, final int height) throws IOException {
 		final SVGGraphics2D g2 = new SVGGraphics2D(width, height);
 		g2.setRenderingHint(JFreeChart.KEY_SUPPRESS_SHADOW_GENERATION, true);
-		final java.awt.Rectangle r = new java.awt.Rectangle(0, 0, 600, 400);
+		final java.awt.Rectangle r = new java.awt.Rectangle(0, 0, width, height);
 		chart.draw(g2, r);
 		SVGUtils.writeToSVG(file, g2.getSVGElement());
 
