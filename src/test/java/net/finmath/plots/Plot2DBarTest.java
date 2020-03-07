@@ -23,10 +23,6 @@ import com.google.common.collect.Streams;
 import net.finmath.exception.CalculationException;
 import net.finmath.montecarlo.assetderivativevaluation.AssetModelMonteCarloSimulationModel;
 import net.finmath.montecarlo.assetderivativevaluation.MonteCarloBlackScholesModel;
-import net.finmath.plots.Category2D;
-import net.finmath.plots.GraphStyle;
-import net.finmath.plots.Plot2DBarFX;
-import net.finmath.plots.PlotableCategories;
 import net.finmath.time.TimeDiscretizationFromArray;
 
 /**
@@ -39,7 +35,7 @@ public class Plot2DBarTest {
 	/**
 	 * Run the demo.
 	 * Plots the value of an option under the Black-Scholes model as a function of strike and time-to-maturity.
-	 * 
+	 *
 	 * @throws CalculationException Thrown if numerical calculation fails.
 	 */
 	@Test

@@ -185,7 +185,7 @@ public class Plot2D implements Plot {
 						System.out.println("Setting axis " + ymin);
 						range.setAutoRange(true);
 					}
-					*/
+					 */
 				}
 			}
 		}

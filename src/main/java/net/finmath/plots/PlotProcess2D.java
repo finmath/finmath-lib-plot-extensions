@@ -83,7 +83,7 @@ public class PlotProcess2D implements Plot {
 	public PlotProcess2D(final TimeDiscretization timeDiscretization, final DoubleToRandomVariableFunction process, final int maxNumberOfPaths) {
 		super();
 		this.timeDiscretization = timeDiscretization;
-		this.process = new Named<DoubleFunction<RandomVariable>>("", t -> { try{ return process.apply(t);} catch(Exception e) { return null; }});
+		this.process = new Named<DoubleFunction<RandomVariable>>("", t -> { try{ return process.apply(t);} catch(final Exception e) { return null; }});
 		this.maxNumberOfPaths = maxNumberOfPaths;
 	}
 
