@@ -9,6 +9,11 @@ import org.junit.Test;
 
 import net.finmath.functions.AnalyticFormulas;
 
+/**
+ * Testing Plot2D.
+ * 
+ * @author Chrisitan Fries
+ */
 public class Plot2DTest {
 
 	@Test

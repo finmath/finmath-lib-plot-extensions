@@ -9,6 +9,11 @@ import java.util.List;
 
 import net.finmath.plots.axis.NumberAxis;
 
+/**
+ * A two dimensional plotable.
+ * 
+ * @author Christian Fries
+ */
 public interface Plotable2D extends Plotable {
 
 	List<Point2D> getSeries();

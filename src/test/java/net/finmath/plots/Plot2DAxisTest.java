@@ -12,6 +12,11 @@ import net.finmath.montecarlo.assetderivativevaluation.products.EuropeanOption;
 import net.finmath.montecarlo.process.EulerSchemeFromProcessModel;
 import net.finmath.time.TimeDiscretizationFromArray;
 
+/**
+ * Testing Plot2D with different axis.
+ * 
+ * @author Christian Fries
+ */
 public class Plot2DAxisTest {
 
 	@Test

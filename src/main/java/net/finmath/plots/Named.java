@@ -10,6 +10,7 @@ package net.finmath.plots;
  * A named object of type T.
  *
  * @author Christian Fries
+ * @param <T> The type of the named object.
  */
 public class Named<T extends Object> {
 

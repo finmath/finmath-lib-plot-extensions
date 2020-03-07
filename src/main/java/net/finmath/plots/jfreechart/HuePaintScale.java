@@ -11,13 +11,18 @@ import java.awt.Paint;
 
 import org.jfree.chart.renderer.PaintScale;
 
+/**
+ * A color scale.
+ * 
+ * @author Christian Fries
+ */
 public class HuePaintScale implements PaintScale {
-	double lowerBound;
-	double upperBound;
+	private double lowerBound;
+	private double upperBound;
 
 	public HuePaintScale(final double lowerBound, final double upperBound) {
-		this.lowerBound = lowerBound;
-		this.upperBound = upperBound;
+		this.setLowerBound(lowerBound);
+		this.setUpperBound(upperBound);
 	}
 
 	@Override
@@ -32,9 +37,17 @@ public class HuePaintScale implements PaintScale {
 
 	@Override
 	public Paint getPaint(final double value) {
-		if(value > upperBound || value < lowerBound || Double.isNaN(value)) {
+		if(value > getUpperBound() || value < getLowerBound() || Double.isNaN(value)) {
 			return Color.GRAY;
 		}
-		return Color.getHSBColor((float) ((value-lowerBound) / (upperBound-lowerBound) * 240.0/360.0), 1.0f, 1.0f);
+		return Color.getHSBColor((float) ((value-getLowerBound()) / (getUpperBound()-getLowerBound()) * 240.0/360.0), 1.0f, 1.0f);
+	}
+
+	public void setLowerBound(double lowerBound) {
+		this.lowerBound = lowerBound;
+	}
+
+	public void setUpperBound(double upperBound) {
+		this.upperBound = upperBound;
 	}
 }

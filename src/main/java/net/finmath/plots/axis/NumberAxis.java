@@ -3,6 +3,11 @@ package net.finmath.plots.axis;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+/**
+ * A specification of the number axis, providing specific implementations.
+ * 
+ * @author Christian Fries
+ */
 public class NumberAxis implements Axis {
 
 	private transient org.jfree.chart.axis.NumberAxis numberAxisJF;

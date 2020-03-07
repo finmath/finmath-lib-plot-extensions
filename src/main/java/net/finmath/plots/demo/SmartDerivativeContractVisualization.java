@@ -38,8 +38,8 @@ import net.finmath.plots.Point2D;
 public class SmartDerivativeContractVisualization {
 
 	private List<Point2D> seriesMarketValues;
-	Plot2DBarFX plot;
-	Plot2DFX plot2;
+	private Plot2DBarFX plot;
+	private Plot2DFX plot2;
 
 	/**
 	 * Run the demo.
@@ -47,7 +47,7 @@ public class SmartDerivativeContractVisualization {
 	 * @param args Not used.
 	 * @throws Exception Any exception.
 	 */
-	public static void main(final String args[]) throws Exception {
+	public static void main(final String[] args) throws Exception {
 
 		final SmartDerivativeContractVisualization sdcVisual = new SmartDerivativeContractVisualization();
 		sdcVisual.start();

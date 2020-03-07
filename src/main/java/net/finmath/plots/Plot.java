@@ -11,7 +11,6 @@ import java.io.IOException;
 
 /**
  * @author Christian Fries
- *
  */
 public interface Plot {
 

@@ -52,7 +52,7 @@ public class Plot2DFX implements Plot {
 	private NumberFormat yAxisNumberFormat;
 	private Boolean isLegendVisible = false;
 
-	LineChart<Number,Number> chart;
+	private LineChart<Number,Number> chart;
 	private final Object updateLock = new Object();
 
 	public Plot2DFX(final List<Plotable2D> plotables) {

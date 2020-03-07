@@ -54,7 +54,7 @@ public class Plot2DBarFX implements Plot {
 	private Boolean isLegendVisible = false;
 	private Boolean isSeriesStacked = false;
 
-	XYChart<String,Number> chart;
+	private XYChart<String,Number> chart;
 
 	private final Object updateLock = new Object();
 
@@ -174,9 +174,11 @@ public class Plot2DBarFX implements Plot {
 						}
 						if(data == null) {
 							data = new XYChart.Data<String, Number>(plotableSeries.get(i).getName(), plotableSeries.get(i).getValue());
+							/*
 							if(style != null && style.getShape() != null) {
-								//								data.setNode(new javafx.scene.shape.Rectangle(30,30, color));
+								data.setNode(new javafx.scene.shape.Rectangle(30,30, color));
 							}
+							*/
 							series.getData().add(i, data);
 						}
 						data.setXValue(plotableSeries.get(i).getName());

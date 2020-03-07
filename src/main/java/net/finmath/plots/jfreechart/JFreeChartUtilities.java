@@ -103,10 +103,10 @@ public class JFreeChartUtilities {
 		zAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
 
 		/*
- 		xAxis.setAutoRange(true);
-        yAxis.setAutoRange(true);
-        xAxis.setAutoRangeIncludesZero(false);
-        yAxis.setAutoRangeIncludesZero(false);
+		xAxis.setAutoRange(true);
+		yAxis.setAutoRange(true);
+		xAxis.setAutoRangeIncludesZero(false);
+		yAxis.setAutoRangeIncludesZero(false);
 		 */
 
 		renderer.setPaintScale(paintScale);
@@ -160,8 +160,8 @@ public class JFreeChartUtilities {
 		}
 
 		if(paintScale != null) {
-			paintScale.lowerBound = minZ;
-			paintScale.upperBound = maxZ;
+			paintScale.setLowerBound(minZ);
+			paintScale.setUpperBound(maxZ);
 		}
 	}
 
