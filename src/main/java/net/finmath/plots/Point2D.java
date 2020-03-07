@@ -6,7 +6,7 @@
 package net.finmath.plots;
 
 /**
- * Class representing a point in F^2 where F is the set of <code>double</double> floating point numbers.
+ * Class representing a point in F^2 where F is the set of <code>double</code> floating point numbers.
  * 
  * @author Christian Fries
  */
@@ -15,7 +15,7 @@ public class Point2D {
 	private final double y;
 
 	/**
-	 * Create object representing a point in F^2 where F is the set of <code>double</double> floating point numbers.
+	 * Create object representing a point in F^2 where F is the set of <code>double</code> floating point numbers.
 	 * 
 	 * @param x The x value of (x,y).
 	 * @param y The y value of (x,y).
