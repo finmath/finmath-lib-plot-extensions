@@ -28,9 +28,10 @@
 		<src.test.java.dir>src/test/java</src.test.java.dir>
 		<!-- libs -->
 		<finmath-lib.version>4.1.1</finmath-lib.version>
-		<!-- maven plugins -->
 		<junit.version>4.12</junit.version>
-		<javadoc.version>3.1.1</javadoc.version>
+		<!-- maven plugins -->
+		<surefire.version>3.0.0-M4</surefire.version>
+		<javadoc.version>3.0.1</javadoc.version>
 		<checkstyle.version>3.1.1</checkstyle.version>
 		<clover.version>4.4.1</clover.version>
 	</properties>
@@ -125,7 +126,7 @@
 	</dependencies>
 
 	<build>
-		<defaultGoal>clean install javadoc:javadoc</defaultGoal>
+		<defaultGoal>clean install</defaultGoal>
 		<finalName>${project.artifactId}-${project.version}</finalName>
 		<sourceDirectory>${src.main.java.dir}</sourceDirectory>
 		<testSourceDirectory>${src.test.java.dir}</testSourceDirectory>
@@ -163,7 +164,6 @@
 					<doctitle>${project.name} (${project.version}) documentation</doctitle>
 					<stylesheetfile>stylesheet.css</stylesheetfile>
 					<docfilessubdirs>true</docfilessubdirs>
-					<excludePackageNames>net.finmath.montecarlo.automaticdifferentiation.backward.alternative:net.finmath.rootfinder</excludePackageNames>
 					<header>
 			   			<![CDATA[
 						<span class="logo-white">finMath</span><span class="logo-red"> lib plot-extensions</span> documentation
@@ -206,7 +206,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.21.0</version>
+				<version>${surefire.version}</version>
 				<configuration>
 					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
@@ -310,11 +310,9 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>${javadoc.version}</version>
 				<configuration>
-					<source>8</source>
 					<doctitle>${project.name} (${project.version}) documentation</doctitle>
 					<stylesheetfile>stylesheet.css</stylesheetfile>
 					<docfilessubdirs>true</docfilessubdirs>
-					<excludePackageNames>net.finmath.montecarlo.automaticdifferentiation.backward.alternative:net.finmath.rootfinder</excludePackageNames>
 					<header>
 			   			<![CDATA[
 						<span class="logo-white">finMath</span><span class="logo-red"> lib plot-extensions</span> documentation
@@ -339,9 +337,8 @@
 						</tag>
 					</tags>
 					<links>
-						<link>http://commons.apache.org/proper/commons-math/javadocs/api-3.2/</link>
 					</links>
-					<detectLinks>true</detectLinks>
+					<detectLinks>false</detectLinks>
 					<additionalOptions>
 						<additionalOption>--allow-script-in-comments</additionalOption>
 					</additionalOptions>
@@ -370,7 +367,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.20.1</version>
+				<version>${surefire.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.openclover</groupId>
@@ -385,6 +382,7 @@
 				<version>${checkstyle.version}</version>
 				<configuration>
 					<configLocation>finmath-checkstyle.xml</configLocation>
+			        <excludes>**/module-info.java</excludes>
 				</configuration>
 				<reportSets>
 					<reportSet>
