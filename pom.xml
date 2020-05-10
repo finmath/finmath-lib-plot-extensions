@@ -11,7 +11,7 @@
 
 	<groupId>net.finmath</groupId>
 	<artifactId>finmath-lib-plot-extensions</artifactId>
-	<version>0.3.4-SNAPSHOT</version>
+	<version>0.3.5</version>
 	<packaging>jar</packaging>
 
 	<name>finmath lib plot extensions</name>
