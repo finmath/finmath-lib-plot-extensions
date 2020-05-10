@@ -11,7 +11,7 @@ import net.finmath.plots.axis.NumberAxis;
 
 /**
  * A two dimensional plotable.
- * 
+ *
  * @author Christian Fries
  */
 public interface Plotable2D extends Plotable {

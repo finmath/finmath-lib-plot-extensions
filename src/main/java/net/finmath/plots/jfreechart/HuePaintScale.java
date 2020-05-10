@@ -13,7 +13,7 @@ import org.jfree.chart.renderer.PaintScale;
 
 /**
  * A color scale.
- * 
+ *
  * @author Christian Fries
  */
 public class HuePaintScale implements PaintScale {

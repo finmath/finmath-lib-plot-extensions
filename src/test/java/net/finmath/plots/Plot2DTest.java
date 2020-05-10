@@ -1,7 +1,5 @@
 package net.finmath.plots;
 
-import static org.junit.Assert.fail;
-
 import java.util.Arrays;
 import java.util.function.DoubleUnaryOperator;
 
@@ -11,7 +9,7 @@ import net.finmath.functions.AnalyticFormulas;
 
 /**
  * Testing Plot2D.
- * 
+ *
  * @author Chrisitan Fries
  */
 public class Plot2DTest {

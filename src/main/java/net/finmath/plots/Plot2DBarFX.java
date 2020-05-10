@@ -178,7 +178,7 @@ public class Plot2DBarFX implements Plot {
 							if(style != null && style.getShape() != null) {
 								data.setNode(new javafx.scene.shape.Rectangle(30,30, color));
 							}
-							*/
+							 */
 							series.getData().add(i, data);
 						}
 						data.setXValue(plotableSeries.get(i).getName());

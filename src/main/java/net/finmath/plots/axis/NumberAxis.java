@@ -5,7 +5,7 @@ import java.util.Locale;
 
 /**
  * A specification of the number axis, providing specific implementations.
- * 
+ *
  * @author Christian Fries
  */
 public class NumberAxis implements Axis {
