@@ -11,7 +11,7 @@
 
 	<groupId>net.finmath</groupId>
 	<artifactId>finmath-lib-plot-extensions</artifactId>
-	<version>0.3.4-SNAPSHOT</version>
+	<version>0.3.4</version>
 	<packaging>jar</packaging>
 
 	<name>finmath lib plot extensions</name>
@@ -27,13 +27,19 @@
 		<src.main.java.dir>src/main/java</src.main.java.dir>
 		<src.test.java.dir>src/test/java</src.test.java.dir>
 		<!-- libs -->
-		<finmath-lib.version>4.1.7</finmath-lib.version>
+		<finmath-lib.version>5.0.1</finmath-lib.version>
 		<junit.version>4.12</junit.version>
 		<!-- maven plugins -->
-		<surefire.version>3.0.0-M4</surefire.version>
-		<javadoc.version>3.0.1</javadoc.version>
-		<checkstyle.version>3.1.1</checkstyle.version>
-		<clover.version>4.4.1</clover.version>
+		<!-- maven plugins -->
+		<compiler-plugin.version>3.8.1</compiler-plugin.version>
+		<surefire-plugin.version>3.0.0-M4</surefire-plugin.version>
+		<surefire-report-plugin.version>3.0.0-M4</surefire-report-plugin.version>
+		<javadoc-plugin.version>3.2.0</javadoc-plugin.version>
+		<jar-plugin.version>3.2.0</jar-plugin.version>
+		<source-plugin.version>3.2.1</source-plugin.version>
+		<site-plugin.version>3.8.2</site-plugin.version>
+		<checkstyle-plugin.version>3.1.1</checkstyle-plugin.version>
+		<clover-plugin.version>4.4.1</clover-plugin.version>
 	</properties>
 
 	<licenses>
@@ -94,7 +100,6 @@
 			<artifactId>jzy3d-api</artifactId>
 			<version>1.0.2</version>
 		</dependency>
-		</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
@@ -140,7 +145,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>${compiler-plugin.version}</version>
 				<configuration>
 					<release>11</release>
 					<source>11</source>
@@ -151,7 +156,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>${source-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -165,7 +170,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${javadoc.version}</version>
+				<version>${javadoc-plugin.version}</version>
 				<configuration>
 					<doctitle>${project.name} (${project.version}) documentation</doctitle>
 					<stylesheetfile>stylesheet.css</stylesheetfile>
@@ -212,7 +217,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire.version}</version>
+				<version>${surefire-plugin.version}</version>
 				<configuration>
 					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
@@ -223,7 +228,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${checkstyle.version}</version>
+				<version>${checkstyle-plugin.version}</version>
 				<configuration>
 					<configLocation>finmath-checkstyle.xml</configLocation>
 			        <excludes>**/module-info.java</excludes>
@@ -234,7 +239,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.8.2</version>
+				<version>site-plugin.version</version>
 				<configuration>
 					<skipDeploy>true</skipDeploy>
 				</configuration>
@@ -314,7 +319,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${javadoc.version}</version>
+				<version>${javadoc-plugin.version}</version>
 				<configuration>
 					<doctitle>${project.name} (${project.version}) documentation</doctitle>
 					<stylesheetfile>stylesheet.css</stylesheetfile>
