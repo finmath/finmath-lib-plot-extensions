@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- For publishing to sonatype / central maven repo -->
@@ -227,7 +229,7 @@
 				<version>${checkstyle-plugin.version}</version>
 				<configuration>
 					<configLocation>finmath-checkstyle.xml</configLocation>
-			        <excludes>**/module-info.java</excludes>
+					<excludes>**/module-info.java</excludes>
 				</configuration>
 			</plugin>
 
@@ -357,10 +359,20 @@
 						<additionalOption>--allow-script-in-comments</additionalOption>
 					</additionalOptions>
 				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>javadoc</report>
+							<!-- 
+							<report>test-javadoc</report>
+							 -->
+						</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 			<plugin>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.7</version>
+				<version>3.0.0</version>
 				<reportSets>
 					<reportSet>
 						<reports>
@@ -369,11 +381,11 @@
 							<report>scm</report>
 							<!-- <report>distribution-management</report> -->
 							<report>dependency-info</report>
-							<report>dependencies</report>
-							<report>issue-tracking</report>
-							<report>cim</report>
-							<report>license</report>
-							<report>project-team</report>
+							<!-- <report>dependencies</report> -->
+							<report>issue-management</report>
+							<report>ci-management</report>
+							<report>licenses</report>
+							<report>team</report>
 						</reports>
 					</reportSet>
 				</reportSets>
@@ -396,7 +408,7 @@
 				<version>${checkstyle-plugin.version}</version>
 				<configuration>
 					<configLocation>finmath-checkstyle.xml</configLocation>
-			        <excludes>**/module-info.java</excludes>
+					<excludes>**/module-info.java</excludes>
 				</configuration>
 				<reportSets>
 					<reportSet>
@@ -427,12 +439,8 @@
 			<id>github</id>
 			<url>scm:git:https://github.com/finmath/finmath-lib-plot-extensions.git</url>
 		</site>
-		<!--
-		<site>
-			<id>finmath-site</id>
-			<url>scp://www.finmath.net/var/www/vhosts/finmath.net/httpdocs/finmath-lib-plot-extensions/</url>
-		</site>
-		-->
+		<!-- <site> <id>finmath-site</id> <url>scp://www.finmath.net/var/www/vhosts/finmath.net/httpdocs/finmath-lib-plot-extensions/</url> 
+			</site> -->
 	</distributionManagement>
 
 	<scm>
