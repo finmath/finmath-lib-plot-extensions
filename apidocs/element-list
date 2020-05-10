@@ -1,5 +1,3 @@
 module:net.finmath.plots
 net.finmath.plots
 net.finmath.plots.axis
-net.finmath.plots.demo
-net.finmath.plots.jfreechart
