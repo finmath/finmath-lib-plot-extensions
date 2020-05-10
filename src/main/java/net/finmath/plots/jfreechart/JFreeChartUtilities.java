@@ -394,6 +394,36 @@ public class JFreeChartUtilities {
 	}
 
 	/**
+	 * Write a chart to an file stream in JPG format.
+	 *
+	 * @param file The file to write to.
+	 * @param chart The chart to write.
+	 * @param width The width.
+	 * @param height The height.
+	 * @throws IOException Thrown if the file could not be written.
+	 */
+	public static void saveChartAsPNG(final File file, final JFreeChart chart, final int width, final int height) throws IOException {
+		final OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+
+		final BufferedImage imageWithAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+		final Graphics2D g2 = imageWithAlpha.createGraphics();
+		final Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
+
+		chart.draw(g2, r2D);
+		g2.dispose();
+
+		// Strip alpha channel
+		final BufferedImage imageWithoutAlpha = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
+
+		final Graphics2D graphics = imageWithoutAlpha.createGraphics();
+		graphics.drawImage(imageWithAlpha, null, 0, 0);
+
+		ImageIO.write(imageWithoutAlpha, "png", out);
+
+		out.close();
+	}
+
+	/**
 	 * Writes a chart to an output stream in PDF format.
 	 *
 	 * @param out the output stream.
