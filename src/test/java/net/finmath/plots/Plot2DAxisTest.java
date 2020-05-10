@@ -1,7 +1,5 @@
 package net.finmath.plots;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
 
 import net.finmath.exception.CalculationException;
@@ -14,7 +12,7 @@ import net.finmath.time.TimeDiscretizationFromArray;
 
 /**
  * Testing Plot2D with different axis.
- * 
+ *
  * @author Christian Fries
  */
 public class Plot2DAxisTest {
