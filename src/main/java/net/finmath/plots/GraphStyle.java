@@ -5,6 +5,7 @@
  */
 package net.finmath.plots;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.Stroke;
@@ -33,6 +34,10 @@ public class GraphStyle {
 
 	public GraphStyle(final Shape shape, final Stroke stroke, final Color color) {
 		this(shape, stroke, color, null);
+	}
+
+	public GraphStyle(final Shape shape) {
+		this(shape, new BasicStroke(), null, null);
 	}
 
 	public Shape getShape() {
