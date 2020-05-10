@@ -24,11 +24,19 @@ public class PlotableFunction2D implements Plotable2D {
 		this.xmax = xmax;
 		this.numberOfPointsX = numberOfPointsX;
 		this.namedFunction = namedFunction;
-		this.style = new GraphStyle(new Rectangle(-1, -1, 2, 2), new BasicStroke(1.0f), null);
+		this.style = style;
 
 		if(numberOfPointsX < 2) {
 			throw new IllegalArgumentException("Number of points needs to be larger than 1.");
 		}
+	}
+
+	public PlotableFunction2D(final double xmin, final double xmax, final int numberOfPointsX, final Named<DoubleUnaryOperator> namedFunction) {
+		this(xmin, xmax, numberOfPointsX, namedFunction, new GraphStyle(new Rectangle(-2, -3, 5, 5), new BasicStroke(3.0f), null));
+	}
+
+	public PlotableFunction2D(double xmin, int xmax, int numberOfPointsX, DoubleUnaryOperator doubleUnaryOperator) {
+		this(xmin, xmax, numberOfPointsX, new Named<DoubleUnaryOperator>("", doubleUnaryOperator));
 	}
 
 	@Override
