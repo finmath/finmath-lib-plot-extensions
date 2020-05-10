@@ -26,11 +26,11 @@ public class Plots {
 	/**
 	 * Create a histogram behind a value scatter plot.
 	 *
-	 * @param randomVariableX
-	 * @param randomVariableY
-	 * @param numberOfPoints
-	 * @param standardDeviations
-	 * @return
+	 * @param randomVariableX The random variable for the independent.
+	 * @param randomVariableY The random variable for the dependent.
+	 * @param numberOfPoints The number of bins to be used for the histogram.
+	 * @param standardDeviations The standard deviations to be covered by the independent.
+	 * @return The plot.
 	 */
 	public static Plot createPlotOfHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations) {
 		return createPlotOfHistogramBehindValues(randomVariableX, randomVariableY, numberOfPoints, standardDeviations, null, null);
