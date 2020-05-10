@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +63,12 @@ public class Plot2D implements Plot {
 
 	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final List<Named<DoubleUnaryOperator>> doubleUnaryOperators) {
 		this(doubleUnaryOperators.stream().map(namedFunction -> { return new PlotableFunction2D(xmin, xmax, numberOfPointsX, namedFunction, null); }).collect(Collectors.toList()));
+	}
+
+	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final DoubleUnaryOperator[] doubleUnaryOperators) {
+		this(xmin, xmax, numberOfPointsX,
+				Arrays.stream(doubleUnaryOperators).map(operator -> new Named<DoubleUnaryOperator>("", operator)).collect(Collectors.toList())
+				);
 	}
 
 	public Plot2D(final double xmin, final double xmax, final int numberOfPointsX, final DoubleUnaryOperator function) {
@@ -137,8 +144,12 @@ public class Plot2D implements Plot {
 						((XYLineAndShapeRenderer)renderer).setSeriesLinesVisible(0, style.getStroke() != null);
 						renderer.setSeriesPaint(0, color);
 					}
-					renderer.setSeriesShape(0, plotable.getStyle().getShape());
-					renderer.setSeriesStroke(0, plotable.getStyle().getStroke());
+					if(style.getShape() != null) {
+						renderer.setSeriesShape(0, style.getShape());
+					}
+					if(style.getStroke() != null) {
+						renderer.setSeriesStroke(0, style.getStroke());
+					}
 				}
 				else {
 					renderer = new XYLineAndShapeRenderer();
@@ -233,6 +244,14 @@ public class Plot2D implements Plot {
 		update(plotables);
 		synchronized (updateLock) {
 			JFreeChartUtilities.saveChartAsJPG(file, chart, width, height);
+		}
+	}
+
+	public void saveAsPNG(final File file, final int width, final int height) throws IOException {
+		init();
+		update(plotables);
+		synchronized (updateLock) {
+			JFreeChartUtilities.saveChartAsPNG(file, chart, width, height);
 		}
 	}
 
