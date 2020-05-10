@@ -6,6 +6,8 @@ https://java.com/de/download/mac_download.jsp * (c) Copyright Christian P. Fries
 
 package net.finmath.plots;
 
+import static org.junit.Assert.fail;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;

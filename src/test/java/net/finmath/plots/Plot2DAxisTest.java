@@ -1,8 +1,11 @@
 package net.finmath.plots;
 
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 
 import net.finmath.exception.CalculationException;
+import net.finmath.montecarlo.BrownianMotionFromMersenneRandomNumbers;
 import net.finmath.montecarlo.BrownianMotionLazyInit;
 import net.finmath.montecarlo.assetderivativevaluation.MonteCarloAssetModel;
 import net.finmath.montecarlo.assetderivativevaluation.models.BlackScholesModel;
@@ -33,11 +36,11 @@ public class Plot2DAxisTest {
 
 		// Create a corresponding MC process
 		final var td = new TimeDiscretizationFromArray(0.0, 300, 0.01);
-		final var brownianMotion = new BrownianMotionLazyInit(td, 1, 100000, 3231);
-		final var process = new EulerSchemeFromProcessModel(brownianMotion);
+		final var brownianMotion = new BrownianMotionFromMersenneRandomNumbers(td, 1, 100000, 3231);
+		final var process = new EulerSchemeFromProcessModel(model, brownianMotion);
 
 		// Using the process (Euler scheme), create an MC simulation of a Black-Scholes model
-		final var simulation = new MonteCarloAssetModel(model, process);
+		final var simulation = new MonteCarloAssetModel(process);
 
 		final EuropeanOption europeanOption = new EuropeanOption(maturity, strike);
 
