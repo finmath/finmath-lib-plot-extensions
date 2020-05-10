@@ -134,18 +134,12 @@ public class Plot3D implements Plot {
 		return this;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.finmath.plots.experimental.Plot#setXAxisLabel(java.lang.String)
-	 */
 	@Override
 	public Plot setXAxisLabel(final String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		return this;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.finmath.plots.experimental.Plot#setYAxisLabel(java.lang.String)
-	 */
 	@Override
 	public Plot setYAxisLabel(final String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
