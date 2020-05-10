@@ -30,7 +30,6 @@
 		<finmath-lib.version>5.0.1</finmath-lib.version>
 		<junit.version>4.12</junit.version>
 		<!-- maven plugins -->
-		<!-- maven plugins -->
 		<compiler-plugin.version>3.8.1</compiler-plugin.version>
 		<surefire-plugin.version>3.0.0-M4</surefire-plugin.version>
 		<surefire-report-plugin.version>3.0.0-M4</surefire-report-plugin.version>
@@ -378,19 +377,19 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>${surefire.version}</version>
+				<version>${surefire-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.openclover</groupId>
 				<artifactId>clover-maven-plugin</artifactId>
-				<version>${clover.version}</version>
+				<version>${clover-plugin.version}</version>
 				<configuration>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${checkstyle.version}</version>
+				<version>${checkstyle-plugin.version}</version>
 				<configuration>
 					<configLocation>finmath-checkstyle.xml</configLocation>
 			        <excludes>**/module-info.java</excludes>
