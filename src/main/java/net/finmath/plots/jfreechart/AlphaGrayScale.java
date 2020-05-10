@@ -13,14 +13,14 @@ import org.jfree.chart.renderer.PaintScale;
 
 /**
  * A color scale using alpha and gray.
- * 
+ *
  * @author Christian Fries
  */
 public class AlphaGrayScale implements PaintScale {
-	private double lowerBound;
-	private double upperBound;
-	private double frequency;
-	private double thickness;
+	private final double lowerBound;
+	private final double upperBound;
+	private final double frequency;
+	private final double thickness;
 
 	public AlphaGrayScale(final double lowerBound, final double upperBound, final double frequency, final double thickness) {
 		this.lowerBound = lowerBound;

@@ -7,7 +7,7 @@ package net.finmath.plots;
 
 /**
  * A 2D category, i.e., Key-Value pair, where Key is a String ID and value is a Number.
- * 
+ *
  * @author Christian Fries
  */
 public class Category2D {
