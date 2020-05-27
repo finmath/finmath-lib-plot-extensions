@@ -53,7 +53,7 @@ or a series of `Point2D`.
 Distribution
 -------------------------------------
 
-finmath-lib-cuda-extensions is distributed through the central Maven repository. It's coordinates are:
+finmath-lib-plot-extensions is distributed through the central Maven repository. It's coordinates are:
 
     <groupId>net.finmath</groupId>
     <artifactId>finmath-lib-plot-extensions</artifactId>

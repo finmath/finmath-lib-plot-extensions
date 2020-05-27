@@ -6,7 +6,7 @@ https://java.com/de/download/mac_download.jsp * (c) Copyright Christian P. Fries
 
 package net.finmath.plots;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Streams;
 

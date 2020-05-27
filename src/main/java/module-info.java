@@ -11,7 +11,7 @@ module net.finmath.plots {
 	requires jzy3d.api;
 	requires itextpdf;
 	requires commons.math3;
-	requires jogl.all;
+	requires jogl.all.main;
 
 	requires com.google.common;
 
@@ -23,4 +23,5 @@ module net.finmath.plots {
 	requires java.desktop;
 	requires java.management;
 	requires java.logging;
+	requires org.junit.jupiter.api;
 }
