@@ -44,7 +44,7 @@ public class Plot2DAxisTest {
 		final EuropeanOption europeanOption = new EuropeanOption(maturity, strike);
 
 		try {
-			final Plot plot = Plots.createPlotOfHistogramBehindValues(simulation.getAssetValue(maturity, 0 /* assetIndex */), europeanOption.getValue(0.0, simulation), 100, 5.0);
+			final Plot plot = Plots.createHistogramBehindValues(simulation.getAssetValue(maturity, 0 /* assetIndex */), europeanOption.getValue(0.0, simulation), 100, 5.0);
 			plot.show();
 			Thread.sleep(20000);
 		} catch (final Exception e) {

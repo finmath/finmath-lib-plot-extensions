@@ -13,15 +13,126 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import net.finmath.montecarlo.RandomVariableFromDoubleArray;
 import net.finmath.plots.axis.NumberAxis;
 import net.finmath.stochastic.RandomVariable;
 
 /**
- * A factory for various plots.
+ * Static factory methods for various plots (used to keep demos short)
  *
  * @author Christian Fries
  */
 public class Plots {
+
+	/*
+	 * Scatter
+	 */
+
+	public static Plot2D createScatter(final double[] xValues, double[] yValues, final double xmin, final double xmax, final int dotSize) {
+
+		final List<Point2D> series = new ArrayList<Point2D>();
+		for(int i=0; i<xValues.length; i++) {
+			series.add(new Point2D(xValues[i], yValues[i]));
+		}
+
+		final List<Plotable2D> plotables = Arrays.asList(
+				new PlotablePoints2D("Scatter", series, new GraphStyle(new Rectangle(dotSize, dotSize), null, null))
+				);
+
+		return new Plot2D(plotables);
+	}
+
+	public static Plot2D createScatter(final List<Double> x, final List<Double> y, final double xmin, final double xmax, final int dotSize) {
+		return createScatter(
+				ArrayUtils.toPrimitive(x.toArray(new Double[x.size()])),
+				ArrayUtils.toPrimitive(y.toArray(new Double[y.size()])),
+				xmin, xmax, dotSize);
+	}
+
+	public static Plot2D updateScatter(final Plot2D plot, final double[] xValues, double[] yValues, final double xmin, final double xmax, final int dotSize) {
+		final List<Point2D> series = new ArrayList<Point2D>();
+		for(int i=0; i<xValues.length; i++) {
+			series.add(new Point2D(xValues[i], yValues[i]));
+		}
+
+		final List<Plotable2D> plotables = Arrays.asList(
+				new PlotablePoints2D("Scatter", series, new GraphStyle(new Rectangle(dotSize, dotSize), null, null))
+				);
+
+		return plot.update(plotables);
+	}
+
+	public static Plot2D updatePlotScatter(final Plot2D plot, final List<Double> x, final List<Double> y, final double xmin, final double xmax, final int dotSize) {
+		return updateScatter(
+				plot,
+				ArrayUtils.toPrimitive(x.toArray(new Double[x.size()])),
+				ArrayUtils.toPrimitive(y.toArray(new Double[y.size()])),
+				xmin, xmax, dotSize);
+	}
+
+	public static Plot2D createScatter(final RandomVariable x, final RandomVariable y, final double xmin, final double xmax, final int dotSize) {
+		return createScatter(x.getRealizations(), y.getRealizations(), xmin, xmax, dotSize);
+	}
+
+	public static Plot2D createScatter(final RandomVariable x, final RandomVariable y, final double xmin, final double xmax) {
+
+		return createScatter(x, y, xmin, xmax, 1);
+	}
+
+	/*
+	 * Histogram
+	 */
+
+	public static Plot2D createHistogram(final RandomVariable randomVariable, final int numberOfPoints, final double standardDeviations) {
+
+		final double[][] histogram = randomVariable.getHistogram(numberOfPoints, standardDeviations);
+
+		final List<Point2D> series = new ArrayList<Point2D>();
+		for(int i=0; i<histogram[0].length; i++) {
+			series.add(new Point2D(histogram[0][i],histogram[1][i]));
+		}
+
+		final List<Plotable2D> plotables = Arrays.asList(
+				new PlotablePoints2D("Histogram", series, new GraphStyle(new Rectangle(10, 2), null, Color.DARK_GRAY, Color.LIGHT_GRAY))
+				);
+
+		Plot2D plot = new Plot2D(plotables);
+		plot.setXAxisLabel("values");
+		plot.setYAxisLabel("frequency");
+
+		return plot;
+	}
+
+	public static Plot2D createHistogram(final List<Double> values, final int numberOfPoints, final double standardDeviations) {
+
+		RandomVariable randomVariable = new RandomVariableFromDoubleArray(0.0, ArrayUtils.toPrimitive(values.toArray(new Double[values.size()])));
+
+		return createHistogram(randomVariable, numberOfPoints, standardDeviations);
+	}
+
+	public static Plot2D updateHistogram(final Plot2D histogram, final RandomVariable randomVariable, final int numberOfPoints, final double standardDeviations) {
+
+		final double[][] histogramValues = randomVariable.getHistogram(numberOfPoints, standardDeviations);
+
+		final List<Point2D> series = new ArrayList<Point2D>();
+		for(int i=0; i<histogramValues[0].length; i++) {
+			series.add(new Point2D(histogramValues[0][i],histogramValues[1][i]));
+		}
+
+		final List<Plotable2D> plotables = Arrays.asList(
+				new PlotablePoints2D("Histogram", series, new GraphStyle(new Rectangle(10, 2), null, Color.DARK_GRAY, Color.LIGHT_GRAY))
+				);
+
+		histogram.update(plotables);
+
+		return histogram;
+	}
+
+	public static Plot2D updateHistogram(final Plot2D histogram, final List<Double> values, final int numberOfPoints, final double standardDeviations) {
+		RandomVariable randomVariable = new RandomVariableFromDoubleArray(0.0, ArrayUtils.toPrimitive(values.toArray(new Double[values.size()])));
+
+		return updateHistogram(histogram, randomVariable, numberOfPoints, standardDeviations);
+	}
 
 	/**
 	 * Create a histogram behind a value scatter plot.
@@ -32,11 +143,11 @@ public class Plots {
 	 * @param standardDeviations The standard deviations to be covered by the independent.
 	 * @return The plot.
 	 */
-	public static Plot createPlotOfHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations) {
-		return createPlotOfHistogramBehindValues(randomVariableX, randomVariableY, numberOfPoints, standardDeviations, null, null);
+	public static Plot createHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations) {
+		return createHistogramBehindValues(randomVariableX, randomVariableY, numberOfPoints, standardDeviations, null, null);
 	}
 
-	public static Plot createPlotOfHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations, final Double xmin, final Double xmax) {
+	public static Plot createHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations, final Double xmin, final Double xmax) {
 
 		/*
 		 * Create historgram
@@ -76,90 +187,53 @@ public class Plots {
 		return new Plot2D(plotables);
 	}
 
+	/*
+	 * Backward compatiblity
+	 */
+	
+	@Deprecated(forRemoval = true)
 	public static Plot2D createPlotOfHistogram(final RandomVariable randomVariable, final int numberOfPoints, final double standardDeviations) {
-
-		final double[][] histogram = randomVariable.getHistogram(numberOfPoints, standardDeviations);
-
-		final List<Point2D> series = new ArrayList<Point2D>();
-		for(int i=0; i<histogram[0].length; i++) {
-			series.add(new Point2D(histogram[0][i],histogram[1][i]));
-		}
-
-		final List<Plotable2D> plotables = Arrays.asList(
-				new PlotablePoints2D("Histogram", series, new GraphStyle(new Rectangle(10, 2), null, Color.DARK_GRAY, Color.LIGHT_GRAY))
-				);
-
-		return new Plot2D(plotables);
+		return createHistogram(randomVariable, numberOfPoints, standardDeviations);
 	}
 
-
+	@Deprecated(forRemoval = true)
 	public static Plot2D updatePlotOfHistogram(final Plot2D histogram, final RandomVariable randomVariable, final int numberOfPoints, final double standardDeviations) {
-
-		final double[][] histogramValues = randomVariable.getHistogram(numberOfPoints, standardDeviations);
-
-		final List<Point2D> series = new ArrayList<Point2D>();
-		for(int i=0; i<histogramValues[0].length; i++) {
-			series.add(new Point2D(histogramValues[0][i],histogramValues[1][i]));
-		}
-
-		final List<Plotable2D> plotables = Arrays.asList(
-				new PlotablePoints2D("Histogram", series, new GraphStyle(new Rectangle(10, 2), null, Color.DARK_GRAY, Color.LIGHT_GRAY))
-				);
-
-		histogram.update(plotables);
-
-		return histogram;
+		return updateHistogram(histogram, randomVariable, numberOfPoints, standardDeviations);
 	}
 
+	@Deprecated(forRemoval = true)
+	public static Plot createPlotOfHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations) {
+		return createHistogramBehindValues(randomVariableX, randomVariableY, numberOfPoints, standardDeviations);
+	}
+
+	@Deprecated(forRemoval = true)
+	public static Plot createPlotOfHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations, final Double xmin, final Double xmax) {
+		return createHistogramBehindValues(randomVariableX, randomVariableY, numberOfPoints, standardDeviations, xmin, xmax);
+	}
+
+	@Deprecated(forRemoval = true)
 	public static Plot2D createPlotScatter(final double[] xValues, double[] yValues, final double xmin, final double xmax, final int dotSize) {
-
-		final List<Point2D> series = new ArrayList<Point2D>();
-		for(int i=0; i<xValues.length; i++) {
-			series.add(new Point2D(xValues[i], yValues[i]));
-		}
-
-		final List<Plotable2D> plotables = Arrays.asList(
-				new PlotablePoints2D("Scatter", series, new GraphStyle(new Rectangle(dotSize, dotSize), null, null))
-				);
-
-		return new Plot2D(plotables);
+		return createScatter(xValues, yValues, xmin, xmax, dotSize);
 	}
-
+	
+	@Deprecated(forRemoval = true)
 	public static Plot2D createPlotScatter(final List<Double> x, final List<Double> y, final double xmin, final double xmax, final int dotSize) {
-		return createPlotScatter(
-				ArrayUtils.toPrimitive(x.toArray(new Double[x.size()])),
-				ArrayUtils.toPrimitive(y.toArray(new Double[y.size()])),
-				xmin, xmax, dotSize);
+		return createScatter(x, y, xmin, xmax, dotSize);
 	}
 
+	@Deprecated(forRemoval = true)
 	public static Plot2D updatePlotScatter(final Plot2D plot, final double[] xValues, double[] yValues, final double xmin, final double xmax, final int dotSize) {
-		final List<Point2D> series = new ArrayList<Point2D>();
-		for(int i=0; i<xValues.length; i++) {
-			series.add(new Point2D(xValues[i], yValues[i]));
-		}
-
-		final List<Plotable2D> plotables = Arrays.asList(
-				new PlotablePoints2D("Scatter", series, new GraphStyle(new Rectangle(dotSize, dotSize), null, null))
-				);
-
-		return plot.update(plotables);
+		return updateScatter(plot, xValues, yValues, xmin, xmax, dotSize);
 	}
-
-	public static Plot2D updatePlotScatter(final Plot2D plot, final List<Double> x, final List<Double> y, final double xmin, final double xmax, final int dotSize) {
-		return updatePlotScatter(
-				plot,
-				ArrayUtils.toPrimitive(x.toArray(new Double[x.size()])),
-				ArrayUtils.toPrimitive(y.toArray(new Double[y.size()])),
-				xmin, xmax, dotSize);
-	}
-
+	
+	@Deprecated(forRemoval = true)
 	public static Plot2D createPlotScatter(final RandomVariable x, final RandomVariable y, final double xmin, final double xmax, final int dotSize) {
-		return createPlotScatter(x.getRealizations(), y.getRealizations(), xmin, xmax, dotSize);
+		return createScatter(x, y, xmin, xmax, dotSize);
 	}
 
+	@Deprecated(forRemoval = true)
 	public static Plot2D createPlotScatter(final RandomVariable x, final RandomVariable y, final double xmin, final double xmax) {
-
-		return createPlotScatter(x, y, xmin, xmax, 1);
+		return createScatter(x, y, xmin, xmax);		
 	}
 
 }
