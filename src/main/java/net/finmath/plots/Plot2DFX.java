@@ -52,6 +52,7 @@ public class Plot2DFX implements Plot {
 	private NumberFormat yAxisNumberFormat;
 	private Boolean isLegendVisible = false;
 
+	private transient JFrame frame;
 	private LineChart<Number,Number> chart;
 	private final Object updateLock = new Object();
 
@@ -187,7 +188,9 @@ public class Plot2DFX implements Plot {
 			@Override
 			public void run() {
 				// This method is invoked on Swing thread
-				final JFrame frame = new JFrame("FX");
+				if(frame != null) frame.dispose();
+
+				frame = new JFrame("FX");
 				final JFXPanel fxPanel = new JFXPanel();
 				frame.add(fxPanel);
 				frame.setVisible(true);
@@ -206,6 +209,13 @@ public class Plot2DFX implements Plot {
 				update();
 			}
 		});
+	}
+
+	@Override
+	public void close() {
+		synchronized (updateLock) {
+			if(frame != null) frame.dispose();
+		}
 	}
 
 	public Chart get() {

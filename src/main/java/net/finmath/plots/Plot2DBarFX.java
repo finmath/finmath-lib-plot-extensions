@@ -54,8 +54,8 @@ public class Plot2DBarFX implements Plot {
 	private Boolean isLegendVisible = false;
 	private Boolean isSeriesStacked = false;
 
+	private transient JFrame frame;
 	private XYChart<String,Number> chart;
-
 	private final Object updateLock = new Object();
 
 
@@ -248,7 +248,9 @@ public class Plot2DBarFX implements Plot {
 			@Override
 			public void run() {
 				// This method is invoked on Swing thread
-				final JFrame frame = new JFrame("FX");
+				if(frame != null) frame.dispose();
+
+				frame = new JFrame("FX");
 				final JFXPanel fxPanel = new JFXPanel();
 				frame.add(fxPanel);
 				frame.setVisible(true);
@@ -267,6 +269,13 @@ public class Plot2DBarFX implements Plot {
 				update();
 			}
 		});
+	}
+
+	@Override
+	public void close() {
+		synchronized (updateLock) {
+			if(frame != null) frame.dispose();
+		}
 	}
 
 	@Override

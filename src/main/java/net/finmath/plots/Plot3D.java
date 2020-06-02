@@ -6,20 +6,33 @@
 
 package net.finmath.plots;
 
+import java.awt.Component;
+import java.awt.Frame;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.function.DoubleBinaryOperator;
 
+import javax.swing.JFrame;
+
+import org.jfree.chart.JFreeChart;
 import org.jzy3d.analysis.AbstractAnalysis;
 import org.jzy3d.analysis.AnalysisLauncher;
+import org.jzy3d.chart.AWTChart;
+import org.jzy3d.chart.Chart;
+import org.jzy3d.chart.ChartLauncher;
+import org.jzy3d.chart.Settings;
+import org.jzy3d.chart.controllers.mouse.camera.ICameraMouseController;
 import org.jzy3d.chart.factories.AWTChartComponentFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.colors.colormaps.ColorMapRainbow;
 import org.jzy3d.maths.Range;
+import org.jzy3d.maths.Rectangle;
 import org.jzy3d.plot3d.builder.Builder;
 import org.jzy3d.plot3d.builder.Mapper;
 import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid;
+import org.jzy3d.plot3d.primitives.AbstractDrawable;
 import org.jzy3d.plot3d.primitives.Shape;
 import org.jzy3d.plot3d.primitives.axes.AxeBox;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
@@ -43,6 +56,11 @@ public class Plot3D implements Plot {
 	private String yAxisLabel = "y";
 	private String zAxisLabel = "z";
 	private Boolean isLegendVisible;
+	
+	private transient Frame frame;
+	private transient Surface surface;
+	private final Object updateLock = new Object();
+	private Chart chart;
 
 	public Plot3D(final double xmin, final double xmax, final double ymin, final double ymax, final int numberOfPointsX, final int numberOfPointsY, final Named<DoubleBinaryOperator> function) {
 		super();
@@ -105,12 +123,51 @@ public class Plot3D implements Plot {
 			//			ITextRenderer renderer3 = new TextBillboardRenderer();
 			final ITextRenderer renderer = new TextBitmapRenderer(TextBitmapRenderer.Font.TimesRoman_24);
 			box.setTextRenderer(renderer);
+
+			chart.addKeyboardCameraController();
+	        chart.addKeyboardScreenshotController();
+	        chart.addMouseCameraController();
 		}
 	}
 
 	@Override
 	public void show() throws Exception {
-		AnalysisLauncher.open(this.new Surface());
+		if(surface != null) close();
+		surface = this.new Surface();
+
+		Settings.getInstance().setHardwareAccelerated(true);
+		surface.init();
+
+    	/*
+        ChartLauncher.instructions();
+        ChartLauncher.openChart(chart, new Rectangle(800, 400), "3D");
+        ICameraMouseController mouse = configureControllers(chart, title, allowSlaveThreadOnDoubleClick, startThreadImmediatly);
+        chart.render();
+        frame(chart, bounds, title);
+    	 */
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				synchronized (updateLock) {
+					if(frame != null) frame.dispose();
+
+			        frame = new JFrame();
+			        frame.add((Component)surface.getChart().getCanvas());
+
+			    	frame.setSize(800, 400);
+			    	frame.setVisible(true);
+			    	frame.pack();
+				}
+			}
+		});
+	}
+
+	@Override
+	public void close() {
+		synchronized (updateLock) {
+			if(frame != null) frame.dispose();
+		}
 	}
 
 	@Override

@@ -16,6 +16,8 @@ public interface Plot {
 
 	void show() throws Exception;
 
+	void close() throws Exception;
+
 	void saveAsJPG(File file, int width, int height) throws IOException;
 
 	void saveAsPDF(File file, int width, int height) throws IOException;

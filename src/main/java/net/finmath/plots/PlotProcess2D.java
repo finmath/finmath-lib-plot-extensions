@@ -43,6 +43,7 @@ public class PlotProcess2D implements Plot {
 	private NumberFormat yAxisNumberFormat;
 	private Boolean isLegendVisible = false;
 
+	private transient JFrame frame;
 	private transient JFreeChart chart;
 
 	/**
@@ -135,12 +136,19 @@ public class PlotProcess2D implements Plot {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				final JFrame frame = new JFrame();
+				if(frame != null) frame.dispose();
+
+				frame = new JFrame();
 				frame.add(chartPanel);
 				frame.setVisible(true);
 				frame.pack();
 			}
 		});
+	}
+
+	@Override
+	public void close() {
+		if(frame != null) frame.dispose();
 	}
 
 	@Override

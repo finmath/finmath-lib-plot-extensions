@@ -50,6 +50,7 @@ public class Plot2D implements Plot {
 	private NumberFormat yAxisNumberFormat;
 	private Boolean isLegendVisible = false;
 
+	private transient JFrame frame;
 	private transient JFreeChart chart;
 	private final Object updateLock = new Object();
 
@@ -229,13 +230,22 @@ public class Plot2D implements Plot {
 			@Override
 			public void run() {
 				synchronized (updateLock) {
-					final JFrame frame = new JFrame();
+					if(frame != null) frame.dispose();
+
+					frame = new JFrame();
 					frame.add(chartPanel);
 					frame.setVisible(true);
 					frame.pack();
 				}
 			}
 		});
+	}
+
+	@Override
+	public void close() {
+		synchronized (updateLock) {
+			if(frame != null) frame.dispose();
+		}
 	}
 
 	@Override
