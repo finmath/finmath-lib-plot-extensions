@@ -58,5 +58,6 @@ public class Plot2DDemo2 {
 
 		plot.setTitle("Black-Scholes Model European Option Value").setXAxisLabel("strike").setYAxisLabel("value").setIsLegendVisible(true);
 		plot.show();
+		// Plots will stay open and the program will not stop. Call plot.close() to end the app.
 	}
 }
