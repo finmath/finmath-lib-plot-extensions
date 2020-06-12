@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- For publishing to sonatype / central maven repo -->
@@ -30,7 +32,7 @@
 		<!-- libs -->
 		<finmath-lib.version>5.0.1</finmath-lib.version>
 		<commons-math.version>3.6.1</commons-math.version>
-		<commons-lang.version>3.9</commons-lang.version>
+		<commons-lang.version>3.10</commons-lang.version>
 		<junit.version>5.6.2</junit.version>
 		<!-- maven plugins -->
 		<compiler-plugin.version>3.8.1</compiler-plugin.version>
@@ -39,9 +41,12 @@
 		<javadoc-plugin.version>3.2.0</javadoc-plugin.version>
 		<jar-plugin.version>3.2.0</jar-plugin.version>
 		<source-plugin.version>3.2.1</source-plugin.version>
-		<site-plugin.version>3.8.2</site-plugin.version>
+		<site-plugin.version>3.9.0</site-plugin.version>
 		<checkstyle-plugin.version>3.1.1</checkstyle-plugin.version>
 		<clover-plugin.version>4.4.1</clover-plugin.version>
+		<maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
+		<maven-scm-publish-plugin.version>3.0.0</maven-scm-publish-plugin.version>
+		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
 	</properties>
 
 	<licenses>
@@ -159,7 +164,7 @@
 	</dependencies>
 
 	<build>
-		<defaultGoal>clean install</defaultGoal>
+		<defaultGoal>clean install javadoc:javadoc</defaultGoal>
 		<finalName>${project.artifactId}-${project.version}</finalName>
 		<sourceDirectory>${src.main.java.dir}</sourceDirectory>
 		<testSourceDirectory>${src.test.java.dir}</testSourceDirectory>
@@ -296,17 +301,13 @@
 						<goals>
 							<goal>stage</goal>
 						</goals>
-						<configuration>
-							<skipDeploy>false</skipDeploy><!-- MSITE-652: configuration won't 
-								be necessary with m-site-p 3.2 -->
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-scm-publish-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>${maven-scm-publish-plugin.version}</version>
 				<configuration>
 					<scmBranch>gh-pages</scmBranch>
 				</configuration>
@@ -333,8 +334,8 @@
 						</goals>
 					</execution>
 				</executions>
-				<!-- We allow local modifications. The build number is reliable only 
-					in releases obtained via Maven central. -->
+				<!-- Allow local modifications. The build number is reliable only in 
+					releases obtained via Maven central. -->
 				<configuration>
 					<doCheck>false</doCheck>
 					<doUpdate>false</doUpdate>
@@ -395,16 +396,16 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>${maven-project-info-reports-plugin.version}</version>
 				<reportSets>
 					<reportSet>
 						<reports>
 							<!-- <report>index</report> -->
 							<report>summary</report>
 							<report>scm</report>
-							<!-- <report>distribution-management</report> -->
+							<report>distribution-management</report>
 							<report>dependency-info</report>
-							<!-- <report>dependencies</report> -->
+							<report>dependencies</report>
 							<report>issue-management</report>
 							<report>ci-management</report>
 							<report>licenses</report>
