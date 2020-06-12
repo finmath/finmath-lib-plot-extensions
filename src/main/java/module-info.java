@@ -7,23 +7,25 @@ module net.finmath.plots {
 	
 	requires transitive net.finmath.lib;
 
-	requires jfreechart;
-	requires jfreesvg;
-	requires jzy3d.api;
-	requires jzy3d.javafx;
-	requires itextpdf;
-	requires commons.math3;
-	requires jogl.all.main;
-
-	requires com.google.common;
+	requires java.desktop;
+	requires java.management;
+	requires java.logging;
 
 	requires javafx.controls;
 	requires javafx.base;
 	requires transitive javafx.graphics;
 	requires transitive javafx.swing;
 
-	requires java.desktop;
-	requires java.management;
-	requires java.logging;
 	requires org.apache.commons.lang3;
+
+	requires jfreechart;
+	requires jfreesvg;
+	requires jzy3d.api;
+	requires jzy3d.javafx;
+	requires jogl.all;
+	requires jogl.all.main;
+	requires itextpdf;
+	requires commons.math3;
+
+	requires com.google.common;
 }
