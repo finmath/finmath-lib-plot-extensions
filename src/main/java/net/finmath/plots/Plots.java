@@ -79,7 +79,12 @@ public class Plots {
 		return createScatter(x, y, xmin, xmax, 1);
 	}
 
+	public static Plot2D createScatter(final RandomVariable x, final RandomVariable y) {
+		return createScatter(x, y, x.getMin(), x.getMax());
+	}
+
 	/*
+	 * 
 	 * Histogram
 	 */
 
