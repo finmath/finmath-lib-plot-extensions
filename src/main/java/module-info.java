@@ -4,7 +4,7 @@ module net.finmath.plots {
 	exports net.finmath.plots;
 	exports net.finmath.plots.axis;
 	exports net.finmath.plots.demo;
-	
+
 	requires transitive net.finmath.lib;
 
 	requires java.desktop;

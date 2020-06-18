@@ -48,7 +48,7 @@ public class Plot3D implements Plot {
 	private String yAxisLabel = "y";
 	private String zAxisLabel = "z";
 	private Boolean isLegendVisible;
-	
+
 	private transient Frame frame;
 	private transient Surface surface;
 	private final Object updateLock = new Object();
@@ -117,8 +117,8 @@ public class Plot3D implements Plot {
 			box.setTextRenderer(renderer);
 
 			chart.addKeyboardCameraController();
-	        chart.addKeyboardScreenshotController();
-	        chart.addMouseCameraController();
+			chart.addKeyboardScreenshotController();
+			chart.addMouseCameraController();
 		}
 	}
 
@@ -130,26 +130,26 @@ public class Plot3D implements Plot {
 		Settings.getInstance().setHardwareAccelerated(true);
 		surface.init();
 
-    	/*
+		/*
         ChartLauncher.instructions();
         ChartLauncher.openChart(chart, new Rectangle(800, 400), "3D");
         ICameraMouseController mouse = configureControllers(chart, title, allowSlaveThreadOnDoubleClick, startThreadImmediatly);
         chart.render();
         frame(chart, bounds, title);
-    	 */
+		 */
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
+		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				synchronized (updateLock) {
 					if(frame != null) frame.dispose();
 
-			        frame = new JFrame();
-			        frame.add((Component)surface.getChart().getCanvas());
+					frame = new JFrame();
+					frame.add((Component)surface.getChart().getCanvas());
 
-			    	frame.setSize(800, 400);
-			    	frame.setVisible(true);
-			    	frame.pack();
+					frame.setSize(800, 400);
+					frame.setVisible(true);
+					frame.pack();
 				}
 			}
 		});

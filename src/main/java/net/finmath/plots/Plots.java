@@ -84,7 +84,7 @@ public class Plots {
 	}
 
 	/*
-	 * 
+	 *
 	 * Histogram
 	 */
 
@@ -195,7 +195,7 @@ public class Plots {
 	/*
 	 * Backward compatiblity
 	 */
-	
+
 	@Deprecated(forRemoval = true)
 	public static Plot2D createPlotOfHistogram(final RandomVariable randomVariable, final int numberOfPoints, final double standardDeviations) {
 		return createHistogram(randomVariable, numberOfPoints, standardDeviations);
@@ -220,7 +220,7 @@ public class Plots {
 	public static Plot2D createPlotScatter(final double[] xValues, double[] yValues, final double xmin, final double xmax, final int dotSize) {
 		return createScatter(xValues, yValues, xmin, xmax, dotSize);
 	}
-	
+
 	@Deprecated(forRemoval = true)
 	public static Plot2D createPlotScatter(final List<Double> x, final List<Double> y, final double xmin, final double xmax, final int dotSize) {
 		return createScatter(x, y, xmin, xmax, dotSize);
@@ -230,7 +230,7 @@ public class Plots {
 	public static Plot2D updatePlotScatter(final Plot2D plot, final double[] xValues, double[] yValues, final double xmin, final double xmax, final int dotSize) {
 		return updateScatter(plot, xValues, yValues, xmin, xmax, dotSize);
 	}
-	
+
 	@Deprecated(forRemoval = true)
 	public static Plot2D createPlotScatter(final RandomVariable x, final RandomVariable y, final double xmin, final double xmax, final int dotSize) {
 		return createScatter(x, y, xmin, xmax, dotSize);
@@ -238,7 +238,7 @@ public class Plots {
 
 	@Deprecated(forRemoval = true)
 	public static Plot2D createPlotScatter(final RandomVariable x, final RandomVariable y, final double xmin, final double xmax) {
-		return createScatter(x, y, xmin, xmax);		
+		return createScatter(x, y, xmin, xmax);
 	}
 
 }
