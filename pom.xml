@@ -9,6 +9,7 @@
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
+		<relativePath />
 	</parent>
 
 	<groupId>net.finmath</groupId>
@@ -35,9 +36,9 @@
 		<commons-lang.version>3.10</commons-lang.version>
 		<junit.version>5.6.2</junit.version>
 		<!-- maven plugins -->
-		<compiler-plugin.version>3.8.1</compiler-plugin.version>
-		<surefire-plugin.version>3.0.0-M4</surefire-plugin.version>
-		<surefire-report-plugin.version>3.0.0-M4</surefire-report-plugin.version>
+		<maven.compiler-plugin.version>3.8.1</maven.compiler-plugin.version>
+		<maven.surefire-plugin.version>3.0.0-M5</maven.surefire-plugin.version>
+		<maven.surefire-report-plugin.version>3.0.0-M5</maven.surefire-report-plugin.version>
 		<javadoc-plugin.version>3.2.0</javadoc-plugin.version>
 		<jar-plugin.version>3.2.0</jar-plugin.version>
 		<source-plugin.version>3.2.1</source-plugin.version>
@@ -172,7 +173,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler-plugin.version}</version>
+				<version>${maven.compiler-plugin.version}</version>
 				<configuration>
 					<release>11</release>
 					<source>11</source>
@@ -245,7 +246,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire-plugin.version}</version>
+				<version>${maven.surefire-plugin.version}</version>
 				<configuration>
 					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
@@ -417,7 +418,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>${surefire-report-plugin.version}</version>
+				<version>${maven.surefire-report-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.openclover</groupId>
