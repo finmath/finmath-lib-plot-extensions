@@ -10,6 +10,15 @@ finmath lib plot extensions Release Notes
 
 ### General
 
+ - Refactor rename of methods in Plots.
+ - Referencing finmath-lib 5.0.2
+ - More convenient methods in Plots.
+ 
+
+## 0.3.2 (08.03.2020)
+
+### General
+
 - Improved documentation / JavaDoc and code style.
 - Refactor rename setxAxisFormat to setXAxisFormat.
 - Moved project page to gh-pages.
