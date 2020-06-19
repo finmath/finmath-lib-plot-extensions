@@ -20,10 +20,12 @@ module net.finmath.plots {
 
 	requires jfreechart;
 	requires jfreesvg;
+
 	requires jzy3d.api;
 	requires jzy3d.javafx;
 	requires jogl.all;
-	requires jogl.all.main;
+	uses com.jogamp.opengl.util.texture.TextureData;
+
 	requires itextpdf;
 	requires commons.math3;
 
