@@ -131,11 +131,11 @@ public class Plot3D implements Plot {
 		surface.init();
 
 		/*
-        ChartLauncher.instructions();
-        ChartLauncher.openChart(chart, new Rectangle(800, 400), "3D");
-        ICameraMouseController mouse = configureControllers(chart, title, allowSlaveThreadOnDoubleClick, startThreadImmediatly);
-        chart.render();
-        frame(chart, bounds, title);
+		ChartLauncher.instructions();
+		ChartLauncher.openChart(chart, new Rectangle(800, 400), "3D");
+		ICameraMouseController mouse = configureControllers(chart, title, allowSlaveThreadOnDoubleClick, startThreadImmediatly);
+		chart.render();
+		frame(chart, bounds, title);
 		 */
 
 		java.awt.EventQueue.invokeLater(new Runnable() {
