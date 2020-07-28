@@ -5,9 +5,7 @@
  */
 package net.finmath.plots;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.finmath.plots.axis.NumberAxis;
