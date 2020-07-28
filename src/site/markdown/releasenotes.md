@@ -6,6 +6,15 @@ finmath lib plot extensions Release Notes
 # Release Notes
 
 
+## 0.3.10 (28.07.2020)
+
+### General
+
+ - More convenient methods for plot construction in Plots.
+ - Minor improvements.
+ - Referencing finmath-lib 5.0.4
+
+
 ## 0.3.2 (08.03.2020)
 
 ### General
