@@ -28,6 +28,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -187,17 +188,13 @@ public class Plot2D implements Plot {
 
 					(new StyleGuide(2)).applyStyleToChart2(chart);
 
-					/*
 					if(ymin != null && ymax != null) {
 						range.setAutoRange(false);
 						range.setRange(new Range(ymin, ymax));
-						System.out.println("Setting axis " + ymin);
 					}
 					else {
-						System.out.println("Setting axis " + ymin);
 						range.setAutoRange(true);
 					}
-					 */
 				}
 			}
 		}
@@ -337,7 +334,7 @@ public class Plot2D implements Plot {
 		return this;
 	}
 
-	public Plot setYRange(final double ymin, final double ymax) {
+	public Plot2D setYRange(final double ymin, final double ymax) {
 		this.ymin = ymin;
 		this.ymax = ymax;
 
