@@ -23,8 +23,6 @@ module net.finmath.plots {
 
 	requires jzy3d.api;
 	requires jzy3d.javafx;
-	requires jogl.all;
-	uses com.jogamp.opengl.util.texture.TextureData;
 
 	requires itextpdf;
 	requires commons.math3;
