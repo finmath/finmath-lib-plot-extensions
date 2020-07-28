@@ -35,7 +35,7 @@ public class PlotableFunction2D implements Plotable2D {
 		this(xmin, xmax, numberOfPointsX, namedFunction, new GraphStyle(new Rectangle(-2, -3, 5, 5), new BasicStroke(3.0f), null));
 	}
 
-	public PlotableFunction2D(double xmin, int xmax, int numberOfPointsX, DoubleUnaryOperator doubleUnaryOperator) {
+	public PlotableFunction2D(double xmin, double xmax, int numberOfPointsX, DoubleUnaryOperator doubleUnaryOperator) {
 		this(xmin, xmax, numberOfPointsX, new Named<DoubleUnaryOperator>("", doubleUnaryOperator));
 	}
 
