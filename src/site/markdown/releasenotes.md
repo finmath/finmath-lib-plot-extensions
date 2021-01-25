@@ -6,6 +6,14 @@ finmath lib plot extensions Release Notes
 # Release Notes
 
 
+## 0.4.0 (25.01.2021)
+
+### General
+
+ - Added a method to create a scatter with multiple series from a Map<String,List<Double>>
+ - Removed Plot3D (using jzy3d).
+
+
 ## 0.3.10 (28.07.2020)
 
 ### General

@@ -7,10 +7,6 @@ module net.finmath.plots {
 
 	requires transitive net.finmath.lib;
 
-	requires java.desktop;
-	requires java.management;
-	requires java.logging;
-
 	requires javafx.controls;
 	requires javafx.base;
 	requires transitive javafx.graphics;
@@ -20,9 +16,6 @@ module net.finmath.plots {
 
 	requires jfreechart;
 	requires jfreesvg;
-
-	requires jzy3d.api;
-	requires jzy3d.javafx;
 
 	requires itextpdf;
 	requires commons.math3;
