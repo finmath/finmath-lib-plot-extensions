@@ -41,7 +41,7 @@ public class Plots {
 			}
 			plotables.add(new PlotablePoints2D(values.getKey(), series, new GraphStyle(new Rectangle(dotSize, dotSize), null, null)));
 		}
-		
+
 		return new Plot2D(plotables);
 	}
 
