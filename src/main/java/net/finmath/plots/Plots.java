@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -27,6 +28,22 @@ public class Plots {
 	/*
 	 * Scatter
 	 */
+
+	public static Plot2D createScatter(final List<Double> x, final Map<String, List<Double>> mapOfValues, final double xmin, final double xmax, final int dotSize) {
+
+		final List<Plotable2D> plotables = new ArrayList<Plotable2D>();
+
+		for(Map.Entry<String, List<Double>> values : mapOfValues.entrySet()) {
+			final List<Point2D> series = new ArrayList<Point2D>();
+			final List<Double> valueDoubles = values.getValue();
+			for(int i=0; i<valueDoubles.size(); i++) {
+				series.add(new Point2D(x.get(i), valueDoubles.get(i)));
+			}
+			plotables.add(new PlotablePoints2D(values.getKey(), series, new GraphStyle(new Rectangle(dotSize, dotSize), null, null)));
+		}
+		
+		return new Plot2D(plotables);
+	}
 
 	public static Plot2D createScatter(final double[] xValues, double[] yValues, final double xmin, final double xmax, final int dotSize) {
 
@@ -240,5 +257,4 @@ public class Plots {
 	public static Plot2D createPlotScatter(final RandomVariable x, final RandomVariable y, final double xmin, final double xmax) {
 		return createScatter(x, y, xmin, xmax);
 	}
-
 }
