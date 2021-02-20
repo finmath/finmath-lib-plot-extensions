@@ -32,6 +32,7 @@
 		<finmath-lib.version>5.1.0</finmath-lib.version>
 		<commons-math.version>3.6.1</commons-math.version>
 		<commons-lang.version>3.10</commons-lang.version>
+		<jfreechart.version>1.5.2</jfreechart.version>
 		<junit.version>5.6.2</junit.version>
 		<!-- maven plugins -->
 		<maven.compiler-plugin.version>3.8.1</maven.compiler-plugin.version>
@@ -93,7 +94,7 @@
 		<dependency>
 			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.5.0</version>
+			<version>${jfreechart.version}</version>
 		</dependency>
 
 		<dependency>

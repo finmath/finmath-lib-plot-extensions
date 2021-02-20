@@ -15,7 +15,7 @@ module net.finmath.plots {
 
 	requires org.apache.commons.lang3;
 
-	requires jfreechart;
+	requires org.jfree.jfreechart;
 	requires jfreesvg;
 
 	requires itextpdf;
