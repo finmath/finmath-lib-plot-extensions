@@ -12,7 +12,7 @@
 
 	<groupId>net.finmath</groupId>
 	<artifactId>finmath-lib-plot-extensions</artifactId>
-	<version>0.4.1-SNAPSHOT</version>
+	<version>0.4.1</version>
 	<packaging>jar</packaging>
 
 	<name>finmath lib plot extensions</name>
@@ -460,6 +460,6 @@
 		<url>https://github.com/finmath/finmath-lib-plot-extensions</url>
 		<connection>scm:git:https://github.com/finmath/finmath-lib-plot-extensions.git</connection>
 		<developerConnection>scm:git:https://github.com/finmath/finmath-lib-plot-extensions.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>finmath-lib-plot-extensions-0.4.1</tag>
 	</scm>
 </project>
