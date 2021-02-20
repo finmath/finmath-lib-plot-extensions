@@ -102,13 +102,6 @@ public class JFreeChartUtilities {
 
 		zAxis.setNumberFormatOverride(new DecimalFormat(" 0.00"));
 
-		/*
-		xAxis.setAutoRange(true);
-		yAxis.setAutoRange(true);
-		xAxis.setAutoRangeIncludesZero(false);
-		yAxis.setAutoRangeIncludesZero(false);
-		 */
-
 		renderer.setPaintScale(paintScale);
 		final PaintScaleLegend psl = new PaintScaleLegend(renderer.getPaintScale(), zAxis);
 		psl.setAxisOffset(5.0);
@@ -129,10 +122,13 @@ public class JFreeChartUtilities {
 		double minY = Double.MAX_VALUE, maxY = Double.MIN_VALUE;
 		double minZ = Double.MAX_VALUE, maxZ = Double.MIN_VALUE;
 		for(int i=0; i<dataset.getItemCount(0); i++) {
-			minX = Math.min(dataset.getXValue(0, i),minX);            maxX = Math.max(dataset.getXValue(0, i),maxX);
-			minY = Math.min(dataset.getYValue(0, i),minY);            maxY = Math.max(dataset.getYValue(0, i),maxY);
+			minX = Math.min(dataset.getXValue(0, i),minX);
+			maxX = Math.max(dataset.getXValue(0, i),maxX);
+			minY = Math.min(dataset.getYValue(0, i),minY);
+			maxY = Math.max(dataset.getYValue(0, i),maxY);
 			if(!Double.isNaN(dataset.getZ(0, i).doubleValue())) {
-				minZ = Math.min(dataset.getZValue(0, i),minZ);            maxZ = Math.max(dataset.getZValue(0, i),maxZ);
+				minZ = Math.min(dataset.getZValue(0, i),minZ);
+				maxZ = Math.max(dataset.getZValue(0, i),maxZ);
 			}
 		}
 
