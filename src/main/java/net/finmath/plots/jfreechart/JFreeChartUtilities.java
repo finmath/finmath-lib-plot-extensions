@@ -36,8 +36,6 @@ import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.graphics2d.svg.SVGGraphics2D;
-import org.jfree.graphics2d.svg.SVGUtils;
 
 import com.itextpdf.awt.PdfGraphics2D;
 import com.itextpdf.text.Document;
@@ -351,12 +349,7 @@ public class JFreeChartUtilities {
 	 * @throws IOException Thrown if the file could not be written.
 	 */
 	public static void saveChartAsSVG(final File file, final JFreeChart chart, final int width, final int height) throws IOException {
-		final SVGGraphics2D g2 = new SVGGraphics2D(width, height);
-		g2.setRenderingHint(JFreeChart.KEY_SUPPRESS_SHADOW_GENERATION, true);
-		final java.awt.Rectangle r = new java.awt.Rectangle(0, 0, width, height);
-		chart.draw(g2, r);
-		SVGUtils.writeToSVG(file, g2.getSVGElement());
-
+		throw new UnsupportedOperationException();
 	}
 
 	/**
