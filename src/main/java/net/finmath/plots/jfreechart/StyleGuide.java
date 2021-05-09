@@ -30,10 +30,10 @@ public class StyleGuide {
 	private final Color plotBackgroundPaint;
 
 	public StyleGuide(final double scale) {
-		titleFont			= new Font(Font.DIALOG, Font.PLAIN, (int)Math.round(10*scale));
-		axisLabelFont		= new Font(Font.DIALOG, Font.PLAIN, (int)Math.round(10*scale));
-		annotationFont		= new Font(Font.DIALOG, Font.PLAIN, (int)Math.round(8*scale));
-		tickLabelFont		= new Font(Font.SERIF, Font.PLAIN, (int)Math.round(9*scale));
+		titleFont			= new Font(Font.SANS_SERIF, Font.PLAIN, (int)Math.round(10*scale));
+		axisLabelFont		= new Font(Font.SANS_SERIF, Font.PLAIN, (int)Math.round(10*scale));
+		annotationFont		= new Font(Font.SANS_SERIF, Font.PLAIN, (int)Math.round(8*scale));
+		tickLabelFont		= new Font(Font.SANS_SERIF, Font.PLAIN, (int)Math.round(9*scale));
 
 		chartBackgroundPaint	= new java.awt.Color(250, 250, 250);
 		//		chartBackgroundPaint	= new java.awt.Color(255, 255, 255);
