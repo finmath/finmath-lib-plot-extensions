@@ -9,7 +9,6 @@ package net.finmath.plots.demo;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.function.DoubleUnaryOperator;
@@ -51,7 +50,7 @@ public class Plot2DDemo8 {
 			series2.add(new Point2D(x, y + e2));
 		}
 
-		final List<Plotable2D> plotables = Arrays.asList(
+		final List<Plotable2D> plotables = List.of(
 				new PlotableFunction2D(-1, 1, 1000, new Named<DoubleUnaryOperator>("True Function", x -> x*x), new GraphStyle(new Rectangle(2, 2), null, Color.GREEN)),
 				new PlotablePoints2D("Values 1", series1, new GraphStyle(new Rectangle(3, 3), null, Color.BLUE)),
 				new PlotablePoints2D("Values 2", series2, new GraphStyle(new Rectangle(3, 3), null, Color.RED))

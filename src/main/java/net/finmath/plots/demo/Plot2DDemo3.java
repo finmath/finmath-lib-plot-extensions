@@ -6,6 +6,7 @@
 
 package net.finmath.plots.demo;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class Plot2DDemo3 {
 		.setIsLegendVisible(true)
 		.show();
 
-		for(int bandwidthIndex=0; bandwidthIndex<20; bandwidthIndex++) {
+		for(int bandwidthIndex=20; bandwidthIndex>=0; bandwidthIndex--) {
 			final double bandwidth = 10.0+bandwidthIndex*5;
 
 			final Random random = new Random(3141);
@@ -75,11 +76,12 @@ public class Plot2DDemo3 {
 
 			final List<Plotable2D> plotables = Arrays.asList(
 					new PlotableFunction2D(0.0, 360.0, 1000, new Named<DoubleUnaryOperator>("Regression Curve", function), null),
-					new PlotablePoints2D("Values", series, new GraphStyle(new Rectangle(1, 1), null, null))
+					new PlotablePoints2D("Values", series, new GraphStyle(new Rectangle(2, 2), null, Color.BLUE))
 					);
 
-			plot.update(plotables)
-			.setTitle("Local Linear Regression (bandwidth = " + bandwidth + ")");
+			plot
+			.setTitle("Local Linear Regression (bandwidth = " + bandwidth + ")")
+			.update(plotables);
 
 			Thread.sleep(500);
 		}
