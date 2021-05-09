@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -45,15 +46,26 @@ public class Plots {
 		return new Plot2D(plotables);
 	}
 
+	public static Plot createScatter(List<double[]> points, Double xmin, Double xmax, Double ymin, Double ymax, int dotSize) {
+		final List<Plotable2D> plotables = Arrays.asList(
+				new PlotablePoints2D("Scatter", points.stream().map(point -> new Point2D(point[0], point[1])).collect(Collectors.toList()),
+						xmin != null && xmax != null ? new NumberAxis(null, xmin, xmax, null) : null,
+						ymin != null && ymax != null ? new NumberAxis(null, ymin, ymax, null) : null,
+						new GraphStyle(new Rectangle(dotSize, dotSize), null, null))
+				);
+
+		return new Plot2D(plotables);
+	}
+
 	public static Plot2D createScatter(final double[] xValues, double[] yValues, final double xmin, final double xmax, final int dotSize) {
 
-		final List<Point2D> series = new ArrayList<Point2D>();
+		final List<Point2D> points = new ArrayList<Point2D>();
 		for(int i=0; i<xValues.length; i++) {
-			series.add(new Point2D(xValues[i], yValues[i]));
+			points.add(new Point2D(xValues[i], yValues[i]));
 		}
 
 		final List<Plotable2D> plotables = Arrays.asList(
-				new PlotablePoints2D("Scatter", series, new GraphStyle(new Rectangle(dotSize, dotSize), null, null))
+				new PlotablePoints2D("Scatter", points, new GraphStyle(new Rectangle(dotSize, dotSize), null, null))
 				);
 
 		return new Plot2D(plotables);
