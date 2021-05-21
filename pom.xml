@@ -114,11 +114,6 @@
 			<artifactId>commons-math3</artifactId>
 			<version>${commons-math.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>28.2-jre</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

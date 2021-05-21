@@ -12,13 +12,16 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.Test;
-
-import com.google.common.collect.Streams;
 
 import net.finmath.exception.CalculationException;
 import net.finmath.montecarlo.assetderivativevaluation.AssetModelMonteCarloSimulationModel;
@@ -64,7 +67,7 @@ public class Plot2DBarTest {
 			final BiFunction<Double, Double, Category2D> map = (x, y) -> { return new Category2D(format.format(x), y); };
 
 			final String name = "Maturity " + maturity;
-			final List<Category2D> histogramAsList = Streams.zip(Arrays.stream(histogramReference[0]).boxed(), Arrays.stream(histogram).boxed(), map).collect(Collectors.toList());
+			final List<Category2D> histogramAsList = buildCategory2D(histogramReference[0], histogram, map);
 			final PlotableCategories histo = new PlotableCategories() {
 
 				@Override
@@ -98,5 +101,14 @@ public class Plot2DBarTest {
 
 		// To save as PDF uncomment the following line
 		// plot.saveAsPDF(new File("Black-Scholes Model Path.pdf"), 800, 400);
+	}
+
+	 private List<Category2D> buildCategory2D(double[] x, double[] y, BiFunction<Double, Double, Category2D> map) {
+		 List<Category2D> categories = new ArrayList<Category2D>();
+		 
+		 for(int i=0; i<x.length; i++) {
+			 categories.add(map.apply(x[i], y[i]));
+		 }
+		return categories;
 	}
 }
