@@ -32,7 +32,7 @@ public class Plots {
 
 	/**
 	 * Create a scatter plot.
-	 * 
+	 *
 	 * @param x List of x-values.
 	 * @param mapOfValues A map that maps a name to a list of y-values (which will be plotted (x,y) under that name.
 	 * @param xmin The min of the x-axis.
@@ -60,8 +60,8 @@ public class Plots {
 		final List<Plotable2D> plotables = Arrays.asList(
 				new PlotablePoints2D("Scatter", points.stream().map(point -> new Point2D(point[0], point[1])).collect(Collectors.toList()),
 						xmin != null && xmax != null ? new NumberAxis(null, xmin, xmax, null) : null,
-						ymin != null && ymax != null ? new NumberAxis(null, ymin, ymax, null) : null,
-						new GraphStyle(new Rectangle(dotSize, dotSize), null, null))
+								ymin != null && ymax != null ? new NumberAxis(null, ymin, ymax, null) : null,
+										new GraphStyle(new Rectangle(dotSize, dotSize), null, null))
 				);
 
 		return new Plot2D(plotables);
@@ -241,7 +241,7 @@ public class Plots {
 		final double[][] histogram = randomVariable.getHistogram(numberOfPoints, standardDeviations);
 
 		double length = histogram[0][histogram[0].length-1] - histogram[0][0];
-		
+
 		final List<Point2D> series = new ArrayList<Point2D>();
 		for(int i=0; i<histogram[0].length; i++) {
 			series.add(new Point2D(histogram[0][i],histogram[1][i]*numberOfPoints/length));
