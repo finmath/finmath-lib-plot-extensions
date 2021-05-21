@@ -178,6 +178,59 @@ public class Plots {
 		return updateHistogram(histogram, randomVariable, numberOfPoints, standardDeviations);
 	}
 
+	/**
+	 * Create a histogram behind a value scatter plot.
+	 *
+	 * @param randomVariableX The random variable for the independent.
+	 * @param randomVariableY The random variable for the dependent.
+	 * @param numberOfPoints The number of bins to be used for the histogram.
+	 * @param standardDeviations The standard deviations to be covered by the independent.
+	 * @return The plot.
+	 */
+	public static Plot createHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations) {
+		return createHistogramBehindValues(randomVariableX, randomVariableY, numberOfPoints, standardDeviations, null, null);
+	}
+
+	public static Plot createHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations, final Double xmin, final Double xmax) {
+
+		/*
+		 * Create historgram
+		 */
+		final double[][] histogram = randomVariableX.getHistogram(numberOfPoints, standardDeviations);
+		final List<Point2D> seriesForHistogram = new ArrayList<Point2D>();
+		for(int i=0; i<histogram[0].length; i++) {
+			seriesForHistogram.add(new Point2D(histogram[0][i],histogram[1][i]));
+		}
+
+		/*
+		 * Create scatter
+		 */
+		final List<Point2D> seriesForScatter = new ArrayList<Point2D>();
+		for(int i=0; i<randomVariableX.size(); i++) {
+			seriesForScatter.add(new Point2D(randomVariableX.get(i), randomVariableY.get(i)));
+		}
+
+		/*
+		 * Create axis
+		 *
+		 * The scatter and the histogram should be displaced on different axis.
+		 * This will be the case if we pass different Axis objects.
+		 */
+		final NumberAxis domainAxis = new NumberAxis("underlying value", xmin, xmax);
+		final NumberAxis rangeAxisHistogram = new NumberAxis("frequency", null, null);
+		final NumberAxis rangeAxisScatter = new NumberAxis("value", null, null);
+
+		/*
+		 * Create plot
+		 */
+		final List<Plotable2D> plotables = Arrays.asList(
+				new PlotablePoints2D("Scatter", seriesForScatter, domainAxis, rangeAxisScatter, new GraphStyle(new Rectangle(new Point(-2,-2), new Dimension(4,4)), null, Color.RED)),
+				new PlotablePoints2D("Histogram", seriesForHistogram, domainAxis, rangeAxisHistogram, new GraphStyle(new Rectangle(2, 2), null, Color.DARK_GRAY, Color.LIGHT_GRAY))
+				);
+
+		return new Plot2D(plotables);
+	}
+
 	/*
 	 *
 	 * Densities
@@ -247,19 +300,20 @@ public class Plots {
 	 * @param standardDeviations The standard deviations to be covered by the independent.
 	 * @return The plot.
 	 */
-	public static Plot createHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations) {
-		return createHistogramBehindValues(randomVariableX, randomVariableY, numberOfPoints, standardDeviations, null, null);
+	public static Plot createDensityBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations) {
+		return createDensityBehindValues(randomVariableX, randomVariableY, numberOfPoints, standardDeviations, null, null);
 	}
 
-	public static Plot createHistogramBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations, final Double xmin, final Double xmax) {
+	public static Plot createDensityBehindValues(final RandomVariable randomVariableX, final RandomVariable randomVariableY, final int numberOfPoints, final double standardDeviations, final Double xmin, final Double xmax) {
 
 		/*
 		 * Create historgram
 		 */
 		final double[][] histogram = randomVariableX.getHistogram(numberOfPoints, standardDeviations);
+		double length = histogram[0][histogram[0].length-1] - histogram[0][0];
 		final List<Point2D> seriesForHistogram = new ArrayList<Point2D>();
 		for(int i=0; i<histogram[0].length; i++) {
-			seriesForHistogram.add(new Point2D(histogram[0][i],histogram[1][i]));
+			seriesForHistogram.add(new Point2D(histogram[0][i],histogram[1][i]*numberOfPoints/length));
 		}
 
 		/*
