@@ -20,7 +20,7 @@ import net.finmath.plots.axis.NumberAxis;
 import net.finmath.stochastic.RandomVariable;
 
 /**
- * Static factory methods for various plots (used to keep demos short)
+ * Static factory methods for various plots (used to keep demos short).
  *
  * @author Christian Fries
  */
@@ -30,6 +30,16 @@ public class Plots {
 	 * Scatter
 	 */
 
+	/**
+	 * Create a scatter plot.
+	 * 
+	 * @param x List of x-values.
+	 * @param mapOfValues A map that maps a name to a list of y-values (which will be plotted (x,y) under that name.
+	 * @param xmin The min of the x-axis.
+	 * @param xmax The max of the x-axis.
+	 * @param dotSize The dot size.
+	 * @return The plot.
+	 */
 	public static Plot2D createScatter(final List<Double> x, final Map<String, List<Double>> mapOfValues, final double xmin, final double xmax, final int dotSize) {
 
 		final List<Plotable2D> plotables = new ArrayList<Plotable2D>();
@@ -114,7 +124,7 @@ public class Plots {
 
 	/*
 	 *
-	 * Histogram
+	 * Histograms
 	 */
 
 	public static Plot2D createHistogram(final RandomVariable randomVariable, final int numberOfPoints, final double standardDeviations) {
@@ -166,6 +176,66 @@ public class Plots {
 		RandomVariable randomVariable = new RandomVariableFromDoubleArray(0.0, ArrayUtils.toPrimitive(values.toArray(new Double[values.size()])));
 
 		return updateHistogram(histogram, randomVariable, numberOfPoints, standardDeviations);
+	}
+
+	/*
+	 *
+	 * Densities
+	 */
+
+	public static Plot2D createDensity(final RandomVariable randomVariable, final int numberOfPoints, final double standardDeviations) {
+
+		final double[][] histogram = randomVariable.getHistogram(numberOfPoints, standardDeviations);
+
+		double length = histogram[0][histogram[0].length-1] - histogram[0][0];
+		
+		final List<Point2D> series = new ArrayList<Point2D>();
+		for(int i=0; i<histogram[0].length; i++) {
+			series.add(new Point2D(histogram[0][i],histogram[1][i]*numberOfPoints/length));
+		}
+
+		final List<Plotable2D> plotables = Arrays.asList(
+				new PlotablePoints2D("Histogram", series, new GraphStyle(new Rectangle(10, 2), null, Color.DARK_GRAY, Color.LIGHT_GRAY))
+				);
+
+		Plot2D plot = new Plot2D(plotables);
+		plot.setXAxisLabel("values");
+		plot.setYAxisLabel("relative frequency");
+
+		return plot;
+	}
+
+	public static Plot2D createDensity(final List<Double> values, final int numberOfPoints, final double standardDeviations) {
+
+		RandomVariable randomVariable = new RandomVariableFromDoubleArray(0.0, ArrayUtils.toPrimitive(values.toArray(new Double[values.size()])));
+
+		return createDensity(randomVariable, numberOfPoints, standardDeviations);
+	}
+
+	public static Plot2D updateDensity(final Plot2D histogram, final RandomVariable randomVariable, final int numberOfPoints, final double standardDeviations) {
+
+		final double[][] histogramValues = randomVariable.getHistogram(numberOfPoints, standardDeviations);
+
+		double length = histogramValues[0][histogramValues[0].length-1] - histogramValues[0][0];
+
+		final List<Point2D> series = new ArrayList<Point2D>();
+		for(int i=0; i<histogramValues[0].length; i++) {
+			series.add(new Point2D(histogramValues[0][i],histogramValues[1][i]*numberOfPoints/length));
+		}
+
+		final List<Plotable2D> plotables = Arrays.asList(
+				new PlotablePoints2D("Histogram", series, new GraphStyle(new Rectangle(10, 2), null, Color.DARK_GRAY, Color.LIGHT_GRAY))
+				);
+
+		histogram.update(plotables);
+
+		return histogram;
+	}
+
+	public static Plot2D updateDensity(final Plot2D histogram, final List<Double> values, final int numberOfPoints, final double standardDeviations) {
+		RandomVariable randomVariable = new RandomVariableFromDoubleArray(0.0, ArrayUtils.toPrimitive(values.toArray(new Double[values.size()])));
+
+		return updateDensity(histogram, randomVariable, numberOfPoints, standardDeviations);
 	}
 
 	/**
