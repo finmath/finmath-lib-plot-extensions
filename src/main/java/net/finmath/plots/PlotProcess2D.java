@@ -6,8 +6,10 @@
 
 package net.finmath.plots;
 
+import java.awt.BasicStroke;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.function.DoubleFunction;
@@ -17,6 +19,7 @@ import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -39,8 +42,8 @@ public class PlotProcess2D implements Plot {
 	private String title = "";
 	private String xAxisLabel = "x";
 	private String yAxisLabel = "y";
-	private NumberFormat xAxisNumberFormat;
-	private NumberFormat yAxisNumberFormat;
+	private NumberFormat xAxisNumberFormat = new DecimalFormat("#.##");
+	private NumberFormat yAxisNumberFormat = new DecimalFormat("#.##");
 	private Boolean isLegendVisible = false;
 
 	private transient JFrame frame;
@@ -122,6 +125,13 @@ public class PlotProcess2D implements Plot {
 		renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
 
 		chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.#" /* xAxisNumberFormat */, yAxisLabel, "#.#" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
+		if(xAxisNumberFormat != null) {
+			((NumberAxis) chart.getXYPlot().getDomainAxis()).setNumberFormatOverride(xAxisNumberFormat);
+		}
+		if(yAxisNumberFormat != null) {
+			((NumberAxis) chart.getXYPlot().getRangeAxis()).setNumberFormatOverride(yAxisNumberFormat);
+		}
+
 	}
 
 	@Override
@@ -156,6 +166,11 @@ public class PlotProcess2D implements Plot {
 		JFreeChartUtilities.saveChartAsJPG(file, chart, width, height);
 	}
 
+//	@Override
+	public void saveAsPNG(final File file, final int width, final int height) throws IOException {
+		JFreeChartUtilities.saveChartAsPNG(file, chart, width, height);
+	}
+
 	@Override
 	public void saveAsPDF(final File file, final int width, final int height) throws IOException {
 		JFreeChartUtilities.saveChartAsPDF(file, chart, width, height);
@@ -187,6 +202,16 @@ public class PlotProcess2D implements Plot {
 	@Override
 	public Plot setZAxisLabel(final String zAxisLabel) {
 		throw new UnsupportedOperationException("The 2D plot does not suport a z-axis. Try 3D plot instead.");
+	}
+
+	public PlotProcess2D setXAxisNumberFormat(final NumberFormat xAxisNumberFormat) {
+		this.xAxisNumberFormat = xAxisNumberFormat;
+		return this;
+	}
+
+	public PlotProcess2D setYAxisNumberFormat(final NumberFormat yAxisNumberFormat) {
+		this.yAxisNumberFormat = yAxisNumberFormat;
+		return this;
 	}
 
 	/**
