@@ -7,6 +7,7 @@
 package net.finmath.plots;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -20,7 +21,9 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.renderer.AbstractRenderer;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -48,6 +51,7 @@ public class PlotProcess2D implements Plot {
 
 	private transient JFrame frame;
 	private transient JFreeChart chart;
+	private Color[] colors;
 
 	/**
 	 * Plot the first (maxNumberOfPaths) paths of a time discrete stochastic process.
@@ -120,9 +124,16 @@ public class PlotProcess2D implements Plot {
 		}
 
 		final StandardXYItemRenderer renderer	= new StandardXYItemRenderer(StandardXYItemRenderer.LINES);
-		renderer.setSeriesPaint(0, new java.awt.Color(255, 0,  0));
-		renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
-		renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
+		if(colors != null) {
+			for(int i=0; i<colors.length; i++) {
+				renderer.setSeriesPaint(i, colors[i]);
+			}
+		}
+		else {
+			renderer.setSeriesPaint(0, new java.awt.Color(255, 0,  0));
+			renderer.setSeriesPaint(1, new java.awt.Color(0, 255,   0));
+			renderer.setSeriesPaint(2, new java.awt.Color(0,   0, 255));
+		}
 
 		chart = JFreeChartUtilities.getXYPlotChart(title, xAxisLabel, "#.#" /* xAxisNumberFormat */, yAxisLabel, "#.#" /* yAxisNumberFormat */, data, renderer, isLegendVisible);
 		if(xAxisNumberFormat != null) {
@@ -131,7 +142,12 @@ public class PlotProcess2D implements Plot {
 		if(yAxisNumberFormat != null) {
 			((NumberAxis) chart.getXYPlot().getRangeAxis()).setNumberFormatOverride(yAxisNumberFormat);
 		}
+	}
 
+	public PlotProcess2D setColors(java.awt.Color[] colors) {
+		this.colors = colors;
+		
+		return this;
 	}
 
 	@Override
@@ -162,23 +178,31 @@ public class PlotProcess2D implements Plot {
 	}
 
 	@Override
-	public void saveAsJPG(final File file, final int width, final int height) throws IOException {
+	public PlotProcess2D saveAsJPG(final File file, final int width, final int height) throws IOException {
+		init();
 		JFreeChartUtilities.saveChartAsJPG(file, chart, width, height);
+		return this;
 	}
 
 //	@Override
-	public void saveAsPNG(final File file, final int width, final int height) throws IOException {
+	public PlotProcess2D saveAsPNG(final File file, final int width, final int height) throws IOException {
+		init();
 		JFreeChartUtilities.saveChartAsPNG(file, chart, width, height);
+		return this;
 	}
 
 	@Override
-	public void saveAsPDF(final File file, final int width, final int height) throws IOException {
+	public PlotProcess2D saveAsPDF(final File file, final int width, final int height) throws IOException {
+		init();
 		JFreeChartUtilities.saveChartAsPDF(file, chart, width, height);
+		return this;
 	}
 
 	@Override
-	public void saveAsSVG(final File file, final int width, final int height) throws IOException {
+	public PlotProcess2D saveAsSVG(final File file, final int width, final int height) throws IOException {
+		init();
 		JFreeChartUtilities.saveChartAsSVG(file, chart, width, height);
+		return this;
 	}
 
 	@Override
