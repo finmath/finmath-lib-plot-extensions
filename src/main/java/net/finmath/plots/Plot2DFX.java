@@ -224,12 +224,13 @@ public class Plot2DFX implements Plot {
 	}
 
 	@Override
-	public void saveAsJPG(final File file, final int width, final int height) throws IOException {
+	public Plot2DFX saveAsJPG(final File file, final int width, final int height) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
-	public void saveAsPNG(final File file, final int width, final int height) throws IOException {
+	public Plot2DFX saveAsPNG(final File file, final int width, final int height) throws IOException {
 		if(chart == null) {
-			return;
+			return this;
 		}
 		Platform.runLater(new Runnable() {
 			@Override
@@ -265,14 +266,17 @@ public class Plot2DFX implements Plot {
 				}
 
 			}});
+		return this;
 	}
 
 	@Override
-	public void saveAsPDF(final File file, final int width, final int height) throws IOException {
+	public Plot2DFX saveAsPDF(final File file, final int width, final int height) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void saveAsSVG(final File file, final int width, final int height) throws IOException {
+	public Plot2DFX saveAsSVG(final File file, final int width, final int height) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
 	public Plot2DFX update(final List<Plotable2D> plotables) {

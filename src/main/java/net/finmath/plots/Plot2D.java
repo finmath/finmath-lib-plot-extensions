@@ -246,38 +246,42 @@ public class Plot2D implements Plot {
 	}
 
 	@Override
-	public void saveAsJPG(final File file, final int width, final int height) throws IOException {
+	public Plot2D saveAsJPG(final File file, final int width, final int height) throws IOException {
 		init();
 		update(plotables);
 		synchronized (updateLock) {
 			JFreeChartUtilities.saveChartAsJPG(file, chart, width, height);
 		}
+		return this;
 	}
 
-	public void saveAsPNG(final File file, final int width, final int height) throws IOException {
+	public Plot2D saveAsPNG(final File file, final int width, final int height) throws IOException {
 		init();
 		update(plotables);
 		synchronized (updateLock) {
 			JFreeChartUtilities.saveChartAsPNG(file, chart, width, height);
 		}
+		return this;
 	}
 
 	@Override
-	public void saveAsPDF(final File file, final int width, final int height) throws IOException {
+	public Plot2D saveAsPDF(final File file, final int width, final int height) throws IOException {
 		init();
 		update(plotables);
 		synchronized (updateLock) {
 			JFreeChartUtilities.saveChartAsPDF(file, chart, width, height);
 		}
+		return this;
 	}
 
 	@Override
-	public void saveAsSVG(final File file, final int width, final int height) throws IOException {
+	public Plot2D saveAsSVG(final File file, final int width, final int height) throws IOException {
 		init();
 		update(plotables);
 		synchronized (updateLock) {
 			JFreeChartUtilities.saveChartAsSVG(file, chart, width, height);
 		}
+		return this;
 	}
 
 	public Plot2D update(final List<Plotable2D> plotables) {

@@ -506,17 +506,17 @@ public class Plot3DFX implements Plot {
 	}
 
 	@Override
-	public void saveAsJPG(final File file, final int width, final int height) throws IOException {
+	public Plot saveAsJPG(final File file, final int width, final int height) throws IOException {
 		throw new UnsupportedOperationException("Save as PDF is not supported for this plot. Use saveAsJPG instead.");
 	}
 
 	@Override
-	public void saveAsPDF(final File file, final int width, final int height) {
+	public Plot saveAsPDF(final File file, final int width, final int height) {
 		throw new UnsupportedOperationException("Save as PDF is not supported for this plot. Use saveAsJPG instead.");
 	}
 
 	@Override
-	public void saveAsSVG(final File file, final int width, final int height) {
+	public Plot saveAsSVG(final File file, final int width, final int height) {
 		throw new UnsupportedOperationException("Save as SVG is not supported for this plot. Use saveAsJPG instead.");
 	}
 

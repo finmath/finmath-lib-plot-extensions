@@ -279,12 +279,13 @@ public class Plot2DBarFX implements Plot {
 	}
 
 	@Override
-	public void saveAsJPG(final File file, final int width, final int height) throws IOException {
+	public Plot2DBarFX saveAsJPG(final File file, final int width, final int height) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
-	public void saveAsPNG(final File file, final int width, final int height) throws IOException {
+	public Plot2DBarFX saveAsPNG(final File file, final int width, final int height) throws IOException {
 		if(chart == null) {
-			return;
+			return this;
 		}
 		Platform.runLater(new Runnable() {
 			@Override
@@ -320,14 +321,17 @@ public class Plot2DBarFX implements Plot {
 				}
 
 			}});
+		return this;
 	}
 
 	@Override
-	public void saveAsPDF(final File file, final int width, final int height) throws IOException {
+	public Plot2DBarFX saveAsPDF(final File file, final int width, final int height) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void saveAsSVG(final File file, final int width, final int height) throws IOException {
+	public Plot2DBarFX saveAsSVG(final File file, final int width, final int height) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
 	public Plot2DBarFX update(final List<PlotableCategories> plotables) {

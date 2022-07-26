@@ -18,11 +18,11 @@ public interface Plot {
 
 	void close() throws Exception;
 
-	void saveAsJPG(File file, int width, int height) throws IOException;
+	Plot saveAsJPG(File file, int width, int height) throws IOException;
 
-	void saveAsPDF(File file, int width, int height) throws IOException;
+	Plot saveAsPDF(File file, int width, int height) throws IOException;
 
-	void saveAsSVG(File file, int width, int height) throws IOException;
+	Plot saveAsSVG(File file, int width, int height) throws IOException;
 
 	Plot setTitle(String title);
 
