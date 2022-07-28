@@ -1,1 +1,1 @@
-moduleSearchIndex = [{"l":"net.finmath.plots"}]
+moduleSearchIndex = [{"l":"net.finmath.plots"}];updateSearchResults();
