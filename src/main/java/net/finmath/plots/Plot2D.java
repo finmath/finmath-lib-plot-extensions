@@ -55,6 +55,9 @@ public class Plot2D implements Plot {
 	private transient JFreeChart chart;
 	private final Object updateLock = new Object();
 
+	private Double xmin;
+	private Double xmax;
+
 	private Double ymin;
 	private Double ymax;
 
@@ -173,6 +176,14 @@ public class Plot2D implements Plot {
 						chart.getXYPlot().setDomainAxis(functionIndex, domain);
 					}
 
+					if(xmin != null && xmax != null) {
+						domain.setAutoRange(false);
+						domain.setRange(new Range(xmin, xmax));
+					}
+					else {
+						domain.setAutoRange(true);
+					}
+					
 					NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
 					if(plotable.getRangeAxis() != null) {
 						range = plotable.getRangeAxis().getImplementationJFree();
@@ -335,6 +346,15 @@ public class Plot2D implements Plot {
 
 	public Plot2D setYAxisNumberFormat(final NumberFormat yAxisNumberFormat) {
 		this.yAxisNumberFormat = yAxisNumberFormat;
+		return this;
+	}
+
+	public Plot2D setXRange(final double xmin, final double xmax) {
+		this.xmin = xmin;
+		this.xmax = xmax;
+
+		update();
+
 		return this;
 	}
 
