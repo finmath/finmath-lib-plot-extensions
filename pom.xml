@@ -78,17 +78,17 @@
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-base</artifactId>
-			<version>11.0.2</version>
+			<version>19</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-controls</artifactId>
-			<version>11.0.2</version>
+			<version>19</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-swing</artifactId>
-			<version>11.0.2</version>
+			<version>19</version>
 		</dependency>
 
 		<dependency>
@@ -191,7 +191,7 @@
 					</header>
 					<footer>
 			   			<![CDATA[
-						<i>Copyright &copy; 2021 Christian&nbsp;P.&nbsp;Fries.</i>
+						<i>Copyright &copy; 2022 Christian&nbsp;P.&nbsp;Fries.</i>
 			   			]]>
 					</footer>
 					<tags>
@@ -343,7 +343,7 @@
 					</header>
 					<footer>
 			   			<![CDATA[
-						<i>Copyright &copy; 2020 Christian&nbsp;P.&nbsp;Fries.</i>
+						<i>Copyright &copy; 2022 Christian&nbsp;P.&nbsp;Fries.</i>
 			   			]]>
 					</footer>
 					<tags>
