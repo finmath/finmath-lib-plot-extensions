@@ -33,6 +33,7 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 /**
  * Small convenient wrapper for Java FX line plot.
@@ -85,12 +86,49 @@ public class Plot2DBarFX implements Plot {
 	public Plot2DBarFX() {
 	}
 
+	public static Plot2DBarFX of(final String name, final String[] labels, final double[] values, final String title, final String xAxisLabel, final String yAxisLabel, final NumberFormat yAxisNumberFormat, final boolean isLegendVisible) {
+		double min = Double.MAX_VALUE;
+		double max = -Double.MAX_VALUE;
+		final List<PlotableCategories> plotables = new ArrayList<PlotableCategories>();
+
+		final List<Category2D> histogramAsList = new ArrayList<Category2D>();
+		for(int i=0; i<values.length; i++) {
+			final double value = values[i];
+			histogramAsList.add(new Category2D(labels != null ? labels[i] : ""+i, value));
+			min = Math.min(min, value);
+			max = Math.max(max, value);
+		}
+
+		final PlotableCategories histo = new PlotableCategories() {
+
+			@Override
+			public String getName() {
+				return name;
+			}
+
+			@Override
+			public GraphStyle getStyle() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public List<Category2D> getSeries() {
+				return histogramAsList;
+			}
+		};
+
+		plotables.add(histo);
+
+		return new Plot2DBarFX(plotables, title, xAxisLabel, yAxisLabel, yAxisNumberFormat, min, max, (max-min)/10.0, isLegendVisible);
+	}
+
 	public static Plot2DBarFX of(final String[] labels, final double[] values, final String title, final String xAxisLabel, final String yAxisLabel, final NumberFormat yAxisNumberFormat, final boolean isLegendVisible) {
 		double min = Double.MAX_VALUE;
 		double max = -Double.MAX_VALUE;
 		final List<PlotableCategories> plotables = new ArrayList<PlotableCategories>();
 
-		final String name = "Swaption";
+		final String name = "";
 		final List<Category2D> histogramAsList = new ArrayList<Category2D>();
 		for(int i=0; i<values.length; i++) {
 			final double value = values[i];
@@ -132,11 +170,13 @@ public class Plot2DBarFX implements Plot {
 		final NumberAxis yAxis = new NumberAxis(yAxisLowerBound, yAxisUpperBound, yAxisTick);
 		xAxis.setLabel(xAxisLabel);
 		yAxis.setLabel(yAxisLabel);
+		xAxis.setTickLabelFont(new Font("Helvetica", 14));
+		yAxis.setTickLabelFont(new Font("Helvetica", 14));
 
 		// creating the chart
 		chart = isSeriesStacked ? new StackedBarChart<String,Number>(xAxis,yAxis) : new BarChart<String,Number>(xAxis,yAxis);
 		chart.setAnimated(true);
-
+		chart.setStyle("-fx-font-size: " + 16 + "px; -fx-font-family: Helvetica;");
 		update();
 	}
 
