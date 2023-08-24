@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.function.DoubleFunction;
+import java.util.function.Predicate;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -106,7 +108,8 @@ public class PlotProcess2D implements Plot {
 		final ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>();
 		for(final double time : timeDiscretization) {
 			final RandomVariable randomVariable = process.get().apply(time);
-			for(int pathIndex=0; pathIndex<Math.min(randomVariable.size(),maxNumberOfPaths); pathIndex++) {
+			int numberOfPath = randomVariable.isDeterministic() ? maxNumberOfPaths : Math.min(randomVariable.size(), maxNumberOfPaths);
+			for(int pathIndex=0; pathIndex<numberOfPath; pathIndex++) {
 				XYSeries series = pathIndex < seriesList.size() ? seriesList.get(pathIndex) : null;
 				if(series == null) {
 					series = new XYSeries(pathIndex);
