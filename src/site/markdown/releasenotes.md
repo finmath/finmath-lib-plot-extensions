@@ -6,6 +6,14 @@ finmath lib plot extensions Release Notes
 # Release Notes
 
 
+## 0.4.9 (25.08.2023)
+
+### General
+
+ - Fixed a bug that resulted in a missing first time step in PlotProcess2D
+ - save returns this pointer (to allow multiple save calls or show)
+
+
 ## 0.4.0 (25.01.2021)
 
 ### General
