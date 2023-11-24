@@ -26,6 +26,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.entity.JFreeChartEntity;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
@@ -43,6 +44,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import net.finmath.plots.util.JFreeChartToSVG;
 
 /**
  * Some utilities for JFreeChart
@@ -349,7 +352,7 @@ public class JFreeChartUtilities {
 	 * @throws IOException Thrown if the file could not be written.
 	 */
 	public static void saveChartAsSVG(final File file, final JFreeChart chart, final int width, final int height) throws IOException {
-		throw new UnsupportedOperationException();
+		JFreeChartToSVG.save(chart, file, width, height);
 	}
 
 	/**

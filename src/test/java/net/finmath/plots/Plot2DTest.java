@@ -2,6 +2,7 @@ package net.finmath.plots;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.function.DoubleUnaryOperator;
 
@@ -37,6 +38,7 @@ public class Plot2DTest {
 		plot.setTitle("Black-Scholes Model European Option Value").setXAxisLabel("strike").setYAxisLabel("value").setIsLegendVisible(true);
 		try {
 			plot.show();
+			plot.saveAsSVG(new File("Test.svg"), 800, 600);
 			Thread.sleep(10000);
 		} catch (final Exception e) {
 			fail("Failing with exception " + e.getMessage());

@@ -19,4 +19,5 @@ module net.finmath.plots {
 
 	requires itextpdf;
 	requires commons.math3;
+	requires batik.all;
 }
