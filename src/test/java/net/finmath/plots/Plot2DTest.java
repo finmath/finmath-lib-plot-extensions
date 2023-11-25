@@ -38,10 +38,13 @@ public class Plot2DTest {
 		plot.setTitle("Black-Scholes Model European Option Value").setXAxisLabel("strike").setYAxisLabel("value").setIsLegendVisible(true);
 		try {
 			plot.show();
-			plot.saveAsSVG(new File("Test.svg"), 800, 600);
+			plot.saveAsJPG(new File("Test.jpg"), 800, 400);
+			plot.saveAsSVG(new File("Test.svg"), 800, 400);
+			plot.saveAsPDF(new File("Test.pdf"), 800, 400);
 			Thread.sleep(10000);
 		} catch (final Exception e) {
-			fail("Failing with exception " + e.getMessage());
+			throw(new RuntimeException(e));
+//			fail("Failing with exception " + e.getMessage());
 		}
 	}
 

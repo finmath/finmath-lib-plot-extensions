@@ -5,6 +5,13 @@ finmath lib plot extensions Release Notes
 
 # Release Notes
 
+## 0.5.0 (25.10.2023)
+
+### General
+
+- Added support to save a Plot2D to an SVG file.
+- Switched PDF export to Apache FOP / Batik, removed depedencies.
+
 
 ## 0.4.9 (25.08.2023)
 

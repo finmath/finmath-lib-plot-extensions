@@ -29,7 +29,7 @@
 		<src.test.java.dir>src/test/java</src.test.java.dir>
 		<envSource>11</envSource>
 		<!-- libs -->
-		<finmath-lib.version>6.0.0</finmath-lib.version>
+		<finmath-lib.version>6.0.19</finmath-lib.version>
 		<commons-math.version>3.6.1</commons-math.version>
 		<commons-lang.version>3.10</commons-lang.version>
 		<jfreechart.version>1.5.2</jfreechart.version>
@@ -97,12 +97,22 @@
 			<version>${jfreechart.version}</version>
 		</dependency>
 
+		<!-- SVG and PDF -->
+
 		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itextpdf</artifactId>
-			<version>5.5.13.3</version>
+		  <groupId>org.apache.xmlgraphics</groupId>
+		  <artifactId>batik-all</artifactId>
+		  <version>1.17</version>
 		</dependency>
 
+		<dependency>
+		<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>2.9</version>
+		</dependency>
+
+		<!-- Math (for demos) -->
+		
 		<dependency>
 			<groupId>net.finmath</groupId>
 			<artifactId>finmath-lib</artifactId>
@@ -115,12 +125,8 @@
 			<version>${commons-math.version}</version>
 		</dependency>
 
-		<dependency>
-		  <groupId>org.apache.xmlgraphics</groupId>
-		  <artifactId>batik-all</artifactId>
-		  <version>1.17</version>
-		</dependency>
-
+		<!-- Testing -->
+		
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>

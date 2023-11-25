@@ -12,9 +12,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.function.DoubleFunction;
-import java.util.function.Predicate;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

@@ -17,7 +17,7 @@ module net.finmath.plots {
 
 	requires org.jfree.jfreechart;
 
-	requires itextpdf;
 	requires commons.math3;
 	requires batik.all;
+	requires fop.core;
 }

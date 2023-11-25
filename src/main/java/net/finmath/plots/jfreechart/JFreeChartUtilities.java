@@ -26,7 +26,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.entity.JFreeChartEntity;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
@@ -38,14 +37,7 @@ import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import com.itextpdf.awt.PdfGraphics2D;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfTemplate;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import net.finmath.plots.util.JFreeChartToSVG;
+import net.finmath.plots.util.JFreeChartToFile;
 
 /**
  * Some utilities for JFreeChart
@@ -337,9 +329,7 @@ public class JFreeChartUtilities {
 	 * @throws IOException Thrown if the file could not be written.
 	 */
 	public static void saveChartAsPDF(final File file, final JFreeChart chart, final int width, final int height) throws IOException {
-		final OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-		writeChartAsPDF(out, chart, width, height);
-		out.close();
+		JFreeChartToFile.saveToPDF(chart, file, width, height);
 	}
 
 	/**
@@ -352,7 +342,7 @@ public class JFreeChartUtilities {
 	 * @throws IOException Thrown if the file could not be written.
 	 */
 	public static void saveChartAsSVG(final File file, final JFreeChart chart, final int width, final int height) throws IOException {
-		JFreeChartToSVG.save(chart, file, width, height);
+		JFreeChartToFile.saveToSVG(chart, file, width, height);
 	}
 
 	/**
@@ -413,35 +403,5 @@ public class JFreeChartUtilities {
 		ImageIO.write(imageWithoutAlpha, "png", out);
 
 		out.close();
-	}
-
-	/**
-	 * Writes a chart to an output stream in PDF format.
-	 *
-	 * @param out the output stream.
-	 * @param chart the chart.
-	 * @param width the chart width.
-	 * @param height the chart height.
-	 */
-	public static void writeChartAsPDF(final OutputStream out, final JFreeChart chart, final int width, final int height) {
-		final com.itextpdf.text.Rectangle pagesize = new com.itextpdf.text.Rectangle(width, height);
-		final Document document = new Document(pagesize, 50, 50, 50, 50);
-		try {
-			final PdfWriter writer = PdfWriter.getInstance(document, out);
-			document.addAuthor("Christian Fries");
-			document.addSubject("Chart");
-			document.open();
-			final PdfContentByte cb = writer.getDirectContent();
-			final PdfTemplate tp = cb.createTemplate(width, height);
-			final Graphics2D g2 = new PdfGraphics2D(tp, width, height);
-			final Rectangle2D r2D = new Rectangle2D.Double(0, 0, width, height);
-
-			chart.draw(g2, r2D);
-			g2.dispose();
-			cb.addTemplate(tp, 0, 0);
-		} catch (final DocumentException de) {
-			System.err.println(de.getMessage());
-		}
-		document.close();
 	}
 }
