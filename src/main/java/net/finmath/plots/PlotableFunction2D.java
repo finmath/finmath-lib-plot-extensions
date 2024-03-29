@@ -51,7 +51,8 @@ public class PlotableFunction2D implements Plotable2D {
 		for(int i = 0; i<numberOfPointsX; i++) {
 			final double x = xmin + i * ((xmax-xmin) / (numberOfPointsX-1));
 			final double y = function.applyAsDouble(x);
-			series.add(new Point2D(x, y));
+			// The point is ignored if NaN or Infinity
+			if(Double.isFinite(y)) series.add(new Point2D(x, y));
 		}
 		return series;
 	}
