@@ -147,6 +147,7 @@ public class Plot2D implements Plot {
 						renderer = new XYLineAndShapeRenderer();
 						((XYLineAndShapeRenderer)renderer).setSeriesShapesVisible(0, style.getShape() != null);
 						((XYLineAndShapeRenderer)renderer).setSeriesLinesVisible(0, style.getStroke() != null);
+						((XYLineAndShapeRenderer)renderer).setDrawSeriesLineAsPath(true);
 						renderer.setSeriesPaint(0, color);
 					}
 					if(style.getShape() != null) {
@@ -206,6 +207,8 @@ public class Plot2D implements Plot {
 					else {
 						range.setAutoRange(true);
 					}
+					
+					if(title != null) chart.setTitle(title);
 				}
 			}
 		}
