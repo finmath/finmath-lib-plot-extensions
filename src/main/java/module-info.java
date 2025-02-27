@@ -20,4 +20,5 @@ module net.finmath.plots {
 	requires commons.math3;
 	requires batik.all;
 	requires fop.core;
+	requires java.logging;
 }

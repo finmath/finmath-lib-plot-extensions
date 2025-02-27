@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.DoubleUnaryOperator;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
@@ -41,6 +43,8 @@ import net.finmath.plots.jfreechart.StyleGuide;
  * @author Christian Fries
  */
 public class Plot2D implements Plot {
+
+	private static Logger logger = Logger.getLogger("net.finmath.plots");
 
 	private List<Plotable2D> plotables;
 
@@ -243,10 +247,16 @@ public class Plot2D implements Plot {
 				synchronized (updateLock) {
 					if(frame != null) frame.dispose();
 
-					frame = new JFrame();
-					frame.add(chartPanel);
-					frame.setVisible(true);
-					frame.pack();
+					try {
+						frame = new JFrame();
+						frame.add(chartPanel);
+						frame.setVisible(true);
+						frame.pack();
+					}
+					catch(Exception e) {
+						// This exception may occur if no Window kit is available.
+						logger.log(Level.WARNING, "Unable to open JFrame. Possible missing Window system. " + e.getMessage());
+					}
 				}
 			}
 		});
