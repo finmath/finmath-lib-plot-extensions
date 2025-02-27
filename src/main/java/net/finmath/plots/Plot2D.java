@@ -255,7 +255,7 @@ public class Plot2D implements Plot {
 					}
 					catch(Exception e) {
 						// This exception may occur if no Window kit is available.
-						logger.log(Level.WARNING, "Unable to open JFrame. Possible missing Window system. " + e.getMessage());
+						logger.log(Level.WARNING, "Cannot show plot, possible missing Window system. Reason: " + e.getMessage().replace('\n', ' '));
 					}
 				}
 			}
