@@ -11,24 +11,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
 
+import net.finmath.plots.axis.NumberAxis;
+
 public class PlotableFunction2D implements Plotable2D {
 
 	private final double xmin, xmax;
 	private final int numberOfPointsX;
 	private final Named<DoubleUnaryOperator> namedFunction;
 	private final GraphStyle style;
+	private final NumberAxis domainAxis;
+	private final NumberAxis rangeAxis;
 
-	public PlotableFunction2D(final double xmin, final double xmax, final int numberOfPointsX, final Named<DoubleUnaryOperator> namedFunction, final GraphStyle style) {
+	public PlotableFunction2D(final double xmin, final double xmax, final int numberOfPointsX, final Named<DoubleUnaryOperator> namedFunction, NumberAxis domainAxis, NumberAxis rangeAxis, GraphStyle style) {
 		super();
 		this.xmin = xmin;
 		this.xmax = xmax;
 		this.numberOfPointsX = numberOfPointsX;
 		this.namedFunction = namedFunction;
+		this.domainAxis = domainAxis;
+		this.rangeAxis = rangeAxis;
 		this.style = style;
 
 		if(numberOfPointsX < 2) {
 			throw new IllegalArgumentException("Number of points needs to be larger than 1.");
 		}
+	}
+
+	public PlotableFunction2D(final double xmin, final double xmax, final int numberOfPointsX, final Named<DoubleUnaryOperator> namedFunction, final GraphStyle style) {
+		this(xmin, xmax, numberOfPointsX, namedFunction, null, null, style);
 	}
 
 	public PlotableFunction2D(final double xmin, final double xmax, final int numberOfPointsX, final Named<DoubleUnaryOperator> namedFunction) {
@@ -60,5 +70,15 @@ public class PlotableFunction2D implements Plotable2D {
 	@Override
 	public GraphStyle getStyle() {
 		return style;
+	}
+
+	@Override
+	public NumberAxis getDomainAxis() {
+		return domainAxis;
+	}
+
+	@Override
+	public NumberAxis getRangeAxis() {
+		return rangeAxis;
 	}
 }
