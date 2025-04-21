@@ -348,7 +348,7 @@ public class Plot2D implements Plot {
 	}
 
 	@Override
-	public Plot setZAxisLabel(final String zAxisLabel) {
+	public Plot2D setZAxisLabel(final String zAxisLabel) {
 		throw new UnsupportedOperationException("The 2D plot does not suport a z-axis. Try 3D plot instead.");
 	}
 
@@ -384,7 +384,7 @@ public class Plot2D implements Plot {
 	 * @param isLegendVisible the isLegendVisible to set
 	 */
 	@Override
-	public Plot setIsLegendVisible(final Boolean isLegendVisible) {
+	public Plot2D setIsLegendVisible(final Boolean isLegendVisible) {
 		this.isLegendVisible = isLegendVisible;
 		update();
 		return this;
