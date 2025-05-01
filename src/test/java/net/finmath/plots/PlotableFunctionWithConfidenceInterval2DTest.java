@@ -16,6 +16,7 @@ import java.util.function.DoubleUnaryOperator;
 import org.junit.jupiter.api.Test;
 
 import net.finmath.stochastic.Scalar;
+import net.finmath.plots.util.ColorUtils;
 
 class PlotableFunctionWithConfidenceInterval2DTest {
 
@@ -37,7 +38,7 @@ class PlotableFunctionWithConfidenceInterval2DTest {
 								),
 						new Named<DoubleUnaryOperator>("Experiment 1", (DoubleUnaryOperator)
 								t -> t + 0.5 * t * t								),
-						new GraphStyle(null, dotted, Color.RED, colorWithAlpha(Color.RED, 0.5))),
+						new GraphStyle(null, dotted, Color.RED, ColorUtils.colorWithAlpha(Color.RED, 0.5))),
 				new PlotableFunctionWithConfidenceInterval2D(0.0, timeHorizonForPlotRates, (int)Math.round(timeHorizonForPlotRates/1.0)+1,
 						new Named<DoubleUnaryOperator>("Experiment 2", (DoubleUnaryOperator)
 								t -> 0.9*t + 0.23 * t * t
@@ -48,7 +49,7 @@ class PlotableFunctionWithConfidenceInterval2DTest {
 						new Named<DoubleUnaryOperator>("Experiment 2", (DoubleUnaryOperator)
 								t -> 0.9*t + 0.28 * t * t
 								),
-						new GraphStyle(null, dotted, Color.BLUE, colorWithAlpha(Color.BLUE, 0.5))),
+						new GraphStyle(null, dotted, Color.BLUE, ColorUtils.colorWithAlpha(Color.BLUE, 0.5))),
  				new PlotableFunction2D(0.0, timeHorizonForPlotRates, (int)Math.round(timeHorizonForPlotRates/1.0)+1,
 						new Named<DoubleUnaryOperator>("Benchmark", (DoubleUnaryOperator)
 								t -> 1.0*t + 0.25 * t * t
@@ -70,10 +71,5 @@ class PlotableFunctionWithConfidenceInterval2DTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	private Color colorWithAlpha(Color color, double alpha) {
-		int newAlpha = (int) Math.round(color.getAlpha()*alpha);
-		return new Color(color.getRed(), color.getGreen(), color.getBlue(), newAlpha);
 	}
 }

@@ -5,6 +5,7 @@ module net.finmath.plots {
 	exports net.finmath.plots.axis;
 	exports net.finmath.plots.demo;
 	exports net.finmath.plots.jfreechart;
+	exports net.finmath.plots.util;
 
 	requires transitive net.finmath.lib;
 
