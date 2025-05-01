@@ -7,6 +7,8 @@ package net.finmath.plots;
 
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.finmath.plots.axis.NumberAxis;
 
 /**
@@ -17,6 +19,8 @@ import net.finmath.plots.axis.NumberAxis;
 public interface Plotable2D extends Plotable {
 
 	List<Point2D> getSeries();
+	
+	default List<Pair<Double,Double>> getError() { return null; }
 
 	GraphStyle getStyle();
 

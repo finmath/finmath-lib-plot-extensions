@@ -24,15 +24,19 @@ import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.renderer.xy.DeviationRenderer;
 import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.data.xy.YIntervalSeries;
+import org.jfree.data.xy.YIntervalSeriesCollection;
 
 import net.finmath.plots.jfreechart.JFreeChartUtilities;
 import net.finmath.plots.jfreechart.StyleGuide;
@@ -116,6 +120,7 @@ public class Plot2D implements Plot {
 		synchronized (updateLock) {
 
 			final Map<net.finmath.plots.axis.NumberAxis, Integer> rangeAxisMap = new HashMap<net.finmath.plots.axis.NumberAxis, Integer>();
+			int intervalCount = 0;
 			for(int functionIndex=0; functionIndex<plotables.size(); functionIndex++) {
 				final XYSeriesCollection data = new XYSeriesCollection();
 				final Plotable2D plotable = plotables.get(functionIndex);
@@ -127,6 +132,50 @@ public class Plot2D implements Plot {
 				}
 				data.addSeries(series);
 
+			    final YIntervalSeriesCollection intervalData;
+				final DeviationRenderer intervalRenderer;
+				
+				if(plotable instanceof PlotableWithConfidenceInterval2D) {
+					intervalData = new YIntervalSeriesCollection();
+					intervalRenderer = new DeviationRenderer();
+
+					final YIntervalSeries intervalSeries = new YIntervalSeries(plotable.getName());
+					final List<Pair<Double,Double>> plotableIntervalSeries = ((PlotableWithConfidenceInterval2D)plotable).getConfidenceIntervall();
+					for(int i = 0; i<plotableIntervalSeries.size(); i++) {
+						intervalSeries.add(plotableSeries.get(i).getX(), plotableSeries.get(i).getY(), plotableIntervalSeries.get(i).getLeft(), plotableIntervalSeries.get(i).getRight());
+					}
+					intervalData.addSeries(intervalSeries);
+					
+		            intervalRenderer.setSeriesShapesVisible(intervalCount, false);
+
+		            final GraphStyle style = plotable.getStyle();
+
+					Color color = style != null ? plotable.getStyle().getColor() : null;
+					if(color == null) {
+						color = getDefaultColor(functionIndex);
+					}
+		            intervalRenderer.setSeriesPaint(0, color);
+
+					if(style != null) {
+						intervalRenderer.setSeriesShapesVisible(0, style.getShape() != null);
+						intervalRenderer.setSeriesLinesVisible(0, style.getStroke() != null);
+						if(style.getFillColor() != null) {
+				            intervalRenderer.setSeriesFillPaint(0, style.getFillColor());
+						}
+						if(style.getShape() != null) {
+							intervalRenderer.setSeriesShape(0, style.getShape());
+						}
+						if(style.getStroke() != null) {
+							intervalRenderer.setSeriesStroke(0, style.getStroke());
+						}
+					}
+		            intervalCount++;
+				}
+				else {
+					intervalData = null;
+					intervalRenderer = null;
+				}
+				
 				/*
 				 * Define renderer from style
 				 */
@@ -167,8 +216,14 @@ public class Plot2D implements Plot {
 				}
 
 				if(chart != null) {
-					chart.getXYPlot().setDataset(functionIndex, data);
-					chart.getXYPlot().setRenderer(functionIndex, renderer);
+					if(intervalData != null) {
+						chart.getXYPlot().setDataset(functionIndex, intervalData);
+						chart.getXYPlot().setRenderer(functionIndex, intervalRenderer);
+					}
+					else {
+						chart.getXYPlot().setDataset(functionIndex, data);
+						chart.getXYPlot().setRenderer(functionIndex, renderer);
+					}
 
 					NumberAxis domain = (NumberAxis) chart.getXYPlot().getDomainAxis();
 					if(plotable.getDomainAxis() != null) {
@@ -188,7 +243,7 @@ public class Plot2D implements Plot {
 					else {
 						domain.setAutoRange(true);
 					}
-					
+
 					NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
 					if(plotable.getRangeAxis() != null) {
 						range = plotable.getRangeAxis().getImplementationJFree();
@@ -211,7 +266,7 @@ public class Plot2D implements Plot {
 					else {
 						range.setAutoRange(true);
 					}
-					
+
 					if(title != null) chart.setTitle(title);
 				}
 			}
