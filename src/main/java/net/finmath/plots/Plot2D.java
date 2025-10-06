@@ -269,6 +269,8 @@ public class Plot2D implements Plot {
 
 					if(title != null) chart.setTitle(title);
 				}
+
+				if(frame != null && !frame.isVisible()) frame.setVisible(true);
 			}
 		}
 	}
@@ -299,7 +301,7 @@ public class Plot2D implements Plot {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				synchronized (updateLock) {
+//				synchronized (updateLock) {
 					if(frame != null) frame.dispose();
 
 					try {
@@ -313,7 +315,7 @@ public class Plot2D implements Plot {
 						logger.log(Level.WARNING, "Cannot show plot, possible missing Window system. Reason: " + e.getMessage().replace('\n', ' '));
 					}
 				}
-			}
+//			}
 		});
 	}
 
