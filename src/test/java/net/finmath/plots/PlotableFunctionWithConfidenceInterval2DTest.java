@@ -1,31 +1,24 @@
 package net.finmath.plots;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
 
 import org.junit.jupiter.api.Test;
 
-import net.finmath.stochastic.Scalar;
 import net.finmath.plots.util.ColorUtils;
 
-class PlotableFunctionWithConfidenceInterval2DTest {
+public class PlotableFunctionWithConfidenceInterval2DTest {
 
 	// For plots: weight of the stroke
 	private static Stroke dotted = new BasicStroke(4.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {5,5}, 0);
 	private static Stroke stroke = new BasicStroke(3.0f);
 	
 	@Test
-	void test() {
+	public void test() {
 		double timeHorizonForPlotRates = 200.0;
 
 		final List<Plotable2D> plotables = List.of(
