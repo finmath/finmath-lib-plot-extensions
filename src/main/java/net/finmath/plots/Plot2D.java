@@ -132,9 +132,9 @@ public class Plot2D implements Plot {
 				}
 				data.addSeries(series);
 
-			    final YIntervalSeriesCollection intervalData;
+				final YIntervalSeriesCollection intervalData;
 				final DeviationRenderer intervalRenderer;
-				
+
 				if(plotable instanceof PlotableWithConfidenceInterval2D) {
 					intervalData = new YIntervalSeriesCollection();
 					intervalRenderer = new DeviationRenderer();
@@ -145,22 +145,22 @@ public class Plot2D implements Plot {
 						intervalSeries.add(plotableSeries.get(i).getX(), plotableSeries.get(i).getY(), plotableIntervalSeries.get(i).getLeft(), plotableIntervalSeries.get(i).getRight());
 					}
 					intervalData.addSeries(intervalSeries);
-					
-		            intervalRenderer.setSeriesShapesVisible(intervalCount, false);
 
-		            final GraphStyle style = plotable.getStyle();
+					intervalRenderer.setSeriesShapesVisible(intervalCount, false);
+
+					final GraphStyle style = plotable.getStyle();
 
 					Color color = style != null ? plotable.getStyle().getColor() : null;
 					if(color == null) {
 						color = getDefaultColor(functionIndex);
 					}
-		            intervalRenderer.setSeriesPaint(0, color);
+					intervalRenderer.setSeriesPaint(0, color);
 
 					if(style != null) {
 						intervalRenderer.setSeriesShapesVisible(0, style.getShape() != null);
 						intervalRenderer.setSeriesLinesVisible(0, style.getStroke() != null);
 						if(style.getFillColor() != null) {
-				            intervalRenderer.setSeriesFillPaint(0, style.getFillColor());
+							intervalRenderer.setSeriesFillPaint(0, style.getFillColor());
 						}
 						if(style.getShape() != null) {
 							intervalRenderer.setSeriesShape(0, style.getShape());
@@ -169,13 +169,13 @@ public class Plot2D implements Plot {
 							intervalRenderer.setSeriesStroke(0, style.getStroke());
 						}
 					}
-		            intervalCount++;
+					intervalCount++;
 				}
 				else {
 					intervalData = null;
 					intervalRenderer = null;
 				}
-				
+
 				/*
 				 * Define renderer from style
 				 */
@@ -301,29 +301,34 @@ public class Plot2D implements Plot {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-//				synchronized (updateLock) {
-					if(frame != null) frame.dispose();
+				//				synchronized (updateLock) {
+				if(frame != null) frame.dispose();
 
-					try {
-						frame = new JFrame();
-						frame.add(chartPanel);
-						frame.setVisible(true);
-						frame.pack();
-					}
-					catch(Exception e) {
-						// This exception may occur if no Window kit is available.
-						logger.log(Level.WARNING, "Cannot show plot, possible missing Window system. Reason: " + e.getMessage().replace('\n', ' '));
-					}
+				try {
+					frame = new JFrame();
+					frame.add(chartPanel);
+					frame.setVisible(true);
+					frame.pack();
 				}
-//			}
+				catch(Exception e) {
+					// This exception may occur if no Window kit is available.
+					logger.log(Level.WARNING, "Cannot show plot, possible missing Window system. Reason: " + e.getMessage().replace('\n', ' '));
+				}
+			}
+			//			}
 		});
 	}
 
 	@Override
 	public void close() {
-		synchronized (updateLock) {
-			if(frame != null) frame.dispose();
-		}
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				//				synchronized (updateLock) {
+				if(frame != null) frame.dispose();
+				//				}
+			}
+		});
 	}
 
 	@Override
@@ -366,8 +371,8 @@ public class Plot2D implements Plot {
 	}
 
 	public Plot2D update(final List<Plotable2D> plotables) {
-		this.plotables = plotables;
 		synchronized (updateLock) {
+			this.plotables = plotables;
 			if(chart != null) {
 				update();
 			}
