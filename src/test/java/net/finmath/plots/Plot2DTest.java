@@ -43,6 +43,7 @@ public class Plot2DTest {
 			plot.saveAsPDF(new File("Test.pdf"), 800, 400);
 			Thread.sleep(10000);
 		} catch (final Exception e) {
+			e.printStackTrace();
 			throw(new RuntimeException(e));
 //			fail("Failing with exception " + e.getMessage());
 		}
