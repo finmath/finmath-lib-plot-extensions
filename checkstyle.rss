@@ -23,10 +23,10 @@ under the License.
     <link>http://www.finmath.net/finmath-lib-plot-extensions</link>
     <description>finmath lib plot extensions - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2025 finmath.net</copyright>
+    <copyright>&#169;2026 finmath.net</copyright>
     <item>
-      <title>File: 39,
-             Errors: 6,
+      <title>File: 40,
+             Errors: 7,
              Warnings: 0,
              Infos: 0
       </title>
@@ -117,6 +117,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="http://www.finmath.net/finmath-lib-plot-extensions/checkstyle.html#net.finmath.plots.Named.java">net/finmath/plots/Named.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.finmath.net/finmath-lib-plot-extensions/checkstyle.html#net.finmath.plots.PlotablePointsWithConfidenceIntervall2D.java">net/finmath/plots/PlotablePointsWithConfidenceIntervall2D.java</a>
                 </td>
                 <td>
                   0
@@ -377,7 +391,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
               </tr>
                           <tr>
