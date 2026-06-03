@@ -527,6 +527,12 @@ public class Plot3DFX implements Plot {
 	}
 
 	@Override
+	public Plot2D setSubtitle(String subtitle) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public Plot setXAxisLabel(final String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		return this;

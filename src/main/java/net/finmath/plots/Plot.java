@@ -26,6 +26,8 @@ public interface Plot {
 
 	Plot setTitle(String title);
 
+	Plot2D setSubtitle(String subtitle);
+
 	Plot setXAxisLabel(String xAxisLabel);
 
 	Plot setYAxisLabel(String yAxisLabel);

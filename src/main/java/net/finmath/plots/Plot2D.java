@@ -32,12 +32,14 @@ import org.jfree.chart.renderer.xy.DeviationRenderer;
 import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.YIntervalSeries;
 import org.jfree.data.xy.YIntervalSeriesCollection;
 
+import javafx.scene.text.Font;
 import net.finmath.plots.jfreechart.JFreeChartUtilities;
 import net.finmath.plots.jfreechart.StyleGuide;
 
@@ -53,6 +55,8 @@ public class Plot2D implements Plot {
 	private List<Plotable2D> plotables;
 
 	private String title = "";
+	private String subtitle = null;
+
 	private String xAxisLabel = "x";
 	private String yAxisLabel = "y";
 	private NumberFormat xAxisNumberFormat;
@@ -268,6 +272,11 @@ public class Plot2D implements Plot {
 					}
 
 					if(title != null) chart.setTitle(title);
+
+					if(subtitle != null) {
+						java.awt.Font subtitleFont = new java.awt.Font("Helvetica", java.awt.Font.PLAIN, 12);
+						chart.setSubtitles(List.of(new TextTitle(subtitle, subtitleFont)));
+					}
 				}
 
 				if(frame != null && !frame.isVisible()) frame.setVisible(true);
@@ -388,6 +397,13 @@ public class Plot2D implements Plot {
 	}
 
 	@Override
+	public Plot2D setSubtitle(final String subtitle) {
+		this.subtitle = subtitle;
+		update();
+		return this;
+	}
+
+	@Override
 	public Plot2D setXAxisLabel(final String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		synchronized (updateLock) {
@@ -454,7 +470,7 @@ public class Plot2D implements Plot {
 
 	@Override
 	public String toString() {
-		return "Plot2D [plotables=" + plotables + ", title=" + title + ", xAxisLabel=" + xAxisLabel + ", yAxisLabel="
+		return "Plot2D [plotables=" + plotables + ", title=" + title + ", subtitle=" + subtitle + ", xAxisLabel=" + xAxisLabel + ", yAxisLabel="
 				+ yAxisLabel + ", xAxisNumberFormat=" + xAxisNumberFormat + ", yAxisNumberFormat=" + yAxisNumberFormat
 				+ ", isLegendVisible=" + isLegendVisible + ", ymin=" + ymin + ", ymax=" + ymax + "]";
 	}

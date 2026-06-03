@@ -210,6 +210,12 @@ public class PlotProcess2D implements Plot {
 	}
 
 	@Override
+	public Plot2D setSubtitle(String subtitle) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public PlotProcess2D setXAxisLabel(final String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 		return this;
